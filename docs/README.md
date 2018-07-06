@@ -2,7 +2,7 @@
 
 Visualize keyboard keystroke frequency.
 
-## Getting Started
+## Usage
 
 * http://www.keyboard-layout-editor.com
 * https://moriakijp.github.io/kbvis
@@ -15,9 +15,3 @@ Visualize keyboard keystroke frequency.
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-## Acknowledgments
-
-| test | testtt | tes | r   |
-| ---- | ------ | --- | --- |
-| for  | rw     | r   | r   |
-| sfs  | fss    | fs  | fs  |
