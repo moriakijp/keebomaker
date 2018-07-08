@@ -42,7 +42,7 @@ display.addEventListener('click', () => {
 });
 
 
-var blocksize = 60;
+var blocksize = 69;
 var width = 960;
 var height = 400;
 var margin = {
@@ -84,8 +84,8 @@ d3.json("data/qwerty.json", function (errer, data) {
 
   heatmap.append('rect')
     .attr("class", "block")
-    .attr("x", function (d, i) {
-    return i * blocksize / row ;
+    .attr("x", function (d, r) {
+    return r * blocksize  ;
   })
   .attr("y", row * blocksize )
   .attr("width", blocksize)
@@ -94,24 +94,24 @@ d3.json("data/qwerty.json", function (errer, data) {
     return colorScale(d.value);
   });
 
+
   heatmap.append('text')
   .text(function (d) {
     return d.key
   })
-  .attr("x", function (d, i) {
-    return i * blocksize
+  .attr("x", function (d, r) {
+    return r * blocksize
   })
-  .attr("y", blocksize * 1.5)
+  .attr("y", row * blocksize )
   .attr("text-anchor", "middle")
   .attr("fill", "#333")
-  .attr("dy", ".35em")
+  .attr("dy", blocksize / 2)
   .attr("dx", blocksize / 2)
   .style({
     "font-size": 25
   });
 
   }
-
 
   // var xLabels = svg.selectAll(".Label")
   //   .data(data)
