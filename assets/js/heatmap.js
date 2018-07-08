@@ -217,8 +217,3 @@ d3.json("data/qwerty2.json", function (errer, data) {
     .attr("transform", "translate(-20," + blocksize * 1.6 + ")");
 
 });
-
-// document.querySelector('#message-button').addEventListener('click', () => {
-//       const canvas = document.querySelector('#myGraph');
-//       drawHeatmap(canvas, data);
-// })

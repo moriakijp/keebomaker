@@ -31,6 +31,9 @@
     width: 50%;
     height: 200px;
     resize: none;
+    /* white-space: pre; */
+    /* overflow: scroll; */
+    /* overflow-wrap: normal; */
 }
 
 .file-label {
