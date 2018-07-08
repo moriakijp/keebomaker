@@ -9,51 +9,48 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
   <link rel="stylesheet" href="assets/css/main.css">
   <script src="https://d3js.org/d3.v3.min.js"></script>
-  <script src="assets/js/heatmap.js"></script>
-  <script src="assets/js/form.js"></script>
 </head>
 
 <body class="Site">
 
   <main class="Site-content">
+
     <nav class="navbar is-primary">
       <div class="container">
         <div class="navbar-menu">
           <div class="navbar-start">
-            <a class="navbar-item">Home</a>
-            <a class="navbar-item">About</a>
-            <a class="navbar-item">Help</a>
+            <a class="navbar-item" href="index.html" >Home</a>
+            <a class="navbar-item" href="about.html">About</a>
+            <a class="navbar-item" href="help.html">Help</a>
           </div>
         </div>
       </div>
     </nav>
+
     <section class="section">
       <div class="container">
         <div class="content">
           <h1 class="title">kbvis</h1>
           <p>入力されたテキストデータからキーボードの打鍵頻度を可視化します。</p>
           <div class="chart" id="heatmap"></div>
-          <div class="utility">
-            <div class="field">
-              <div class="file has-name">
-                <label class="file-label">
-                  <input class="file-input" type="file" name="resume">
-                  <span class="file-cta">
-                    <!-- <span class="file-icon"> -->
-                      <i class="fas fa-upload"></i>
-                    <!-- </span> -->
-                    <span class="file-label">
-                     Upload File
-                    </span>
-                  </span>
-                  <span class="file-name">
-                  </span>
-                </label>
-              </div>
-            </div>
+          <div class="userinterface">
+
+                <div class="file">
+                    <label class="file-label">
+                      <input class="file-input" type="file" name="resume" id="upload-file">
+                      <span class="file-cta">
+                        <!-- <span class="file-icon"> -->
+                          <!-- <i class="fas fa-upload"></i> -->
+                        <!-- </span> -->
+                        <span class="file-label">
+                          Choose a file…
+                        </span>
+                      </span>
+                    </label>
+                  </div>
 
             <div>
-              <textarea class="textarea" id="upload-text" placeholder="Input Text" ></textarea>
+              <textarea class="textarea" id="upload-text" placeholder="Preview" readonly ></textarea>
             </div>
 
             <div>
@@ -84,6 +81,8 @@
     </div>
   </footer>
 
+  <script src="assets/js/heatmap.js"></script>
+  <script src="assets/js/form.js"></script>
 </body>
 
 </html>

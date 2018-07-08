@@ -8,14 +8,12 @@ var margin = {
 }
 var blocksize = 120;
 
-d3.csv("data/qwerty_trans.csv", function (errer, data) {
-
+d3.json("data/qwerty2.json", function (errer, data) {
   var svg = d3.select("#myGraph").append("svg")
   .attr("width", width)
   .attr("height", height)
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
 
   var row0-max = Math.max.apply(null, data.map(function (d) {
     return d.row0;
