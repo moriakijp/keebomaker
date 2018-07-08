@@ -1,11 +1,11 @@
 # kbvis
 
-Visualize keyboard keystroke frequency.
+Visualize keyboard stroke frequency.
 
 ## Usage
 
 * http://www.keyboard-layout-editor.com
-* https://moriakijp.github.io/kbvis
+* https://moriakijp.github.io/kbvis/
 
 ## Authors
 
