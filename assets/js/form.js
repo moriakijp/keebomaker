@@ -24,20 +24,20 @@ display.addEventListener('click', () => {
   reader = new FileReader();
 
   console.log(charactor);
-  console.log(uploadedText);
-  d3.json("data/qwerty2.json", function (errer, data) {
-    d3.select(data)
-        .append('div')
-        .selectAll()
-        .data(data)
-        .enter()
-        .append('div')
-        .text(function (dataRow){
-          return dataRow['Q'];
-        })
-  }
+  // console.log(uploadedText);
+  // d3.json("data/qwerty2.json", function (errer, data) {
+  //   d3.select(data)
+  //       .append('div')
+  //       .selectAll()
+  //       .data(data)
+  //       .enter()
+  //       .append('div')
+  //       .text(function (dataRow){
+  //         return dataRow['Q'];
+  //       })
+  // }
 
-  for(key in obj[0])
-    if( charactor == obj[key]) obj[key].value++;
+  // for(key in obj[0])
+  //   if( charactor == obj[key]) obj[key].value++;
 });
 
