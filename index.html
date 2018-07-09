@@ -19,7 +19,7 @@
       <div class="container">
         <div class="navbar-menu">
           <div class="navbar-start">
-            <a class="navbar-item" href="index.html" >Home</a>
+            <a class="navbar-item" href="index.html">Home</a>
             <a class="navbar-item" href="about.html">About</a>
             <a class="navbar-item" href="help.html">Help</a>
           </div>
@@ -34,33 +34,34 @@
           <p>入力されたテキストデータからキーボードの打鍵頻度を可視化します。</p>
           <div class="userinterface">
 
-                <div class="file">
-                    <label class="file-label">
-                      <input class="file-input" type="file" name="resume" id="upload-file">
-                      <span class="file-cta">
-                        <!-- <span class="file-icon"> -->
-                          <!-- <i class="fas fa-upload"></i> -->
-                        <!-- </span> -->
-                        <span class="file-label">
-                          Upload a textfile
-                        </span>
-                      </span>
-                    </label>
-                    <div>
-                      <button class="button" id="sample-button">Sample</button>
-                      <link  href="data/sample.txt" id="sample-text"></link>
-                    </div>
-                  </div>
+
+            <div class="file">
+              <div>
+                <button class="button" id="sample-button">Sample</button>
+                <link href="data/sample.txt" id="sample-text"></link>
+              </div>
+              <label class="file-label">
+                <input class="file-input" type="file" name="resume" id="upload-file">
+                <span class="file-cta">
+                  <!-- <span class="file-icon"> -->
+                  <!-- <i class="fas fa-upload"></i> -->
+                  <!-- </span> -->
+                  <span class="file-label">
+                    Upload a textfile
+                  </span>
+                </span>
+              </label>
+            </div>
 
             <div>
-              <textarea class="textarea" id="upload-text" placeholder="Preview"  ></textarea>
+              <textarea class="textarea" id="upload-text" placeholder="Preview"></textarea>
             </div>
 
             <div>
               <button class="button" id="display-button">Display heatmap</button>
             </div>
 
-             <div class="chart" id="heatmap"></div>
+            <div class="chart" id="heatmap"></div>
             <!-- <div class="modal">
               <div class="modal-background"></div>
               <div class="modal-content">
