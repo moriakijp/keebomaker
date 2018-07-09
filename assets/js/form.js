@@ -113,10 +113,17 @@ sample.addEventListener('click', () => {
       })
       .attr("width", blocksize)
       .attr("height", blocksize)
+      .attr("rx",200)
+      .attr("ry",200)
       .attr("fill", (d) =>  {
         return colorScale(d.val);
-      });
-
+      })
+      .transition()
+      .delay(function(d,i){return i * 100})
+      .duration(1000)
+      .ease("bounce")
+      .attr("rx",10)
+      .attr("ry",10);
 
     heatmap.append('text')
       .text((d) => {
