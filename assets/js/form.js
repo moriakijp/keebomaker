@@ -13,7 +13,6 @@ upload.addEventListener('change', () => {
   var file = uploadFile.files[0];
   if (!file) alert('Please select a File.');
   uploadText = document.getElementById('upload-text');
-  uploadedText = document.getElementById('upload-text').value;
   // console.log(uploadText);
   reader = new FileReader();
   reader.readAsText(file);
@@ -27,7 +26,7 @@ upload.addEventListener('change', () => {
 
 var sample = document.getElementById('sample-button');
 sample.addEventListener('click', () => {
-console.log(uploadedText);
+  console.log(uploadedText);
 });
 /* Sample */
 
@@ -40,40 +39,39 @@ console.log(uploadedText);
   // ajax.addEventListener("load", ()=>{console.log(this.response);},false);
   // ajax.send();
   // reader = new FileReader('data/sample.txt');
-// reader.readAsDataURL();
+  // reader.readAsDataURL();
   // console.log(reader.result);
-    // uploadText.onload = () => () {
-      // uploadText.innerHTML = reader.result;
-      // uploadedText = reader.result;
-  // }
-// })
+  // uploadText.onload = () => () {
+    // uploadText.innerHTML = reader.result;
+    // uploadedText = reader.result;
+    // }
+    // })
 
 
-/* Display heatmap */
+    /* Display heatmap */
 
-  var blocksize = 65;
-  var width = 960;
-  var height = 400;
-  var margin = {
-    top: height * 0.05,
-    bottom: height * 0.05,
-    left: width * 0.05,
-    right: width * 0.05
-  }
-
-var display = document.getElementById('display-button');
-display.addEventListener('click', () => {
-
-  /* character match detection */
-  d3.json("data/qwerty.json", (errer, data) => {
-    var character=[];
-    for(var i in data){
-      for(var j in uploadedText.value){
-      character[j] = uploadedText.charAt(j);
-      if( character == data[j].char ) data[j].val++;
-      }
+    var blocksize = 65;
+    var width = 960;
+    var height = 400;
+    var margin = {
+      top: height * 0.05,
+      bottom: height * 0.05,
+      left: width * 0.05,
+      right: width * 0.05
     }
 
+    var display = document.getElementById('display-button');
+    display.addEventListener('click', () => {
+
+      /* character match detection */
+      d3.json("data/qwerty.json", (errer, data) => {
+        uploadedText = document.getElementById('upload-text').value;
+    var character=Array.from(uploadedText);
+    for(var j in character){
+      for(var i in data){
+       if( character[j].toUpperCase() == data[i].char ) {data[i].val++; console.log(data[i].val);}
+      }
+    }
 
     d3.select("svg").remove();
     var svg = d3.select("#heatmap").append("svg")
@@ -82,11 +80,14 @@ display.addEventListener('click', () => {
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    var min = Math.min.apply(null, data.map((d) => {
+      return d.val;
+    }));
     var max = Math.max.apply(null, data.map((d) => {
       return d.val;
     }));
 
-    var colorScale = d3.scale.linear().domain([0, max]).range(["#F2F1EF", "#F22613"]);
+    var colorScale = d3.scale.linear().domain([min, max]).range(["#F2F1EF", "#F22613"]);
 
     var heatmap = svg.selectAll('g').data(data).enter();
 
