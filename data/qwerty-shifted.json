@@ -6,61 +6,61 @@
         "val": 0
     },
     {
-        "char": "1",
+        "char": "!",
         "row": 1,
         "col": 2,
         "val": 0
     },
     {
-        "char": "2",
+        "char": "@",
         "row": 1,
         "col": 3,
         "val": 0
     },
     {
-        "char": "3",
+        "char": "#",
         "row": 1,
         "col": 4,
         "val": 0
     },
     {
-        "char": "4",
+        "char": "$",
         "row": 1,
         "col": 5,
         "val": 0
     },
     {
-        "char": "5",
+        "char": "%",
         "row": 1,
         "col": 6,
         "val": 0
     },
     {
-        "char": "6",
+        "char": "^",
         "row": 1,
         "col": 7,
         "val": 0
     },
     {
-        "char": "7",
+        "char": "&",
         "row": 1,
         "col": 8,
         "val": 0
     },
     {
-        "char": "8",
+        "char": "*",
         "row": 1,
         "col": 9,
         "val": 0
     },
     {
-        "char": "9",
+        "char": "(",
         "row": 1,
         "col": 10,
         "val": 0
     },
     {
-        "char": "0",
+        "char": ")",
         "row": 1,
         "col": 11,
         "val": 0
