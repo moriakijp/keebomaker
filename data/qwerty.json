@@ -1,282 +1,338 @@
 [
     {
-        "key": "`",
+        "char": "`",
         "row": 1,
-        "value": 0
+        "col": 1,
+        "val": 0
     },
     {
-        "key": "!",
+        "char": "!",
         "row": 1,
-        "value": 25
+        "col": 2,
+        "val": 0
     },
     {
-        "key": "@",
+        "char": "@",
         "row": 1,
-        "value": 20
+        "col": 3,
+        "val": 0
     },
     {
-        "key": "#",
+        "char": "#",
         "row": 1,
-        "value": 15
+        "col": 4,
+        "val": 0
     },
     {
-        "key": "$",
+        "char": "$",
         "row": 1,
-        "value": 20
+        "col": 5,
+        "val": 0
     },
     {
-        "key": "%",
+        "char": "%",
         "row": 1,
-        "value": 10
+        "col": 6,
+        "val": 0
     },
     {
-        "key": "^",
+        "char": "^",
         "row": 1,
-        "value": 15
+        "col": 7,
+        "val": 0
     },
     {
-        "key": "&",
+        "char": "&",
         "row": 1,
-        "value": 20
+        "col": 8,
+        "val": 0
     },
     {
-        "key": "*",
+        "char": "*",
         "row": 1,
-        "value": 25
+        "col": 9,
+        "val": 0
     },
     {
-        "key": "(",
+        "char": "(",
         "row": 1,
-        "value": 30
+        "col": 10,
+        "val": 0
     },
     {
-        "key": ")",
+        "char": ")",
         "row": 1,
-        "value": 25
+        "col": 11,
+        "val": 0
     },
     {
-        "key": "-",
+        "char": "-",
         "row": 1,
-        "value": 20
+        "col": 12,
+        "val": 0
     },
     {
-        "key": "=",
+        "char": "=",
         "row": 1,
-        "value": 15
+        "col": 13,
+        "val": 0
     },
     {
-        "key": "",
+        "char": "",
         "row": 1,
-        "value": 10
+        "col": 14,
+        "val": 0
     },
     {
-        "key": "",
+        "char": "",
         "row": 2,
-        "value": 1
+        "col": 1,
+        "val": 0
     },
     {
-        "key": "Q",
+        "char": "Q",
         "row": 2,
-        "value": 1
+        "col": 2,
+        "val": 0
     },
     {
-        "key": "W",
+        "char": "W",
         "row": 2,
-        "value": 1
+        "col": 3,
+        "val": 0
     },
     {
-        "key": "E",
+        "char": "E",
         "row": 2,
-        "value": 1
+        "col": 4,
+        "val": 0
     },
     {
-        "key": "R",
+        "char": "R",
         "row": 2,
-        "value": 1
+        "col": 5,
+        "val": 0
     },
     {
-        "key": "T",
+        "char": "T",
         "row": 2,
-        "value": 1
+        "col": 6,
+        "val": 0
     },
     {
-        "key": "Y",
+        "char": "Y",
         "row": 2,
-        "value": 1
+        "col": 7,
+        "val": 0
     },
     {
-        "key": "U",
+        "char": "U",
         "row": 2,
-        "value": 1
+        "col": 8,
+        "val": 0
     },
     {
-        "key": "I",
+        "char": "I",
         "row": 2,
-        "value": 1
+        "col": 9,
+        "val": 0
     },
     {
-        "key": "O",
+        "char": "O",
         "row": 2,
-        "value": 1
+        "col": 10,
+        "val": 0
     },
     {
-        "key": "P",
+        "char": "P",
         "row": 2,
-        "value": 1
+        "col": 11,
+        "val": 0
     },
     {
-        "key": "[",
+        "char": "[",
         "row": 2,
-        "value": 1
+        "col": 12,
+        "val": 0
     },
     {
-        "key": "]",
+        "char": "]",
         "row": 2,
-        "value": 1
+        "col": 13,
+        "val": 0
     },
     {
-        "key": "\\",
+        "char": "\\",
         "row": 2,
-        "value": 1
+        "col": 14,
+        "val": 0
     },
     {
-        "key": "",
+        "char": "",
         "row": 3,
-        "value": 1
+        "col": 1,
+        "val": 0
     },
     {
-        "key": "A",
+        "char": "A",
         "row": 3,
-        "value": 1
+        "col": 2,
+        "val": 0
     },
     {
-        "key": "S",
+        "char": "S",
         "row": 3,
-        "value": 1
+        "col": 3,
+        "val": 0
     },
     {
-        "key": "D",
+        "char": "D",
         "row": 3,
-        "value": 1
+        "col": 4,
+        "val": 0
     },
     {
-        "key": "F",
+        "char": "F",
         "row": 3,
-        "value": 1
+        "col": 5,
+        "val": 0
     },
     {
-        "key": "G",
+        "char": "G",
         "row": 3,
-        "value": 1
+        "col": 6,
+        "val": 0
     },
     {
-        "key": "H",
+        "char": "H",
         "row": 3,
-        "value": 1
+        "col": 7,
+        "val": 0
     },
     {
-        "key": "J",
+        "char": "J",
         "row": 3,
-        "value": 1
+        "col": 8,
+        "val": 0
     },
     {
-        "key": "K",
+        "char": "K",
         "row": 3,
-        "value": 1
+        "col": 9,
+        "val": 0
     },
     {
-        "key": "L",
+        "char": "L",
         "row": 3,
-        "value": 1
+        "col": 10,
+        "val": 0
     },
     {
-        "key": ";",
+        "char": ";",
         "row": 3,
-        "value": 1
+        "col": 11,
+        "val": 0
     },
     {
-        "key": "'",
+        "char": "'",
         "row": 3,
-        "value": 1
+        "col": 12,
+        "val": 0
     },
     {
-        "key": "",
+        "char": "",
         "row": 3,
-        "value": 1
+        "col": 13,
+        "val": 0
     },
     {
-        "key": "",
+        "char": "",
         "row": 3,
-        "value": 1
+        "col": 14,
+        "val": 0
     },
     {
-        "key": "",
+        "char": "",
         "row": 4,
-        "value": 1
+        "col": 1,
+        "val": 0
     },
     {
-        "key": "Z",
+        "char": "Z",
         "row": 4,
-        "value": 1
+        "col": 2,
+        "val": 0
     },
     {
-        "key": "X",
+        "char": "X",
         "row": 4,
-        "value": 1
+        "col": 3,
+        "val": 0
     },
     {
-        "key": "C",
+        "char": "C",
         "row": 4,
-        "value": 1
+        "col": 4,
+        "val": 0
     },
     {
-        "key": "V",
+        "char": "V",
         "row": 4,
-        "value": 1
+        "col": 5,
+        "val": 0
     },
     {
-        "key": "B",
+        "char": "B",
         "row": 4,
-        "value": 1
+        "col": 6,
+        "val": 0
     },
     {
-        "key": "N",
+        "char": "N",
         "row": 4,
-        "value": 1
+        "col": 7,
+        "val": 0
     },
     {
-        "key": "M",
+        "char": "M",
         "row": 4,
-        "value": 1
+        "col": 8,
+        "val": 0
     },
     {
-        "key": ",",
+        "char": ",",
         "row": 4,
-        "value": 1
+        "col": 9,
+        "val": 0
     },
     {
-        "key": ".",
+        "char": ".",
         "row": 4,
-        "value": 1
+        "col": 10,
+        "val": 0
     },
     {
-        "key": "/",
+        "char": "/",
         "row": 4,
-        "value": 1
+        "col": 11,
+        "val": 0
     },
     {
-        "key": "",
+        "char": "",
         "row": 4,
-        "value": 1
+        "col": 12,
+        "val": 0
     },
     {
-        "key": "",
+        "char": "",
         "row": 4,
-        "value": 1
+        "col": 13,
+        "val": 0
     },
     {
-        "key": "",
+        "char": "",
         "row": 4,
-        "value": 1
+        "col": 14,
+        "val": 0
     }
 ]
