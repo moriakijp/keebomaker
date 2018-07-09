@@ -52,15 +52,18 @@ upload.addEventListener('change', function () {
 var display = document.getElementById('display-button');
 display.addEventListener('click', () => {
 
-  var charactor = uploadedText.charAt(0);
   reader = new FileReader();
 
   d3.json("data/qwerty.json", function (errer, data) {
 
-    for(var i=0;i<data.length;i++)
+    for(var i=0;i<data.length;i++){
+      for(var j=0;j<upload.value.length;j++){
+      var charactor = uploadedText.charAt(i);
       if( charactor == data[i].char ) data[i].val++;
-      console.log(data[3].val);
-
+      }
+      console.log("i: "+ i);
+      console.log("chara: "+ charactor);
+    }
     var svg = d3.select("#heatmap").append("svg")
       .attr("width", width)
       .attr("height", height)
@@ -134,8 +137,8 @@ display.addEventListener('click', () => {
       .style({
         "font-size": 15
       })
-      .style("text-anchor", "end")
-      .attr("transform", "translate(60," + blocksize / 1.1 + ")");
+      .style("text-anchor", "middle")
+      .attr("transform", "translate(100," + blocksize / 1.5 + ")");
 
     var yLabels = svg.selectAll(".Label")
       .data(data)
@@ -152,7 +155,7 @@ display.addEventListener('click', () => {
         "font-size": 15
       })
       .style("text-anchor", "middle")
-      .attr("transform", "translate(-20," + blocksize * 1.6 + ")");
+      .attr("transform", "translate(-20," + blocksize * 1.5 + ")");
 
   });
 
