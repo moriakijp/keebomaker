@@ -8,33 +8,45 @@ var upload = document.getElementById('upload-file');
 var reader;
 var uploadedText;
 
-upload.addEventListener('change', function () {
+upload.addEventListener('change', () => {
   var uploadFile = document.getElementById('upload-file');
   var file = uploadFile.files[0];
   if (!file) alert('Please select a File.');
   uploadText = document.getElementById('upload-text');
+  uploadedText = document.getElementById('upload-text').value;
+  // console.log(uploadText);
   reader = new FileReader();
   reader.readAsText(file);
-  reader.onload = function () {
+  reader.onload = () => {
     uploadText.innerHTML = reader.result;
     uploadedText = reader.result;
-
     // uploadData = JSON.parse(reader.result);
   }
 });
 
+
+var sample = document.getElementById('sample-button');
+sample.addEventListener('click', () => {
+console.log(uploadedText);
+});
 /* Sample */
 
 // var sample = document.getElementById('sample-button');
 // sample.addEventListener('click', () => {
-//   uploadText = document.getElementById('upload-text');
-//   reader = new FileReader();
-//   reader.readAsDataURL('data/sample.txt');
-//   console.log(reader.result);
-//     uploadText.onload = function () {
-//       uploadText.innerHTML = reader.result;
-//       uploadedText = reader.result;
-//   }})
+  // uploadText = document.getElementById('upload-text');
+  // var ajax = new XMLHttpRequest();
+  // ajax.open("get", "data/sample.txt", false)
+  // response.setContentType("text/plain");
+  // ajax.addEventListener("load", ()=>{console.log(this.response);},false);
+  // ajax.send();
+  // reader = new FileReader('data/sample.txt');
+// reader.readAsDataURL();
+  // console.log(reader.result);
+    // uploadText.onload = () => () {
+      // uploadText.innerHTML = reader.result;
+      // uploadedText = reader.result;
+  // }
+// })
 
 
 /* Display heatmap */
@@ -52,25 +64,25 @@ upload.addEventListener('change', function () {
 var display = document.getElementById('display-button');
 display.addEventListener('click', () => {
 
-  reader = new FileReader();
-
-  d3.json("data/qwerty.json", function (errer, data) {
-
-    for(var i=0;i<data.length;i++){
-      for(var j=0;j<upload.value.length;j++){
-      var charactor = uploadedText.charAt(i);
-      if( charactor == data[i].char ) data[i].val++;
+  /* character match detection */
+  d3.json("data/qwerty.json", (errer, data) => {
+    var character=[];
+    for(var i in data){
+      for(var j in uploadedText.value){
+      character[j] = uploadedText.charAt(j);
+      if( character == data[j].char ) data[j].val++;
       }
-      console.log("i: "+ i);
-      console.log("chara: "+ charactor);
     }
+
+
+    d3.select("svg").remove();
     var svg = d3.select("#heatmap").append("svg")
       .attr("width", width)
       .attr("height", height)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var max = Math.max.apply(null, data.map(function (d) {
+    var max = Math.max.apply(null, data.map((d) => {
       return d.val;
     }));
 
@@ -82,8 +94,8 @@ display.addEventListener('click', () => {
 
     // console.log(arr);
     // console.log(data[1].row);
-    // console.log(function(d){return d.ro/w});
-    // var row = data.map(function(d){ return d.row; })
+    // console.log(() => (d){return d.ro/w});
+    // var row = data.map(() => (d){ return d.row; })
     // for(let k in data) {
     //   if(data.hasOwnProperty(k)) {
     //     console.log(k+ ':' + data[k]);
@@ -92,7 +104,7 @@ display.addEventListener('click', () => {
 
     heatmap.append('rect')
       .attr("class", "block")
-      .attr("x", function (d, r) {
+      .attr("x", (d, r) => {
         return (r % 14) * blocksize;
       })
       .attr("y", (d, r) => {
@@ -100,7 +112,7 @@ display.addEventListener('click', () => {
       })
       .attr("width", blocksize)
       .attr("height", blocksize)
-      .attr("fill", function (d) {
+      .attr("fill", (d) =>  {
         return colorScale(d.val);
       });
 
@@ -126,11 +138,11 @@ display.addEventListener('click', () => {
     var xLabels = svg.selectAll(".Label")
       .data(data)
       .enter().append("text")
-      .text(function (d) {
+      .text((d) => {
         return "C"+String(d.col);
       })
       .attr("y", 0)
-      .attr("x", function (d, i) {
+      .attr("x", (d, i) => {
         return (i % 14-1) * blocksize;
       })
       .attr("fill", "#333")
@@ -143,12 +155,12 @@ display.addEventListener('click', () => {
     var yLabels = svg.selectAll(".Label")
       .data(data)
       .enter().append("text")
-      .text(function (d) {
+      .text((d) =>{
         return "R"+String(d.row);
       })
       .attr("fill", "#333")
       .attr("x", 0)
-      .attr("y", function (d, i) {
+      .attr("y", (d, i) => {
         return blocksize * (data[i].row-1);
       })
       .style({
