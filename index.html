@@ -37,6 +37,9 @@
 
             <div class="file">
               <div>
+                <button class="button" id="reset-button">Reset</button>
+              </div>
+              <div>
                 <button class="button" id="sample-button">Sample</button>
                 <link href="data/sample.txt" id="sample-text"></link>
               </div>
@@ -44,22 +47,22 @@
                 <input class="file-input" type="file" name="resume" id="upload-file">
                 <span class="file-cta">
                   <!-- <span class="file-icon"> -->
-                  <!-- <i class="fas fa-upload"></i> -->
-                  <!-- </span> -->
-                  <span class="file-label">
-                    Upload a textfile
+                    <!-- <i class="fas fa-upload"></i> -->
+                    <!-- </span> -->
+                    <span class="file-label">
+                      Upload
+                    </span>
                   </span>
-                </span>
-              </label>
+                </label>
+              <div>
+                <button class="button" id="display-button">Display</button>
+              </div>
             </div>
 
             <div>
               <textarea class="textarea" id="upload-text" placeholder="Preview"></textarea>
             </div>
 
-            <div>
-              <button class="button" id="display-button">Display heatmap</button>
-            </div>
 
             <div class="chart" id="heatmap"></div>
             <!-- <div class="modal">
@@ -86,6 +89,7 @@
     </div>
   </footer>
 
+  <script src="assets/js/heatmap.js"></script>
   <script src="assets/js/form.js"></script>
 </body>
 
