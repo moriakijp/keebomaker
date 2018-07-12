@@ -59,6 +59,7 @@ let heatmap = () => {
     // }
 
     heatmap.append('rect')
+      .attr("id","block")
       .attr("class", "block")
       .attr("x", (d, r) => {
         return blocksize * (r % colsize);

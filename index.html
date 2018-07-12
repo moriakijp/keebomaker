@@ -5,11 +5,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="Visualization of keydown frequency">
+  <meta property="og:title" content="Visualization of keydown frequency">
+  <meta property="og:description" content="Visualization of keydown frequency">
+  <meta property="og:url" content="">
+  <meta name="twitter:card" content="summary">
   <title>kbvis</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
   <link rel="stylesheet" href="assets/css/main.css">
   <script src="https://d3js.org/d3.v3.min.js"></script>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+    crossorigin="anonymous">
 </head>
 
 <body class="Site">
@@ -33,7 +39,8 @@
         <div class="content" id="content">
           <h1 class="title">kbvis</h1>
           <p>入力されたテキストデータからキーボードの打鍵頻度を可視化します。</p>
-          <div class="file">
+          <div class="control">
+
             <div>
               <button class="button" id="reset-button">
                 <span class="icon is-small">
@@ -42,48 +49,73 @@
                 <span>Reset</span>
               </button>
             </div>
-            <div class="dropdown">
+
+            <div class="dropdown" id="sample-menu">
               <div class="dropdown-trigger" is-active>
                 <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
                   <span class="icon is-small">
                     <i class="fas fa-angle-down" aria-hidden="true"></i>
-                 </span>
+                  </span>
                   <span>Sample</span>
                 </button>
               </div>
               <div class="dropdown-menu" id="dropdown-menu" role="menu">
                 <div class="dropdown-content">
-                  <a class="dropdown-item">
-                    <link href="data/sample.txt" id="sample-text"></link>
+                  <!-- <a class="dropdown-item" href="data/sample.txt" id="sample-text-1"> -->
+                  <a class="dropdown-item" id="sample-text-1">
                     Lorem ipsum
                   </a>
                   <hr class="dropdown-divider">
                   <a href="#" class="dropdown-item">
-                    With divider
+
                   </a>
                 </div>
               </div>
             </div>
-            <label class="file-label">
-              <input class="file-input" type="file" name="resume" id="upload-file">
-              <span class="file-cta">
-                <span class="file-icon">
-                <i class="fas fa-upload"></i>
+
+            <!-- <div class="dropdown" id="layout-menu">
+              <div class="dropdown-trigger" is-active>
+                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                  <span class="icon is-small">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                  <span>Layout</span>
+                </button>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                  <a class="dropdown-item" id="sample-text-1">
+                    QWERTY
+                  </a>
+                  <hr class="dropdown-divider">
+                  <a href="#" class="dropdown-item">
+
+                  </a>
+                </div>
+              </div>
+            </div> -->
+
+            <div class="file">
+              <label>
+                <input class="file-input" type="file" name="resume" id="upload-file">
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <i class="fas fa-upload"></i>
+                  </span>
+                  <span class="file-label">
+                    File...
+                  </span>
                 </span>
-                <span class="file-label">
-                  File...
-                </span>
-              </span>
-            </label>
+              </label>
+            </div>
+
           </div>
 
           <div>
             <textarea class="textarea" id="upload-text" placeholder="Type something here!"></textarea>
           </div>
 
-
           <div class="chart" id="heatmap"></div>
-
           <!-- <div class="modal">
               <div class="modal-background"></div>
               <div class="modal-content">
@@ -93,8 +125,9 @@
               </div>
               <button class="modal-close is-large" aria-label="close"></button>
             </div> -->
-
         </div>
+      </div>
+      </div>
       </div>
       </div>
     </section>
@@ -108,6 +141,7 @@
     </div>
   </footer>
 
+  <script src="assets/js/function.js"></script>
   <script src="assets/js/heatmap.js"></script>
   <script src="assets/js/form.js"></script>
 </body>
