@@ -1,18 +1,18 @@
-/* Display heatmap */
-
-let width = self.innerWidth;
-let height = self.innerHeight;
-let margin = {
-  top: height * 0.1,
-  bottom: height * 0.1,
-  left: width * 0.1,
-  right: width * 0.1
-}
-let blocknum = 14;
-let blocksize = (width / blocknum) * 0.8;
-
-
 let heatmap = () => {
+  // console.log(innerWidth);
+  // console.log(screen.width);
+  // console.log(document.getElementById('content').clientWidth);
+  // console.log(document.getElementById('content').offsetWidth);
+  let width = document.getElementById('content').clientWidth;
+  let height = document.getElementById('content').clientHeight;
+  let margin = {
+    top: height * 0.05,
+    bottom: height * 0.05,
+    left: width * 0.05,
+    right: width * 0.05
+  }
+  let colsize = 14;
+  let blocksize = (width - margin.left - margin.right)  / colsize;
 
   /* character match detection */
   d3.json("data/qwerty.json", (errer, data) => {
@@ -60,31 +60,31 @@ let heatmap = () => {
     heatmap.append('rect')
       .attr("class", "block")
       .attr("x", (d, r) => {
-        return blocksize * ((r % 14) - 1);
+        return blocksize * (r % colsize);
       })
       .attr("y", (d, r) => {
         return blocksize * (data[r].row - 1);
       })
       .attr("width", blocksize)
       .attr("height", blocksize)
-      .attr("rx", 50)
-      .attr("ry", 50)
+    // .attr("rx", 50)
+      // .attr("ry", 50)
       .attr("fill", (d) => {
         return (d.char) ? colorScale(d.val) : '#FFFFFF';
       })
-      .transition()
+      // .transition()
       // .delay(function(d,i){return i * 100})
-      .duration(2000)
-      .ease("elastic")
-      .attr("rx", 0)
-      .attr("ry", 0);
+      // .duration(2000)
+      // .ease("elastic")
+      // .attr("rx", 0)
+      // .attr("ry", 0);
 
     heatmap.append('text')
       .text((d) => {
         return d.char;
       })
       .attr("x", (d, r) => {
-        return blocksize * ((r % 14) - 1);
+        return blocksize * (r % colsize);
       })
       .attr("y", (d, r) => {
         return blocksize * (data[r].row - 1);
@@ -94,7 +94,7 @@ let heatmap = () => {
       .attr("dx", blocksize / 2)
       .attr("dy", blocksize / 2)
       .style({
-        "font-size": 25
+        "font-size":  blocksize * 0.4
       });
 
     let xLabels = svg.selectAll(".Label")
@@ -103,16 +103,16 @@ let heatmap = () => {
       .text((d) => {
         return "C" + String(d.col);
       })
-      .attr("y", 0)
       .attr("x", (d, i) => {
-        return blocksize * ((i % blocknum) - 0.5);
+        return blocksize * ((i % colsize) + 0.5);
       })
+      .attr("y", 0)
       .attr("fill", "#333")
       .style({
-        "font-size": 15
+        "font-size":  blocksize * 0.2
       })
       .style("text-anchor", "middle")
-      .attr("transform", "translate(margin-left," + blocksize + ")");
+      .attr("transform", "translate(" + 0 + "," + 0 + ")");
 
     let yLabels = svg.selectAll(".Label")
       .data(data)
@@ -121,15 +121,15 @@ let heatmap = () => {
         return "R" + String(d.row);
       })
       .attr("fill", "#333")
-      .attr("x", -1 * blocksize)
+      .attr("x", 0)
       .attr("y", (d, i) => {
         return blocksize * (data[i].row - 0.5);
       })
       .style({
-        "font-size": 15
+        "font-size": blocksize * 0.2
       })
       .style("text-anchor", "end")
-      .attr("transform", "translate(margin-left," + blocksize + ")");
+      .attr("transform", "translate(" + 0 + "," + 0 + ")");
   });
 };
 

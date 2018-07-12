@@ -1,11 +1,5 @@
 let upload = document.getElementById('upload-file');
 
-// let textarea = document.getElementById('textarea');
-// textarea.value.addEventListener('change', heatmap);
-
-heatmap(upload);
-
-
 let textarea = document.getElementById('upload-text');
 textarea.addEventListener('input', heatmap);
 
@@ -37,23 +31,27 @@ let samplebutton = document.getElementById('sample-button');
     // })
 
     /* Upload a textfile */
-    let reader;
-    let uploadedText;
-    upload.addEventListener('change', () => {
-      let uploadFile = document.getElementById('upload-file');
-      let file = uploadFile.files[0];
-      if (!file) alert('Please select a File.');
-      uploadText = document.getElementById('upload-text');
-      // console.log(uploadText);
-      reader = new FileReader();
-      reader.readAsText(file);
-      reader.onload = () => {
-        uploadText.value = reader.result;
-        uploadedText = reader.result;
-        // uploadData = JSON.parse(reader.result);
-      }
-      heatmap(upload);
-    });
+
+let reader;
+let uploadedText;
+upload.addEventListener('change', () => {
+  let uploadFile = document.getElementById('upload-file');
+  let file = uploadFile.files[0];
+  if (!file) alert('Please select a File.');
+  uploadText = document.getElementById('upload-text');
+  // console.log(uploadText);
+  reader = new FileReader();
+  reader.readAsText(file);
+  reader.onload = () => {
+    uploadText.value = reader.result;
+    uploadedText = reader.result;
+    // uploadData = JSON.parse(reader.result);
+  }
+  heatmap(upload);
+});
+
+heatmap(upload);
+onresize =()=> heatmap(upload);
 
     /* Upload a textfile */
 // let displaybutton = document.getElementById('display-button');
