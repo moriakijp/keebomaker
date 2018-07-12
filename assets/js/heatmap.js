@@ -1,10 +1,11 @@
 let heatmap = () => {
-  // console.log(innerWidth);
-  // console.log(screen.width);
-  // console.log(document.getElementById('content').clientWidth);
-  // console.log(document.getElementById('content').offsetWidth);
+  // ! console.log(innerWidth);
+  // ! console.log(innerHeight);
+  //! console.log(screen.width);
+  //! console.log(document.getElementById('content').clientWidth);
+  //! console.log(document.getElementById('content').offsetWidth);
   let width = document.getElementById('content').clientWidth;
-  let height = document.getElementById('content').clientHeight;
+  let height = width * 0.5;
   let margin = {
     top: height * 0.05,
     bottom: height * 0.05,
