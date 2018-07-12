@@ -56,5 +56,5 @@ let samplebutton = document.getElementById('sample-button');
     });
 
     /* Upload a textfile */
-let displaybutton = document.getElementById('display-button');
-displaybutton.addEventListener('click', heatmap);
+// let displaybutton = document.getElementById('display-button');
+// displaybutton.addEventListener('click', heatmap);
