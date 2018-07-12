@@ -6,8 +6,8 @@ let upload = document.getElementById('upload-file');
 heatmap(upload);
 
 
-// let textarea = document.getElementById('upload-text');
-// textarea.addEventListener('change', heatmap);
+let textarea = document.getElementById('upload-text');
+textarea.addEventListener('input', heatmap);
 
 
 let resetbutton = document.getElementById('reset-button');
