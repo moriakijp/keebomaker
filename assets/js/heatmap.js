@@ -1,6 +1,6 @@
 let heatmap = () => {
-  // ! console.log(innerWidth);
-  // ! console.log(innerHeight);
+  //! console.log(innerWidth);
+  //! console.log(innerHeight);
   //! console.log(screen.width);
   //! console.log(document.getElementById('content').clientWidth);
   //! console.log(document.getElementById('content').offsetWidth);
