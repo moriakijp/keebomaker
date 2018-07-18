@@ -135,4 +135,8 @@ let heatmap = () => {
   });
 };
 
-let reset = () => {d3.select("svg").remove()};
+let reset = () => {
+  document.getElementById('upload-text').value = "";
+  // d3.select("svg").remove()
+  heatmap();
+};
