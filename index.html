@@ -10,10 +10,18 @@
   <meta property="og:description" content="Visualization of keydown frequency">
   <meta property="og:url" content="">
   <meta name="twitter:card" content="summary">
-  <title>keyboard-layout-visualizer</title>
+  <title>keyboard-frequency-visualizer</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
   <link rel="stylesheet" href="assets/css/main.css">
   <script src="https://d3js.org/d3.v3.min.js"></script>
+
+   <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+   <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-selection/1.2.0/d3-selection.js'></script> -->
+   <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-scale/1.0.7/d3-scale.min.js'></script> -->
+   <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-drag/1.2.1/d3-drag.min.js'></script> -->
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-transition/1.1.1/d3-transition.min.js'></script> -->
+
+
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
     crossorigin="anonymous">
 </head>
@@ -32,12 +40,12 @@
           </div>
         </div>
       </div>
-    </nav>
+   </nav>
 
     <section class="section">
       <div class="container">
         <div class="content" id="content">
-          <h1 class="title">keyboard-layout-visualizer</h1>
+          <h1 class="title">keyboard-frequency-visualizer β</h1>
           <p>入力されたテキストデータからキーボードの打鍵頻度を可視化します。</p>
           <div class="control">
 
@@ -61,25 +69,29 @@
               </div>
               <div class="dropdown-menu" id="dropdown-menu" role="menu">
                 <div class="dropdown-content">
-                  <!-- <a class="dropdown-item" href="data/sample.txt" id="sample-text-1"> -->
                   <a class="dropdown-item" id="sample-text-1">
+                    Jobs' Speech on June 12, 2005
+                  </a>
+                  <a class="dropdown-item" id="sample-text-2">
                     Lorem ipsum
                   </a>
-                  <hr class="dropdown-divider">
-                  <a href="#" class="dropdown-item">
-
+                  <a class="dropdown-item" id="sample-text-3">
+                    hhkb-default.hex
                   </a>
+                  <!-- <hr class="dropdown-divider">
+                  <a href="#" class="dropdown-item">
+                  </a> -->
                 </div>
               </div>
             </div>
 
-            <!-- <div class="dropdown" id="layout-menu">
+            <!-- <div class="dropdown" id="frequency-menu">
               <div class="dropdown-trigger" is-active>
                 <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
                   <span class="icon is-small">
                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                   </span>
-                  <span>Layout</span>
+                  <span>frequency</span>
                 </button>
               </div>
               <div class="dropdown-menu" id="dropdown-menu" role="menu">
@@ -141,9 +153,10 @@
     </div>
   </footer>
 
+  <script src="assets/js/sample.js"></script>
   <script src="assets/js/function.js"></script>
   <script src="assets/js/heatmap.js"></script>
-  <script src="assets/js/form.js"></script>
+  <script src="assets/js/event.js"></script>
 </body>
 
 </html>

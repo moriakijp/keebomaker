@@ -1,7 +1,7 @@
 let heatmap = () => {
-  //! console.log(innerWidth);
-  //! console.log(innerHeight);
-  //! console.log(screen.width);
+//! console.log(innerWidth);
+//! console.log(innerHeight);
+//! console.log(screen.width);
   //! console.log(document.getElementById('content').clientWidth);
   //! console.log(document.getElementById('content').offsetWidth);
   let width = document.getElementById('content').clientWidth;
@@ -29,6 +29,7 @@ let heatmap = () => {
     }
 
     d3.select("svg").remove();
+
     let svg = d3.select("#heatmap").append("svg")
       .attr("width", width)
       .attr("height", height)
@@ -69,12 +70,14 @@ let heatmap = () => {
       })
       .attr("width", blocksize)
       .attr("height", blocksize)
-    // .attr("rx", 50)
+      // .attr("rx", 50)
       // .attr("ry", 50)
       .attr("fill", (d) => {
         return (d.char) ? colorScale(d.val) : '#FFFFFF';
       })
+
       // .transition()
+
       // .delay(function(d,i){return i * 100})
       // .duration(2000)
       // .ease("elastic")
