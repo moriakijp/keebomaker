@@ -75,6 +75,10 @@ let heatmap = () => {
       .attr("fill", (d) => {
         return (d.char) ? colorScale(d.val) : '#FFFFFF';
       })
+      .attr('stroke', '#aaa')
+      .attr('stroke-dasharray', '5,5')
+      .attr('stroke-linecap', 'round')
+      .attr('stroke-width', '1')
 
       // .transition()
 
