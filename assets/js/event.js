@@ -2,24 +2,24 @@ document.getElementById('upload-text').addEventListener('input', heatmap);
 
 document.getElementById('reset-button').addEventListener('click', reset);
 
-let dropdown = document.getElementById('sample-menu');
-dropdown.addEventListener('click', ()=>{
+const dropdown = document.getElementById('sample-menu');
+dropdown.addEventListener('click', () => {
   event.stopPropagation();
   dropdown.classList.toggle('is-active');
 });
 
 document.getElementById('sample-text-1').addEventListener('click', () => {
-   document.getElementById('upload-text').value = jobs;
-   heatmap(heatmap);
-  });
+  document.getElementById('upload-text').value = jobs;
+  heatmap(heatmap);
+});
 document.getElementById('sample-text-2').addEventListener('click', () => {
-   document.getElementById('upload-text').value = lorem;
-   heatmap(heatmap);
-  });
+  document.getElementById('upload-text').value = lorem;
+  heatmap(heatmap);
+});
 document.getElementById('sample-text-3').addEventListener('click', () => {
-   document.getElementById('upload-text').value = hhkb;
-   heatmap(heatmap);
-  });
+  document.getElementById('upload-text').value = hhkb;
+  heatmap(heatmap);
+});
 
 
 document.getElementById('upload-file').addEventListener('change', loadFile);
