@@ -19,4 +19,3 @@ const loadFile = () => {
 //             draw(data)
 //         })
 //     });
-

@@ -1,7 +1,7 @@
-let heatmap = () => {
-//! console.log(innerWidth);
-//! console.log(innerHeight);
-//! console.log(screen.width);
+const heatmap = () => {
+  //! console.log(innerWidth);
+  //! console.log(innerHeight);
+  //! console.log(screen.width);
   //! console.log(document.getElementById('content').clientWidth);
   //! console.log(document.getElementById('content').offsetWidth);
   let width = document.getElementById('content').clientWidth;
@@ -13,10 +13,11 @@ let heatmap = () => {
     right: width * 0.05
   }
   let colsize = 14;
-  let blocksize = (width - margin.left - margin.right)  / colsize;
+  let blocksize = (width - margin.left - margin.right) / colsize;
 
   /* character match detection */
-  d3.json("data/qwerty.json", (errer, data) => {
+  const layout = "data/qwerty.json";
+  d3.json(layout, (errer, data) => {
     uploadedText = document.getElementById('upload-text').value;
     let character = Array.from(uploadedText);
     for (let j in character) {
@@ -60,7 +61,7 @@ let heatmap = () => {
     // }
 
     heatmap.append('rect')
-      .attr("id","block")
+      .attr("id", "block")
       .attr("class", "block")
       .attr("x", (d, r) => {
         return blocksize * (r % colsize);
@@ -70,23 +71,23 @@ let heatmap = () => {
       })
       .attr("width", blocksize)
       .attr("height", blocksize)
-      // .attr("rx", 50)
-      // .attr("ry", 50)
+      .attr("rx", 10)
+      .attr("ry", 10)
       .attr("fill", (d) => {
-        return (d.char) ? colorScale(d.val) : '#FFFFFF';
+        return (d.char) ? colorScale(d.val) : '#FFF';
       })
-      .attr('stroke', '#aaa')
-      .attr('stroke-dasharray', '5,5')
+      .attr('stroke', '#ccc')
+      .attr('stroke-dasharray', '3,3')
       .attr('stroke-linecap', 'round')
       .attr('stroke-width', '1')
 
-      // .transition()
+    // .transition()
 
-      // .delay(function(d,i){return i * 100})
-      // .duration(2000)
-      // .ease("elastic")
-      // .attr("rx", 0)
-      // .attr("ry", 0);
+    // .delay(function(d,i){return i * 100})
+    // .duration(2000)
+    // .ease("elastic")
+    // .attr("rx", 0)
+    // .attr("ry", 0);
 
     heatmap.append('text')
       .text((d) => {
@@ -103,7 +104,7 @@ let heatmap = () => {
       .attr("dx", blocksize / 2)
       .attr("dy", blocksize / 2)
       .style({
-        "font-size":  blocksize * 0.4
+        "font-size": blocksize * 0.4
       });
 
     let xLabels = svg.selectAll(".Label")
@@ -118,7 +119,7 @@ let heatmap = () => {
       .attr("y", 0)
       .attr("fill", "#333")
       .style({
-        "font-size":  blocksize * 0.2
+        "font-size": blocksize * 0.2
       })
       .style("text-anchor", "middle")
       .attr("transform", "translate(" + 0 + "," + 0 + ")");
@@ -142,7 +143,7 @@ let heatmap = () => {
   });
 };
 
-let reset = () => {
+const reset = () => {
   document.getElementById('upload-text').value = "";
   // d3.select("svg").remove()
   heatmap();
