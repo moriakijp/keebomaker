@@ -1,3 +1,5 @@
+drawHeatmap();
+onresize = () => drawHeatmap();
 document.getElementById('upload-text').addEventListener('input', drawHeatmap);
 
 document.getElementById('reset-button').addEventListener('click', reset);
@@ -23,6 +25,11 @@ document.getElementById('sample-text-3').addEventListener('click', () => {
 
 document.getElementById('upload-file').addEventListener('change', loadFile);
 
+// const block = document.getElementById('block');
+// block.addEventListener('drag', ()=>{
+//   console.log('aa');
+//   drawHeatmap();
+// });
 
 // var drag = d3.behavior.drag()
 //                       .on("drag", (d, i)=>{
@@ -34,8 +41,6 @@ document.getElementById('upload-file').addEventListener('change', loadFile);
 //                         })
 //                       });
 
-drawHeatmap();
-onresize = () => drawHeatmap();
 
 // let block = document.querySelector('.block');
 // let block = document. getElementById('block')
