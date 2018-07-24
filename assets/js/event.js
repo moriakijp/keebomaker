@@ -1,4 +1,6 @@
-document.getElementById('upload-text').addEventListener('input', heatmap);
+drawHeatmap();
+onresize = () => drawHeatmap();
+document.getElementById('upload-text').addEventListener('input', drawHeatmap);
 
 document.getElementById('reset-button').addEventListener('click', reset);
 
@@ -10,20 +12,24 @@ dropdown.addEventListener('click', () => {
 
 document.getElementById('sample-text-1').addEventListener('click', () => {
   document.getElementById('upload-text').value = jobs;
-  heatmap(heatmap);
+  drawHeatmap();
 });
 document.getElementById('sample-text-2').addEventListener('click', () => {
   document.getElementById('upload-text').value = lorem;
-  heatmap(heatmap);
+  drawHeatmap();
 });
 document.getElementById('sample-text-3').addEventListener('click', () => {
   document.getElementById('upload-text').value = hhkb;
-  heatmap(heatmap);
+  drawHeatmap();
 });
-
 
 document.getElementById('upload-file').addEventListener('change', loadFile);
 
+// const block = document.getElementById('block');
+// block.addEventListener('drag', ()=>{
+//   console.log('aa');
+//   drawHeatmap();
+// });
 
 // var drag = d3.behavior.drag()
 //                       .on("drag", (d, i)=>{
@@ -35,8 +41,6 @@ document.getElementById('upload-file').addEventListener('change', loadFile);
 //                         })
 //                       });
 
-heatmap(heatmap);
-onresize = () => heatmap(heatmap);
 
 // let block = document.querySelector('.block');
 // let block = document. getElementById('block')

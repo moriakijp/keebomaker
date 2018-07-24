@@ -1,66 +1,67 @@
-const heatmap = () => {
-  //! console.log(innerWidth);
-  //! console.log(innerHeight);
-  //! console.log(screen.width);
-  //! console.log(document.getElementById('content').clientWidth);
-  //! console.log(document.getElementById('content').offsetWidth);
-  let width = document.getElementById('content').clientWidth;
-  let height = width * 0.5;
-  let margin = {
+function drag() {
+  console.log('ab');
+  d3.behavior.drag()
+    .on("drag", () => {
+      d3.select(this)
+        .attr({
+          'x': d3.event.x,
+          'y': d3.event.y
+        })
+    });
+};
+
+const reset = () => {
+  document.getElementById('upload-text').value = "";
+  // d3.select("svg").remove()
+  drawHeatmap();
+};
+
+const layout = "data/qwerty.json";
+
+function drawHeatmap() {
+  const width = document.getElementById('content').clientWidth;
+  const height = width * 0.5;
+  const margin = {
     top: height * 0.05,
     bottom: height * 0.05,
     left: width * 0.05,
     right: width * 0.05
   }
-  let colsize = 14;
-  let blocksize = (width - margin.left - margin.right) / colsize;
+  const colsize = 14;
+  const blocksize = (width - margin.left - margin.right) / colsize;
 
-  /* character match detection */
-  const layout = "data/qwerty.json";
   d3.json(layout, (errer, data) => {
-    uploadedText = document.getElementById('upload-text').value;
-    let character = Array.from(uploadedText);
+
+    /* character match detection */
+    const uploadedText = document.getElementById('upload-text').value;
+    const character = Array.from(uploadedText);
     for (let j in character) {
       for (let i in data) {
         if (character[j].toUpperCase() == data[i].char) {
           data[i].val++;
-          //! console.log(data[i].val);
         }
       }
     }
+    /* create colorScale */
+    const min = Math.min.apply(null, data.map((d) => {
+      return d.val;
+    }));
+    const max = Math.max.apply(null, data.map((d) => {
+      return d.val;
+    }));
+    const colorScale = d3.scale.linear().domain([min, max]).range(["#F2F1EF", "#F22613"]);
 
-    d3.select("svg").remove();
+    d3.select("svg").remove(); // erase previous svg
 
-    let svg = d3.select("#heatmap").append("svg")
+    /* draw heatmap */
+    const svg = d3.select("#heatmap").append("svg")
       .attr("width", width)
       .attr("height", height)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    let min = Math.min.apply(null, data.map((d) => {
-      return d.val;
-    }));
-    let max = Math.max.apply(null, data.map((d) => {
-      return d.val;
-    }));
-
-    let colorScale = d3.scale.linear().domain([min, max]).range(["#F2F1EF", "#F22613"]);
-
-    let heatmap = svg.selectAll('g').data(data).enter();
-
-    // let arr = (new Array(4)).fill(1).map((v, i) => v + i)
-
-    // console.log(arr);
-    // console.log(data[1].row);
-    // console.log(() => (d){return d.ro/w});
-    // let row = data.map(() => (d){ return d.row; })
-    // for(let k in data) {
-    //   if(data.hasOwnProperty(k)) {
-    //     console.log(k+ ':' + data[k]);
-    //   }
-    // }
-
-    heatmap.append('rect')
+    svg.selectAll('g').data(data).enter()
+      .append('rect')
       .attr("id", "block")
       .attr("class", "block")
       .attr("x", (d, r) => {
@@ -71,25 +72,29 @@ const heatmap = () => {
       })
       .attr("width", blocksize)
       .attr("height", blocksize)
-      .attr("rx", 10)
-      .attr("ry", 10)
+      .attr("rx", 0)
+      .attr("ry", 0)
       .attr("fill", (d) => {
         return (d.char) ? colorScale(d.val) : '#FFF';
       })
       .attr('stroke', '#ccc')
+      .on("click", (d, i) => {
+        document.getElementById('upload-text').value += data[i].char;
+        drawHeatmap()
+      })
       .attr('stroke-dasharray', '3,3')
       .attr('stroke-linecap', 'round')
       .attr('stroke-width', '1')
+      .transition()
+      // .delay(function(d,i){return i * 100})
+      .duration(2000)
+      .ease("elastic")
+      .attr("rx", 10)
+      .attr("ry", 10)
+    // .call(drag())
 
-    // .transition()
-
-    // .delay(function(d,i){return i * 100})
-    // .duration(2000)
-    // .ease("elastic")
-    // .attr("rx", 0)
-    // .attr("ry", 0);
-
-    heatmap.append('text')
+    svg.selectAll('g').data(data).enter()
+      .append('text')
       .text((d) => {
         return d.char;
       })
@@ -107,7 +112,7 @@ const heatmap = () => {
         "font-size": blocksize * 0.4
       });
 
-    let xLabels = svg.selectAll(".Label")
+    const xLabels = svg.selectAll(".Label")
       .data(data)
       .enter().append("text")
       .text((d) => {
@@ -124,7 +129,7 @@ const heatmap = () => {
       .style("text-anchor", "middle")
       .attr("transform", "translate(" + 0 + "," + 0 + ")");
 
-    let yLabels = svg.selectAll(".Label")
+    const yLabels = svg.selectAll(".Label")
       .data(data)
       .enter().append("text")
       .text((d) => {
@@ -140,11 +145,73 @@ const heatmap = () => {
       })
       .style("text-anchor", "end")
       .attr("transform", "translate(" + 0 + "," + 0 + ")");
+
+    //wip
+    svg.selectAll('g').data(data).enter()
+    .append('rect')
+    .call(drag);
   });
 };
 
-const reset = () => {
-  document.getElementById('upload-text').value = "";
-  // d3.select("svg").remove()
-  heatmap();
-};
+//TODO
+// var zoom = d3.behavior.zoom()
+//     .translate(d3.select("svg").enter().translate())
+//     .scale(d3.select("svg").scale())
+//     .scaleExtent([height, 8 * height])
+//     .on("zoom", zoomed);
+
+//TODO
+// const arr = (new Array(4)).fill(1).map((v, i) => v + i)
+// console.log(arr);
+// console.log(data[1].row);
+// console.log(() => (d){return d.ro/w});
+// const row = data.map(() => (d){ return d.row; })
+// for(let k in data) {
+//   if(data.hasOwnProperty(k)) {
+//     console.log(k+ ':' + data[k]);
+// }
+//   }
+
+//todo
+// svg.selectAll('g').data(data)
+//   .on("click", ()=>{
+//   console.log(this);
+//   svg.select(this).attr("x", (d, r) => {
+//     return blocksize * (r % colsize+1);
+//   })
+//   .attr("y", (d, r) => {
+//     return blocksize * (data[r].row );
+//   });})
+
+//todo
+// d3.selectAll('#block')
+// .on('drag', drag )
+// .call(drag)
+// .call(d3.behavior.drag()
+//   .on("start", dragstarted)
+//   .on("drag", dragged)
+//   .on("end", dragended));
+
+// function dragstarted(d) {
+//   if (!d3.event.active) line_force.alphaTarget(0.3).restart();
+//   d.fx = d.x;
+//   d.fy = d.y;
+// }
+
+// function drag(d) {
+//   d.x = d3.event.x;
+//   d.y = d3.event.y;
+// }
+
+// function dragended(d) {
+//   if (!d3.event.active) line_force.alphaTarget(0);
+//   d.fx = null;
+//   d.fy = null;
+// }
+
+// var drag = d3.behavior.drag()
+//             .on("drag", function(d) {
+//               d.x = d3.event.x;
+//               d.y = d3.event.y;
+//               d3.select(this).attr("x", d.x).attr("y", d.y);
+//             });
