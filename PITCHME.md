@@ -26,8 +26,8 @@
 @olend
 
 ---
-# 可視化の結果
-![result](img/kbvis001.png)
+# 可視化の結果 |
+![result](img/kbvis001.png) |
 
 # わかったこと |
 母音(AOEUI)はたくさん押される |
