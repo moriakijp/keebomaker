@@ -1,14 +1,9 @@
-function drag() {
-  console.log('ab');
-  d3.behavior.drag()
-    .on("drag", () => {
-      d3.select(this)
-        .attr({
-          'x': d3.event.x,
-          'y': d3.event.y
-        })
-    });
-};
+
+
+function drag(d) {
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+}
 
 const reset = () => {
   document.getElementById('upload-text').value = "";
@@ -18,7 +13,7 @@ const reset = () => {
 
 const layout = "data/qwerty.json";
 
-function drawHeatmap() {
+drawHeatmap = () => {
   const width = document.getElementById('content').clientWidth;
   const height = width * 0.5;
   const margin = {
@@ -31,8 +26,7 @@ function drawHeatmap() {
   const blocksize = (width - margin.left - margin.right) / colsize;
 
   d3.json(layout, (errer, data) => {
-
-    /* character match detection */
+    /* Count chars matching */
     const uploadedText = document.getElementById('upload-text').value;
     const character = Array.from(uploadedText);
     for (let j in character) {
@@ -42,6 +36,7 @@ function drawHeatmap() {
         }
       }
     }
+
     /* create colorScale */
     const min = Math.min.apply(null, data.map((d) => {
       return d.val;
@@ -78,10 +73,13 @@ function drawHeatmap() {
         return (d.char) ? colorScale(d.val) : '#FFF';
       })
       .attr('stroke', '#ccc')
-      .on("click", (d, i) => {
-        document.getElementById('upload-text').value += data[i].char;
-        drawHeatmap()
-      })
+      // .on("click", (d, i) => {
+      //   document.getElementById('upload-text').value += data[i].char;
+      //   drawHeatmap()
+      // })
+      // .call(drag);
+      .call(d3.behavior.drag()
+      .on('drag', drag))
       .attr('stroke-dasharray', '3,3')
       .attr('stroke-linecap', 'round')
       .attr('stroke-width', '1')
@@ -91,7 +89,6 @@ function drawHeatmap() {
       .ease("elastic")
       .attr("rx", 10)
       .attr("ry", 10)
-    // .call(drag())
 
     svg.selectAll('g').data(data).enter()
       .append('text')
@@ -147,11 +144,53 @@ function drawHeatmap() {
       .attr("transform", "translate(" + 0 + "," + 0 + ")");
 
     //wip
-    svg.selectAll('g').data(data).enter()
-    .append('rect')
-    .call(drag);
+  //   svg.select('rect').data(data).enter()
+  //   .on('drag', () => {
+  //   console.log('ab');
+  //       d3.behavir.drag()
+  //       .origin((d)=>{return d;})
+  //         .attr({
+  //           x: d3.event.x,
+  //           y: d3.event.y
+  //   });
+  // });
+
   });
 };
+
+// //Todo
+// var drag = d3.behavior.drag()
+//     .origin(function(d) { return d; })
+//     .on("dragstart", dragstarted)
+//     .on("drag", dragged)
+//     .on("dragend", dragended);
+
+// function dragstarted(d) {
+//   d3.event.sourceEvent.stopPropagation();
+//   d3.select(this).classed("dragging", true);
+// }
+
+// function dragged(d) {
+//   d3.select(this).attr("x", d.x = d3.event.x).attr("y", d.y = d3.event.y);
+// }
+
+// function dragended(d) {
+//   d3.select(this).classed("dragging", false);
+// }
+
+
+//Todo
+// drag = (d) => {
+//   console.log('ab');
+//   d3.behavior.drag()
+//     .on("drag", () => {
+//       d3.select(this)
+//         .attr({
+//           x: d3.event.x,
+//           y: d3.event.y
+//         })
+//     });
+// };
 
 //TODO
 // var zoom = d3.behavior.zoom()
