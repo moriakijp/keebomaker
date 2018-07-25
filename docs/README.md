@@ -4,8 +4,8 @@ Visualize keyboard stroke frequency.
 
 ## Usage
 
-* http://www.keyboard-layout-editor.com
-* https://moriakijp.github.io/kbvis/
+* https://condescending-brattain-ed7bf3.netlify.com/
+
 
 ## Authors
 
