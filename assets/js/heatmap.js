@@ -73,7 +73,7 @@ drawHeatmap = () => {
       .attr('stroke', '#ccc')
       .on("click", (d, i) => {
         document.getElementById('upload-text').value += data[i].char;
-        drawHeatmap;
+        drawHeatmap();
       })
       // .call(drag);
       .call(d3.behavior.drag()
