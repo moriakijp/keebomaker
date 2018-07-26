@@ -1,9 +1,9 @@
 
 
-function drag(d) {
-  d.fx = d3.event.x;
-  d.fy = d3.event.y;
-}
+// function drag(d) {
+//   d.fx = d3.event.x;
+//   d.fy = d3.event.y;
+// }
 
 const reset = () => {
   document.getElementById('upload-text').value = "";
@@ -73,13 +73,13 @@ drawHeatmap = () => {
         return (d.char) ? colorScale(d.val) : '#FFF';
       })
       .attr('stroke', '#ccc')
-      // .on("click", (d, i) => {
-      //   document.getElementById('upload-text').value += data[i].char;
-      //   drawHeatmap()
-      // })
+      .on("click", (d, i) => {
+        document.getElementById('upload-text').value += data[i].char;
+        drawHeatmap()
+      })
       // .call(drag);
-      .call(d3.behavior.drag()
-      .on('drag', drag))
+      // .call(d3.behavior.drag()
+      // .on('drag', drag))
       .attr('stroke-dasharray', '3,3')
       .attr('stroke-linecap', 'round')
       .attr('stroke-width', '1')
@@ -143,22 +143,22 @@ drawHeatmap = () => {
       .style("text-anchor", "end")
       .attr("transform", "translate(" + 0 + "," + 0 + ")");
 
-    //wip
-  //   svg.select('rect').data(data).enter()
-  //   .on('drag', () => {
-  //   console.log('ab');
-  //       d3.behavir.drag()
-  //       .origin((d)=>{return d;})
-  //         .attr({
-  //           x: d3.event.x,
-  //           y: d3.event.y
-  //   });
-  // });
+    });
+  };
 
-  });
-};
+//wip
+//   svg.select('rect').data(data).enter()
+//   .on('drag', () => {
+//   console.log('ab');
+//       d3.behavir.drag()
+//       .origin((d)=>{return d;})
+//         .attr({
+//           x: d3.event.x,
+//           y: d3.event.y
+//   });
+// });
 
-// //Todo
+  // //Todo
 // var drag = d3.behavior.drag()
 //     .origin(function(d) { return d; })
 //     .on("dragstart", dragstarted)
@@ -177,7 +177,6 @@ drawHeatmap = () => {
 // function dragended(d) {
 //   d3.select(this).classed("dragging", false);
 // }
-
 
 //Todo
 // drag = (d) => {
