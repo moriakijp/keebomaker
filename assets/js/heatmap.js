@@ -1,5 +1,3 @@
-
-
 function drag(d) {
   d.fx = d3.event.x;
   d.fy = d3.event.y;
@@ -73,10 +71,10 @@ drawHeatmap = () => {
         return (d.char) ? colorScale(d.val) : '#FFF';
       })
       .attr('stroke', '#ccc')
-      // .on("click", (d, i) => {
-      //   document.getElementById('upload-text').value += data[i].char;
-      //   drawHeatmap()
-      // })
+      .on("click", (d, i) => {
+        document.getElementById('upload-text').value += data[i].char;
+        drawHeatmap;
+      })
       // .call(drag);
       .call(d3.behavior.drag()
       .on('drag', drag))
