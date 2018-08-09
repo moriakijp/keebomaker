@@ -5,27 +5,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <!-- twitter -->
   <meta name="description" content="Visualization of keydown frequency">
-  <meta property="og:title" content="Visualization of keydown frequency">
+  <meta property="og:title" content="KEYBOARD VISUALIZER">
   <meta property="og:description" content="Visualization of keydown frequency">
-  <meta property="og:url" content="">
+  <meta property="og:url" content="https://github.com/moriakijp/kbvis">
   <meta name="twitter:card" content="summary">
-  <title>keyboard-frequency-visualizer</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+  <title>KEYBOARD VISUALIZER</title>
   <link rel="stylesheet" href="assets/css/main.css">
-  <script src="https://d3js.org/d3.v3.min.js"></script>
-  <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js'></script> -->
-
-  <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
-  <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-selection/1.2.0/d3-selection.js'></script> -->
-  <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-scale/1.0.7/d3-scale.min.js'></script> -->
-  <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-drag/1.2.1/d3-drag.min.js'></script> -->
-  <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-transition/1.1.1/d3-transition.min.js'></script> -->
-
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
     crossorigin="anonymous">
- </head>
+</head>
 
 <body class="Site">
 
@@ -35,7 +27,9 @@
       <div class="container">
         <div class="navbar-menu">
           <div class="navbar-start">
-            <a class="navbar-item" href="index.html">Home</a>
+            <a class="navbar-item" href="index.html">
+              <i class="fas fa-keyboard"> KEYBOARD VISUALIZER</i>
+            </a>
             <a class="navbar-item" href="about.html">About</a>
             <a class="navbar-item" href="help.html">Help</a>
           </div>
@@ -46,8 +40,8 @@
     <section class="section">
       <div class="container">
         <div class="content" id="content">
-          <h1 class="title">kbvis</h1>
           <p>入力されたデータからキーボードの打鍵頻度を可視化します。</p>
+          <!-- <form> -->
           <div class="control">
 
             <div>
@@ -80,33 +74,33 @@
                     hhkb-default.hex
                   </a>
                   <!-- <hr class="dropdown-divider">
-                  <a href="#" class="dropdown-item">
-                  </a> -->
+                      <a href="#" class="dropdown-item">
+                      </a> -->
                 </div>
               </div>
             </div>
 
             <!-- <div class="dropdown" id="frequency-menu">
-              <div class="dropdown-trigger" is-active>
-                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                  <span class="icon is-small">
-                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                  </span>
-                  <span>frequency</span>
-                </button>
-              </div>
-              <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                <div class="dropdown-content">
-                  <a class="dropdown-item" id="sample-text-1">
-                    QWERTY
-                  </a>
-                  <hr class="dropdown-divider">
-                  <a href="#" class="dropdown-item">
+                  <div class="dropdown-trigger" is-active>
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                      <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                      </span>
+                      <span>frequency</span>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                      <a class="dropdown-item" id="sample-text-1">
+                        QWERTY
+                      </a>
+                      <hr class="dropdown-divider">
+                      <a href="#" class="dropdown-item">
 
-                  </a>
-                </div>
-              </div>
-            </div> -->
+                      </a>
+                    </div>
+                  </div>
+                </div> -->
 
             <div class="file">
               <label>
@@ -123,22 +117,24 @@
             </div>
 
             <!-- <div>
-                <button class="button" type="button" data-clipboard-target="#upload-text">Copy</button>
-              </div> -->
+                  <button class="button" type="button" data-clipboard-target="#upload-text">Copy</button>
+                </div> -->
 
           </div>
           <div>
-            <textarea class="textarea" id="upload-text" placeholder="Type something here!"></textarea>
+            <textarea name="upload-text" class="textarea" id="upload-text" placeholder=countChar(test)></textarea>
           </div>
+
+          <!-- </form> -->
 
           <div class="chart" id="heatmap"></div>
           <!-- <div class="modal">
-              <div class="modal-background"></div>
-              <div class="modal-content">
-                <p class="image is-4by3">
-                  <img src="images/keymap.png" alt="">
-                </p>
-              </div>
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                  <p class="image is-4by3">
+                    <img src="images/keymap.png" alt="">
+                  </p>
+                </div>
               <button class="modal-close is-large" aria-label="close"></button>
             </div> -->
         </div>
@@ -153,14 +149,63 @@
     <div class="container">
       <div class="content has-text-centered">
         <p>&copy; 2018 Akihito Morita</p>
-        <!-- <a href="https://twitter.com/moriakijp"><i class="fab fa-twitter" aria-hidden="true"></i></a> -->
-        <a href="https://github.com/moriakijp"><i class="fab fa-github" aria-hidden="true"></a></i>
+        <a href="https://twitter.com/moriakijp">
+          <i class="fab fa-twitter" aria-hidden="true"></i>
+        </a>
+        <!-- Twitter -->
+        <a href="//twitter.com/share?text=<?=$share_title?>&url=<?=$share_url?>&via=wemo_blog" title="share on Twitter" onclick="javascript:window.open(this.href, '_blank', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');return false;">
+          <i class="fab fa-twitter" aria-hidden="true"></i>
+        </a>
+        <!-- Github -->
+        <a href="https://github.com/moriakijp/kbvis">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+
+
+        <!--Facebook-->
+        <a class="">
+          <i class="fa fa-lg fa-facebook"> </i>
+        </a>
+        <!--Twitter-->
+        <a class="">
+          <i class="fab fa-twitter"> </i>
+        </a>
+        <!--Google +-->
+        <a class="">
+          <i class="fa fa-lg fa-google-plus"> </i>
+        </a>
+        <!--Youtube-->
+        <a class="yt-ic mr-3">
+          <i class="fa fa-lg fa-youtube"> </i>
+        </a>
+        <!--Stack Overflow-->
+        <a class="so-ic mr-3">
+          <i class="fa fa-lg fa-stack-overflow"> </i>
+        </a>
+        <!--Slack-->
+        <a class="slack-ic mr-3">
+          <i class="fa fa-lg fa-slack"> </i>
+        </a>
+        <!--Email-->
+        <a class="email-ic mr-3">
+          <i class="fa fa-lg fa-envelope-o"> </i>
+        </a>
+        <!--Comments-->
+        <a class="comm-ic mr-3">
+          <i class="fa fa-lg fa-comments"> </i>
+        </a>
       </div>
     </div>
-</div>
+    </div>
     </div>
   </footer>
-
+  <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js'></script> -->
+  <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-selection/1.2.0/d3-selection.js'></script> -->
+  <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-scale/1.0.7/d3-scale.min.js'></script> -->
+  <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-drag/1.2.1/d3-drag.min.js'></script> -->
+  <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-transition/1.1.1/d3-transition.min.js'></script> -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
   <script src="assets/js/sample.js"></script>
   <script src="assets/js/function.js"></script>
   <script src="assets/js/heatmap.js"></script>

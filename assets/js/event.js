@@ -1,29 +1,31 @@
 drawHeatmap();
 onresize = () => drawHeatmap();
-document.getElementById('upload-text').addEventListener('input', drawHeatmap);
+document.getElementById("upload-text").focus();
 
-document.getElementById('reset-button').addEventListener('click', reset);
+document.getElementById("upload-text").addEventListener("input", drawHeatmap);
 
-const dropdown = document.getElementById('sample-menu');
-dropdown.addEventListener('click', () => {
+document.getElementById("reset-button").addEventListener("click", reset);
+
+const dropdown = document.getElementById("sample-menu");
+dropdown.addEventListener("click", () => {
   event.stopPropagation();
-  dropdown.classList.toggle('is-active');
+  dropdown.classList.toggle("is-active");
 });
 
-document.getElementById('sample-text-1').addEventListener('click', () => {
-  document.getElementById('upload-text').value = jobs;
+document.getElementById("sample-text-1").addEventListener("click", () => {
+  document.getElementById("upload-text").value = jobs;
   drawHeatmap();
 });
-document.getElementById('sample-text-2').addEventListener('click', () => {
-  document.getElementById('upload-text').value = lorem;
+document.getElementById("sample-text-2").addEventListener("click", () => {
+  document.getElementById("upload-text").value = lorem;
   drawHeatmap();
 });
-document.getElementById('sample-text-3').addEventListener('click', () => {
-  document.getElementById('upload-text').value = hhkb;
+document.getElementById("sample-text-3").addEventListener("click", () => {
+  document.getElementById("upload-text").value = hhkb;
   drawHeatmap();
 });
 
-document.getElementById('upload-file').addEventListener('change', loadFile);
+document.getElementById("upload-file").addEventListener("change", loadFile);
 
 // const block = document.getElementById('block');
 // block.addEventListener('drag', ()=>{
@@ -40,7 +42,6 @@ document.getElementById('upload-file').addEventListener('change', loadFile);
 //                           return "translate(" + [ d.x, d.y ] + ")"
 //                         })
 //                       });
-
 
 // let block = document.querySelector('.block');
 // let block = document. getElementById('block')
