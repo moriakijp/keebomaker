@@ -1,17 +1,39 @@
-drawHeatmap();
-onresize = () => drawHeatmap();
-document.getElementById("upload-text").focus();
+drawHeatmap(qwerty);
+onkeydown = (e) => {
+  if (e.shiftKey)
+    drawHeatmap(qwerty_shift);
+};
+onkeyup = (e) => {
+  if (!e.shiftKey)
+    drawHeatmap(qwerty);
+};
+onresize = () => {
+  drawHeatmap(qwerty);
+};
 
-document.getElementById("upload-text").addEventListener("input", drawHeatmap);
+textarea.focus();
 
-// document.getElementById("upload-text").addEventListener("input", (e) => {
+textarea.addEventListener("input", () => {
+  drawHeatmap(qwerty);
+  onkeydown = (e) => {
+    if (e.shiftKey)
+      drawHeatmap(qwerty_shift);
+  };
+});
+
+textarea.addEventListener("input", () => {
+  drawHeatmap(qwerty);
+});
+
+// textarea.addEventListener("input", (e) => {
 //   e.currentTarget.placeholder = countChar(e.currentTarget.value);
 // });
 
 
-document.getElementById("reset-button").addEventListener("click", () => {
-  reset();
-  document.getElementById("count").innerHTML = 'countChar : ' + countChar(document.getElementById("upload-text").value);
+reset.addEventListener("click", () => {
+  resetHeatmap();
+  count_word.innerHTML = 'Word...' + countWord(textarea.value);
+  count_char.innerHTML = 'Char...' + countChar(textarea.value);
 });
 
 // const dropdown = document.getElementById("dropdown-menu");
@@ -20,49 +42,50 @@ document.getElementById("reset-button").addEventListener("click", () => {
 //   dropdown.classList.toggle("is-active");
 // });
 
-document.getElementById("upload-text").addEventListener("input", (e) => {
-  document.getElementById("count").innerHTML = 'countChar : ' + countChar(e.currentTarget.value);
+textarea.addEventListener("input", (e) => {
+  count_word.innerHTML = 'Word...' + countWord(textarea.value);
+  count_char.innerHTML = 'Char...' + countChar(e.currentTarget.value);
 });
 
-let select = document.querySelector("#sample");
-let option = document.querySelectorAll("#sample option");
-select.addEventListener("change", (e) => {
+select_sample.addEventListener("change", (e) => {
   var index = e.currentTarget.selectedIndex;
   option[1].value = lorem;
   option[2].value = jobs;
   option[3].value = hhkb;
-  document.getElementById("upload-text").value = option[index].value;
-  document.getElementById("count").innerHTML = 'countChar : ' + countChar(option[index].value);
-  drawHeatmap();
+  textarea.value = option[index].value;
+  count_word.innerHTML = 'Word...' + countWord(textarea.value);
+  count_char.innerHTML = 'Char...' + countChar(option[index].value);
+  drawHeatmap(qwerty);
 });
 
 // document.getElementById("sample-text-1").addEventListener("change", (e) => {
-//   document.getElementById("upload-text").value = jobs;
-//   document.getElementById("count").innerHTML = 'countChar : ' + countChar(e.currentTarget.value);
-//   drawHeatmap();
+//   textarea.value = jobs;
+//   count.innerHTML = 'countChar...' + countChar(e.currentTarget.value);
+//   drawHeatmap(qwerty);
 // });
 // document.getElementById("sample-text-2").addEventListener("change", (e) => {
-//   document.getElementById("upload-text").value = lorem;
-//   document.getElementById("count").innerHTML = 'countChar : ' + countChar(e.currentTarget.value);
-//   drawHeatmap();
+//   textarea.value = lorem;
+//   count.innerHTML = 'countChar...' + countChar(e.currentTarget.value);
+//   drawHeatmap(qwerty);
 // });
 // document.getElementById("sample-text-3").addEventListener("change", (e) => {
-//   document.getElementById("upload-text").value = hhkb;
-//   document.getElementById("count").innerHTML = 'countChar : ' + countChar(e.currentTarget.value);
-//   drawHeatmap();
+//   textarea.value = hhkb;
+//   count.innerHTML = 'countChar...' + countChar(e.currentTarget.value);
+//   drawHeatmap(qwerty);
 // });
 
-document.getElementById("upload-file").addEventListener("change", () => {
+input_file.addEventListener("change", () => {
   loadFile();
-  document.getElementById("count").innerHTML = 'countChar : ' + countChar(document.getElementById("upload-text").value);
-  drawHeatmap();
+  count_word.innerHTML = 'Word...' + countWord(textarea.value);
+  count_char.innerHTML = 'Char...' + countChar(textarea.value);
+  drawHeatmap(qwerty);
 });
 
 
 // const block = document.getElementById('block');
 // block.addEventListener('drag', ()=>{
 //   console.log('aa');
-//   drawHeatmap();
+//   drawHeatmap(qwerty);
 // });
 
 // var drag = d3.behavior.drag()
@@ -78,5 +101,5 @@ document.getElementById("upload-file").addEventListener("change", () => {
 // let block = document.querySelector('.block');
 // let block = document. getElementById('block')
 // block.addEventListener('click', () => {
-//   document.getElementById('upload-text').value += 'a';
+//   textarea.value += 'a';
 // });

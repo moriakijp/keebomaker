@@ -1,26 +1,32 @@
+//rule...lowerCamelCase. verb+Noun.
+
 const loadFile = () => {
-    let uploadText = document.getElementById('upload-text'); // textarea
-    let uploadFile = document.getElementById('upload-file'); // input
-    let file = uploadFile.files[0];
+    let file = input_file.files[0];
     console.log(file);
     if (!file) alert('Please select a File.');
     let reader = new FileReader();
     reader.onload = () => {
-        uploadText.value = reader.result;
+        textarea.value = reader.result;
     }
     reader.readAsText(file);
 };
 
 const countWord = (str) => {
-    return str.split(" ").length;
+    if (str == "") return 0;
+    return str.replace(/(^\s*)|(\s*$)/gi, "")
+        //exclude  start and end white-space
+        .replace(/[ ]{2,}/gi, " ")
+        //convert 2 or more spaces to 1
+        .replace(/\n /, "\n")
+        // exclude newline with a start spacing
+        .split(" ").length;
 };
 
 const countChar = (str) => {
     return str.replace(/ /g, "").split("").length;
 };
 
-console.log(countWord("random string"));
-console.log(countChar("random string"));
+
 
 // fetch(url)
 //     .then((response) => response.text())
@@ -75,9 +81,9 @@ console.log(countChar("random string"));
 //     });
 
 //     // シェア画面の新規ウインドウを表示
-//     　　
+//
 //     window.open(url, '_blank', size);
 
-//     　
+//
 //     return false;
 // }

@@ -3,16 +3,15 @@
 //   d.fy = d3.event.y;
 // }
 
-const reset = () => {
-  document.getElementById('upload-text').value = "";
+const resetHeatmap = () => {
+  textarea.value = "";
   // d3.select("svg").remove()
-  drawHeatmap();
+  drawHeatmap(qwerty);
 };
 
-const layout = "data/qwerty.json";
 
-drawHeatmap = () => {
-  const width = document.getElementById('upload-text').clientWidth;
+drawHeatmap = (layout) => {
+  const width = textarea.clientWidth;
   console.log(width);
   const height = width * 0.5;
   const margin = {
@@ -26,7 +25,7 @@ drawHeatmap = () => {
 
   d3.json(layout, (errer, data) => {
     /* Count chars matching */
-    const uploadedText = document.getElementById('upload-text').value;
+    const uploadedText = textarea.value;
     const character = Array.from(uploadedText);
     for (let j in character) {
       for (let i in data) {
@@ -73,9 +72,9 @@ drawHeatmap = () => {
       })
       .attr('stroke', '#ccc')
       .on("click", (d, i) => {
-        document.getElementById('upload-text').value += data[i].char;
-        document.getElementById("count").innerHTML = 'countChar : ' + countChar(document.getElementById("upload-text").value);
-        drawHeatmap();
+        textarea.value += data[i].char;
+        count_char.innerHTML = 'Char...' + countChar(textarea.value);
+        drawHeatmap(layout);
       })
       // .call(drag);
       // .call(d3.behavior.drag()
@@ -93,7 +92,7 @@ drawHeatmap = () => {
     svg.selectAll('g').data(data).enter()
       .append('text')
       .text((d) => {
-        return d.char;
+        return d.char + "(" + d.val + ")";
       })
       .attr("x", (d, r) => {
         return blocksize * (r % colsize);
@@ -106,7 +105,7 @@ drawHeatmap = () => {
       .attr("dx", blocksize / 2)
       .attr("dy", blocksize / 2)
       .style({
-        "font-size": blocksize * 0.4
+        "font-size": blocksize * 0.2
       });
 
     const xLabels = svg.selectAll(".Label")

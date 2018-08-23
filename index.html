@@ -35,7 +35,7 @@
   <div class='container'>
     <div class='area-header'>
       <a class="header-item" href="index.html">
-        <i class="fas fa-keyboard"> KEYBOARD VISUALIZER</i>
+        <i class="fas fa-keyboard"> KeeBoMaker</i>
       </a>
       <!-- <a class="header-item" href="about.html">ABOUT</a> -->
       <!-- <a class="header-item" href="help.html">HELP</a> -->
@@ -43,14 +43,14 @@
 
     <div class='area-left'>
       <div>
-        <button class="button" id="reset-button">
+        <button class="button" id="button-reset">
           <span class="icon is-small">
             <i class="fas fa-eraser" aria-hidden="true"></i>
           </span>
           <span>Reset</span>
         </button>
       </div>
-      <select class="select" name="select" id="sample">
+      <select class="select" name="select" id="select-sample">
         <a class="select-item" id="sample-text-0">
           <option>
             Sample Text
@@ -70,16 +70,18 @@
         </a>
       </select>
       <div class="input">
-        <input type="file" name="resume" id="upload-file">
+        <input type="file" name="resume" id="input-file">
       </div>
     </div>
 
     <div class='area-content'>
       <form>
         <div>
-          <textarea name="upload-text" class="textarea" id="upload-text" placeholder='input!'></textarea>
+          <textarea name="textarea" class="textarea" id="textarea" placeholder='input!'></textarea>
         </div>
-        <label for="upload-text" id="count">countChar : </label>
+        <label for="textarea" id="count-word">Word...</label>
+        <br>
+        <label for="textarea" id="count-char">Char...</label>
       </form>
       <div class="chart" id="heatmap"></div>
     </div>
@@ -121,7 +123,7 @@
                 </div> -->
 
   <!-- <div>
-                  <button class="button" type="button" data-clipboard-target="#upload-text">Copy</button>
+                  <button class="button" type="button" data-clipboard-target="#textarea">Copy</button>
                 </div> -->
 
 
@@ -144,6 +146,7 @@
   <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-transition/1.1.1/d3-transition.min.js'></script> -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+  <script src="assets/js/selector.js"></script>
   <script src="assets/js/sample.js"></script>
   <script src="assets/js/function.js"></script>
   <script src="assets/js/heatmap.js"></script>

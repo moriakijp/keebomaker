@@ -1,3 +1,8 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
 html {}
 
 body {
@@ -8,36 +13,52 @@ body {
     display: grid;
     /*sticky footer*/
     min-height: 100vh;
-    grid-template-columns: 240px auto;
+    grid-template-columns: 20vw 80vw;
     grid-template-rows: 40px 1fr 40px;
     grid-template-areas: 'header header' 'left content' 'footer footer';
-    font-family: 'Avenir', 'Helvetica Neue', 'Helvetica', 'Arial', 'Hiragino Sans', 'ヒラギノ角ゴシック', , 'Yu Gothic', 'メイリオ', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+    font-family: 'Avenir', 'Helvetica Neue', 'Helvetica', 'Arial', 'Hiragino Sans', 'ヒラギノ角ゴシック', 'Yu Gothic', 'メイリオ', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
 }
 
 .area-header {
     color: white;
-    background: orangered;
+    background: hsl(40, 1%, 90%);
     grid-area: header;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 
 .area-left {
-    background: orange;
+    background: hsl(40, 1%, 80%);
     grid-area: left;
     font-size: 1rem;
 }
 
 .area-content {
-    background: #f3c13a33;
+    background: hsl(40, 1%, 90%);
     grid-area: content;
     font-size: 1rem;
 }
 
+/* @media (max-width: 960px) { */
+
+/* .container { */
+
+/* grid-template-areas: "header" "content" "footer"; */
+
+/* grid-template-columns: 1fr; */
+
+/* grid-template-rows: autoHeader 1frContent */
+
+/* auto; */
+
+/* } */
+
+/* } */
+
 .area-footer {
-    background: orangered;
+    background: hsl(40, 1%, 94%);
     grid-area: footer;
-    font-size: 1.5rem;
+    font-size: 1rem;
     text-align: center;
 }
 
@@ -63,7 +84,7 @@ input {
 }
 
 a {
-    color: yellow;
+    color: gray;
     text-decoration: none;
     transition: 1.0s;
 }
@@ -80,7 +101,7 @@ form {}
 
 textarea {
     position: relative;
-    width: 80vw;
+    width: 100%;
     height: 120px;
     resize: none;
     border: none;
@@ -88,7 +109,7 @@ textarea {
     overflow-wrap: break-word;
     white-space: pre-line;
     overflow: scroll;
-    font-size: 1rem;
+    font-size: 2rem;
     /* z-index: 1; */
     /* &:valid { */
     /* // Hides the label */
@@ -107,8 +128,8 @@ textarea {
 }
 
 label {
-    transition: background 0.2s, color 0.2s, top 0.2s, bottom 0.2s, right 0.2s, left 0.2s;
-    position: absolute;
+    /* transition: background 0.2s, color 0.2s, top 0.2s, bottom 0.2s, right 0.2s, left 0.2s; */
+    position: relative;
     color: #999;
     font-size: 2rem;
 }
@@ -149,11 +170,12 @@ textarea::placeholder {
     font-size: 4rem;
     font-weight: bold;
     text-align: center;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     opacity: 0.3;
 }
 
 .chart {
-    margin-top: 10vh;
+    position: relative;
+    margin-top: 5vh;
     user-select: none;
 }
