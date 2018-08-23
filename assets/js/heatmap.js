@@ -1,5 +1,3 @@
-
-
 // function drag(d) {
 //   d.fx = d3.event.x;
 //   d.fy = d3.event.y;
@@ -14,7 +12,8 @@ const reset = () => {
 const layout = "data/qwerty.json";
 
 drawHeatmap = () => {
-  const width = document.getElementById('content').clientWidth;
+  const width = document.getElementById('upload-text').clientWidth;
+  console.log(width);
   const height = width * 0.5;
   const margin = {
     top: height * 0.05,
@@ -75,6 +74,7 @@ drawHeatmap = () => {
       .attr('stroke', '#ccc')
       .on("click", (d, i) => {
         document.getElementById('upload-text').value += data[i].char;
+        document.getElementById("count").innerHTML = 'countChar : ' + countChar(document.getElementById("upload-text").value);
         drawHeatmap();
       })
       // .call(drag);
@@ -143,8 +143,8 @@ drawHeatmap = () => {
       .style("text-anchor", "end")
       .attr("transform", "translate(" + 0 + "," + 0 + ")");
 
-    });
-  };
+  });
+};
 
 //wip
 //   svg.select('rect').data(data).enter()
@@ -158,7 +158,7 @@ drawHeatmap = () => {
 //   });
 // });
 
-  // //Todo
+// //Todo
 // var drag = d3.behavior.drag()
 //     .origin(function(d) { return d; })
 //     .on("dragstart", dragstarted)

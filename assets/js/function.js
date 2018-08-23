@@ -9,7 +9,6 @@ const loadFile = () => {
         uploadText.value = reader.result;
     }
     reader.readAsText(file);
-    heatmap(heatmap);
 };
 
 const countWord = (str) => {
@@ -17,7 +16,7 @@ const countWord = (str) => {
 };
 
 const countChar = (str) => {
-    return str.replace(" ", "").split("").length;
+    return str.replace(/ /g, "").split("").length;
 };
 
 console.log(countWord("random string"));
@@ -30,6 +29,8 @@ console.log(countChar("random string"));
 //             draw(data)
 //         })
 //     });
+// fetch(url)
+
 
 // function sns_window(sns, share_url, share_title) {
 //     var size = "";

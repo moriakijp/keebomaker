@@ -3,84 +3,102 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-  <!-- twitter -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <meta name="description" content="Visualization of keydown frequency">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- OGP -->
+  <meta property="og:type" content="website">
   <meta property="og:title" content="KEYBOARD VISUALIZER">
   <meta property="og:description" content="Visualization of keydown frequency">
   <meta property="og:url" content="https://github.com/moriakijp/kbvis">
+  <meta property="og:image" content="">
+  <!-- <meta property="og:image:secure_url" content="https://secure.example.com/ogp.jpg" /> -->
+  <!-- <meta property="og:image:type" content="image/jpeg" /> -->
+  <!-- <meta property="og:image:width" content="400"> -->
+  <!-- <meta property="og:image:height" content="300"> -->
+  <!-- twitter -->
   <meta name="twitter:card" content="summary">
+
   <title>KEYBOARD VISUALIZER</title>
   <link rel="stylesheet" href="assets/css/main.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+   -->
+  <!-- <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.css'
+  /> -->
+
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
     crossorigin="anonymous">
 </head>
 
-<body class="Site">
+<body>
+  <div class='container'>
+    <div class='area-header'>
+      <a class="header-item" href="index.html">
+        <i class="fas fa-keyboard"> KEYBOARD VISUALIZER</i>
+      </a>
+      <!-- <a class="header-item" href="about.html">ABOUT</a> -->
+      <!-- <a class="header-item" href="help.html">HELP</a> -->
+    </div>
 
-  <main class="Site-content">
-
-    <nav class="navbar is-primary">
-      <div class="container">
-        <div class="navbar-menu">
-          <div class="navbar-start">
-            <a class="navbar-item" href="index.html">
-              <i class="fas fa-keyboard"> KEYBOARD VISUALIZER</i>
-            </a>
-            <a class="navbar-item" href="about.html">About</a>
-            <a class="navbar-item" href="help.html">Help</a>
-          </div>
-        </div>
+    <div class='area-left'>
+      <div>
+        <button class="button" id="reset-button">
+          <span class="icon is-small">
+            <i class="fas fa-eraser" aria-hidden="true"></i>
+          </span>
+          <span>Reset</span>
+        </button>
       </div>
-    </nav>
+      <select class="select" name="select" id="sample">
+        <a class="select-item" id="sample-text-0">
+          <option>
+            Sample Text
+          </option>
+        </a>
+        <a class="select-item" id="sample-text-1">
+          <option>
+            Lorem ipsum</option>
+        </a>
+        <a class="select-item" id="sample-text-2">
+          <option>
+            Jobs' Speech on June 12, 2005</option>
+        </a>
+        <a class="select-item" id="sample-text-3">
+          <option>
+            hhkb-default.hex</option>
+        </a>
+      </select>
+      <div class="input">
+        <input type="file" name="resume" id="upload-file">
+      </div>
+    </div>
 
-    <section class="section">
-      <div class="container">
-        <div class="content" id="content">
-          <p>入力されたデータからキーボードの打鍵頻度を可視化します。</p>
-          <!-- <form> -->
-          <div class="control">
+    <div class='area-content'>
+      <form>
+        <div>
+          <textarea name="upload-text" class="textarea" id="upload-text" placeholder='input!'></textarea>
+        </div>
+        <label for="upload-text" id="count">countChar : </label>
+      </form>
+      <div class="chart" id="heatmap"></div>
+    </div>
 
-            <div>
-              <button class="button" id="reset-button">
-                <span class="icon is-small">
-                  <i class="fas fa-eraser" aria-hidden="true"></i>
-                </span>
-                <span>Reset</span>
-              </button>
-            </div>
+    <div class='area-footer'>
+      <a> &copy; 2018 Akihito Morita</a>
+      <!-- Twitter -->
+      <a href="//twitter.com/share?text=<?=$share_title?>&url=<?=$share_url?>&via=wemo_blog" title="share on Twitter" onclick="javascript:window.open(this.href, '_blank', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');return false;">
+        <i class="fab fa-twitter" aria-hidden="true"></i>
+      </a>
+      <!-- Github -->
+      <a href="https://github.com/moriakijp/kbvis">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
 
-            <div class="dropdown" id="sample-menu">
-              <div class="dropdown-trigger" is-active>
-                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                  <span class="icon is-small">
-                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                  </span>
-                  <span>Sample</span>
-                </button>
-              </div>
-              <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                <div class="dropdown-content">
-                  <a class="dropdown-item" id="sample-text-1">
-                    Jobs' Speech on June 12, 2005
-                  </a>
-                  <a class="dropdown-item" id="sample-text-2">
-                    Lorem ipsum
-                  </a>
-                  <a class="dropdown-item" id="sample-text-3">
-                    hhkb-default.hex
-                  </a>
-                  <!-- <hr class="dropdown-divider">
-                      <a href="#" class="dropdown-item">
-                      </a> -->
-                </div>
-              </div>
-            </div>
 
-            <!-- <div class="dropdown" id="frequency-menu">
+  <!-- <div class="dropdown" id="frequency-menu">
                   <div class="dropdown-trigger" is-active>
                     <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
                       <span class="icon is-small">
@@ -102,33 +120,12 @@
                   </div>
                 </div> -->
 
-            <div class="file">
-              <label>
-                <input class="file-input" type="file" name="resume" id="upload-file">
-                <span class="file-cta">
-                  <span class="file-icon">
-                    <i class="fas fa-upload"></i>
-                  </span>
-                  <span class="file-label">
-                    File...
-                  </span>
-                </span>
-              </label>
-            </div>
-
-            <!-- <div>
+  <!-- <div>
                   <button class="button" type="button" data-clipboard-target="#upload-text">Copy</button>
                 </div> -->
 
-          </div>
-          <div>
-            <textarea name="upload-text" class="textarea" id="upload-text" placeholder=countChar(test)></textarea>
-          </div>
 
-          <!-- </form> -->
-
-          <div class="chart" id="heatmap"></div>
-          <!-- <div class="modal">
+  <!-- <div class="modal">
                 <div class="modal-background"></div>
                 <div class="modal-content">
                   <p class="image is-4by3">
@@ -137,68 +134,9 @@
                 </div>
               <button class="modal-close is-large" aria-label="close"></button>
             </div> -->
-        </div>
-      </div>
-      </div>
-      </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container">
-      <div class="content has-text-centered">
-        <p>&copy; 2018 Akihito Morita</p>
-        <a href="https://twitter.com/moriakijp">
-          <i class="fab fa-twitter" aria-hidden="true"></i>
-        </a>
-        <!-- Twitter -->
-        <a href="//twitter.com/share?text=<?=$share_title?>&url=<?=$share_url?>&via=wemo_blog" title="share on Twitter" onclick="javascript:window.open(this.href, '_blank', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');return false;">
-          <i class="fab fa-twitter" aria-hidden="true"></i>
-        </a>
-        <!-- Github -->
-        <a href="https://github.com/moriakijp/kbvis">
-          <i class="fab fa-github" aria-hidden="true"></i>
-        </a>
 
 
-        <!--Facebook-->
-        <a class="">
-          <i class="fa fa-lg fa-facebook"> </i>
-        </a>
-        <!--Twitter-->
-        <a class="">
-          <i class="fab fa-twitter"> </i>
-        </a>
-        <!--Google +-->
-        <a class="">
-          <i class="fa fa-lg fa-google-plus"> </i>
-        </a>
-        <!--Youtube-->
-        <a class="yt-ic mr-3">
-          <i class="fa fa-lg fa-youtube"> </i>
-        </a>
-        <!--Stack Overflow-->
-        <a class="so-ic mr-3">
-          <i class="fa fa-lg fa-stack-overflow"> </i>
-        </a>
-        <!--Slack-->
-        <a class="slack-ic mr-3">
-          <i class="fa fa-lg fa-slack"> </i>
-        </a>
-        <!--Email-->
-        <a class="email-ic mr-3">
-          <i class="fa fa-lg fa-envelope-o"> </i>
-        </a>
-        <!--Comments-->
-        <a class="comm-ic mr-3">
-          <i class="fa fa-lg fa-comments"> </i>
-        </a>
-      </div>
-    </div>
-    </div>
-    </div>
-  </footer>
+
   <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js'></script> -->
   <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-selection/1.2.0/d3-selection.js'></script> -->
   <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-scale/1.0.7/d3-scale.min.js'></script> -->
