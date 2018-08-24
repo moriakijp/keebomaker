@@ -14,16 +14,21 @@ const uploadFile = () => {
 const countWord = (str) => {
     if (str == "") return 0;
     return str.replace(/(^\s*)|(\s*$)/gi, "")
-        //exclude  start and end white-space
-        .replace(/[ ]{2,}/gi, " ")
+        //exclude start and end white-space
+        .replace(/[\s]{2,}/gi, " ")
         //convert 2 or more spaces to 1
         .replace(/\n /, "\n")
         // exclude newline with a start spacing
-        .split(" ").length;
+        .split(/\s+/).length;
 };
 
 const countChar = (str) => {
-    return str.replace(/ /g, "").split("").length;
+    if (str == "") return 0;
+    return str.replace(/\s/gi, "")
+        //exclude all white-space
+        .replace(/[\n]*/gi, "")
+        //exclude all newline
+        .split("").length;
 };
 
 

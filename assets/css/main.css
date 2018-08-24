@@ -1,4 +1,5 @@
 * {
+    padding: 0;
     margin: 0;
 }
 
@@ -132,7 +133,7 @@ textarea {
     outline: none;
     overflow-wrap: break-word;
     white-space: pre-line;
-    overflow: scroll;
+    overflow: hidden;
     font-size: 2rem;
     /* z-index: 1; */
     /* &:valid { */

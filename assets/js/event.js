@@ -1,24 +1,25 @@
-drawHeatmap(qwerty);
+let layout = qwerty;
+drawHeatmap(layout);
 onkeydown = (e) => {
   if (e.shiftKey)
-    drawHeatmap(qwerty_shift);
+    layout = qwerty_shift;
+  drawHeatmap(layout);
 };
+
 onkeyup = (e) => {
   if (!e.shiftKey)
-    drawHeatmap(qwerty);
+    layout = qwerty;
+  drawHeatmap(layout);
 };
+
 onresize = () => {
-  drawHeatmap(qwerty);
+  drawHeatmap(layout);
 };
 
 textarea.focus();
 
 textarea.addEventListener("input", () => {
-  drawHeatmap(qwerty);
-});
-
-textarea.addEventListener("input", () => {
-  drawHeatmap(qwerty);
+  drawHeatmap(layout);
 });
 
 // textarea.addEventListener("input", (e) => {

@@ -1,7 +1,7 @@
-// function drag(d) {
-//   d.fx = d3.event.x;
-//   d.fy = d3.event.y;
-// }
+function drag(d) {
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+}
 
 const resetHeatmap = () => {
   textarea.value = "";
@@ -77,14 +77,16 @@ drawHeatmap = (layout) => {
         count_char.innerHTML = 'Char...' + countChar(textarea.value);
         drawHeatmap(layout);
       })
-      // .call(drag);
-      // .call(d3.behavior.drag()
-      // .on('drag', drag))
+      //   .call(drag);
+      // .call(d3.behavior.drag())
+      //   .on('drag', drag))
       .attr('stroke-dasharray', '3,3')
       .attr('stroke-linecap', 'round')
       .attr('stroke-width', '1')
       .transition()
-      // .delay(function(d,i){return i * 100})
+      // .delay(function (d, i) {
+      //   return i * 100
+      // })
       .duration(2000)
       .ease("elastic")
       .attr("rx", 10)
