@@ -15,10 +15,6 @@ textarea.focus();
 
 textarea.addEventListener("input", () => {
   drawHeatmap(qwerty);
-  onkeydown = (e) => {
-    if (e.shiftKey)
-      drawHeatmap(qwerty_shift);
-  };
 });
 
 textarea.addEventListener("input", () => {

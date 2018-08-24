@@ -34,7 +34,7 @@ body {
 }
 
 .area-content {
-    background: hsl(40, 1%, 90%);
+    background: hsl(40, 1%, 95%);
     grid-area: content;
     font-size: 1rem;
 }
@@ -56,7 +56,7 @@ body {
 /* } */
 
 .area-footer {
-    background: hsl(40, 1%, 94%);
+    background: hsl(40, 1%, 90%);
     grid-area: footer;
     font-size: 1rem;
     text-align: center;
@@ -91,6 +91,10 @@ a {
 
 a:hover {
     color: white;
+}
+
+img {
+    z-index: 1;
 }
 
 p {

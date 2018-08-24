@@ -1,9 +1,10 @@
-# kbvis
+# KeeBoMaker
 
-Visualize keyboard stroke frequency.
+A Visualization of keydown frequency, and intended to function as interactive layout maker.
 
 ## Usage
 
+* https://moriakijp.github.io/keebomaker
 * https://condescending-brattain-ed7bf3.netlify.com/
 
 ## Authors
