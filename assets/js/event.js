@@ -43,16 +43,26 @@ textarea.addEventListener("input", (e) => {
   count_char.innerHTML = 'Char...' + countChar(e.currentTarget.value);
 });
 
-select_sample.addEventListener("change", (e) => {
+select_sampletext.addEventListener("change", (e) => {
   var index = e.currentTarget.selectedIndex;
-  option[1].value = lorem;
-  option[2].value = jobs;
-  option[3].value = hhkb;
-  textarea.value = option[index].value;
+  sampletext_option[1].value = lorem;
+  sampletext_option[2].value = jobs;
+  sampletext_option[3].value = hhkb;
+  textarea.value = sampletext_option[index].value;
   count_word.innerHTML = 'Word...' + countWord(textarea.value);
-  count_char.innerHTML = 'Char...' + countChar(option[index].value);
+  count_char.innerHTML = 'Char...' + countChar(sampletext_option[index].value);
   drawHeatmap(qwerty);
 });
+
+select_layout.addEventListener("change", (e) => {
+  var index = e.currentTarget.selectedIndex;
+  layout_option[1].value = qwerty;
+  layout_option[2].value = dvorak;
+  layout_option[3].value = colemak;
+
+  drawHeatmap(layout_option[index].value);
+});
+
 
 // document.getElementById("sample-text-1").addEventListener("change", (e) => {
 //   textarea.value = jobs;
@@ -71,7 +81,7 @@ select_sample.addEventListener("change", (e) => {
 // });
 
 input_file.addEventListener("change", () => {
-  loadFile();
+  uploadFile();
   count_word.innerHTML = 'Word...' + countWord(textarea.value);
   count_char.innerHTML = 'Char...' + countChar(textarea.value);
   drawHeatmap(qwerty);

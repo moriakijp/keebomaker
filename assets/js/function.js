@@ -1,6 +1,6 @@
 //rule...lowerCamelCase. verb+Noun.
 
-const loadFile = () => {
+const uploadFile = () => {
     let file = input_file.files[0];
     console.log(file);
     if (!file) alert('Please select a File.');

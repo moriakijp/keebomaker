@@ -24,6 +24,7 @@ drawHeatmap = (layout) => {
   const blocksize = (width - margin.left - margin.right) / colsize;
 
   d3.json(layout, (errer, data) => {
+
     /* Count chars matching */
     const uploadedText = textarea.value;
     const character = Array.from(uploadedText);

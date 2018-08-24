@@ -1,6 +1,6 @@
 # KeeBoMaker
 
-A Visualization of keydown frequency, and intended to function as interactive layout maker.
+A Visualization of keydown frequency, and intended to function as interactive keyboard layout maker.
 
 ## Usage
 
