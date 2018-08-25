@@ -1,18 +1,11 @@
-function drag(d) {
-  d.fx = d3.event.x;
-  d.fy = d3.event.y;
-}
-
 const resetHeatmap = () => {
   textarea.value = "";
   // d3.select("svg").remove()
   drawHeatmap(qwerty);
 };
-
-
 drawHeatmap = (layout) => {
   const width = textarea.clientWidth;
-  console.log(width);
+  // console.log("textareacw:" + width);
   const height = width * 0.5;
   const margin = {
     top: height * 0.05,
@@ -23,8 +16,7 @@ drawHeatmap = (layout) => {
   const colsize = 14;
   const blocksize = (width - margin.left - margin.right) / colsize;
 
-  d3.json(layout, (errer, data) => {
-
+  d3.json(layout).then((data) => {
     /* Count chars matching */
     const uploadedText = textarea.value;
     const character = Array.from(uploadedText);
@@ -43,7 +35,8 @@ drawHeatmap = (layout) => {
     const max = Math.max.apply(null, data.map((d) => {
       return d.val;
     }));
-    const colorScale = d3.scale.linear().domain([min, max]).range(["#F2F1EF", "#F22613"]);
+    // const colorScale = d3.scale.linear().domain([min, max]).range(["#F2F1EF", "#F22613"]);
+    const colorScale = d3.scaleLinear().domain([min, max]).range(["#F2F1EF", "#F22613"]);
 
     d3.select("svg").remove(); // erase previous svg
 
@@ -53,6 +46,23 @@ drawHeatmap = (layout) => {
       .attr("height", height)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+    // const dragstarted = (d) => {
+    //   d3.event.sourceEvent.stopPropagation();
+    //   d3.select(this).classed("dragging", true);
+    // };
+    // const dragged = (d) => {
+    //   d3.select(this).attr("x", d.x = d3.event.x).attr("y", d.y = d3.event.y);
+    // };
+    // const dragended = (d) => {
+    //   d3.select(this).classed("dragging", false);
+    // };
+    // var drag = d3.behavior.drag()
+    //   .on("dragstart", dragstarted)
+    //   .on("drag", dragged)
+    //   .on("dragend", dragended);
 
     svg.selectAll('g').data(data).enter()
       .append('rect')
@@ -66,29 +76,41 @@ drawHeatmap = (layout) => {
       })
       .attr("width", blocksize)
       .attr("height", blocksize)
-      .attr("rx", 0)
-      .attr("ry", 0)
+      .attr("rx", 10)
+      .attr("ry", 10)
       .attr("fill", (d) => {
         return (d.char) ? colorScale(d.val) : '#FFF';
       })
       .attr('stroke', '#ccc')
-      .on("click", (d, i) => {
-        textarea.value += data[i].char;
-        count_char.innerHTML = 'Char...' + countChar(textarea.value);
-        drawHeatmap(layout);
-      })
-      //   .call(drag);
+      // .on("click", (d, i) => {
+      //   if (d3.event.defaultPrevented) return; // click suppressed
+      //   console.log("clicked!");
+      //   textarea.value += data[i].char;
+      //   count_char.innerHTML = 'Char...' + countChar(textarea.value);
+      //   drawHeatmap(layout);
+      // })
+
+      // .on("drag", (d, i) => {
+      //   d3.select(svg).attr({
+      //     'x': d3.event.x,
+      //     'y': d3.event.y
+      //   })
+      // })
+      // .call(drag)
       // .call(d3.behavior.drag())
       //   .on('drag', drag))
       .attr('stroke-dasharray', '3,3')
       .attr('stroke-linecap', 'round')
       .attr('stroke-width', '1')
       .transition()
-      // .delay(function (d, i) {
-      //   return i * 100
-      // })
-      .duration(2000)
-      .ease("elastic")
+      // .delay((d, i)=>{ return i * 100 })
+      .duration(100)
+      .ease(d3.easeExpOut)
+      .attr("rx", 20)
+      .attr("ry", 20)
+      .transition()
+      .duration(50)
+      .ease(d3.easeExpOut)
       .attr("rx", 10)
       .attr("ry", 10)
 
@@ -122,9 +144,7 @@ drawHeatmap = (layout) => {
       })
       .attr("y", 0)
       .attr("fill", "#333")
-      .style({
-        "font-size": blocksize * 0.2
-      })
+      .style("font-size", blocksize * 0.2)
       .style("text-anchor", "middle")
       .attr("transform", "translate(" + 0 + "," + 0 + ")");
 
@@ -139,48 +159,14 @@ drawHeatmap = (layout) => {
       .attr("y", (d, i) => {
         return blocksize * (data[i].row - 0.5);
       })
-      .style({
-        "font-size": blocksize * 0.2
-      })
+      .style("font-size", blocksize * 0.2)
       .style("text-anchor", "end")
       .attr("transform", "translate(" + 0 + "," + 0 + ")");
 
   });
 };
 
-//wip
-//   svg.select('rect').data(data).enter()
-//   .on('drag', () => {
-//   console.log('ab');
-//       d3.behavir.drag()
-//       .origin((d)=>{return d;})
-//         .attr({
-//           x: d3.event.x,
-//           y: d3.event.y
-//   });
-// });
 
-// //Todo
-// var drag = d3.behavior.drag()
-//     .origin(function(d) { return d; })
-//     .on("dragstart", dragstarted)
-//     .on("drag", dragged)
-//     .on("dragend", dragended);
-
-// function dragstarted(d) {
-//   d3.event.sourceEvent.stopPropagation();
-//   d3.select(this).classed("dragging", true);
-// }
-
-// function dragged(d) {
-//   d3.select(this).attr("x", d.x = d3.event.x).attr("y", d.y = d3.event.y);
-// }
-
-// function dragended(d) {
-//   d3.select(this).classed("dragging", false);
-// }
-
-//Todo
 // drag = (d) => {
 //   console.log('ab');
 //   d3.behavior.drag()

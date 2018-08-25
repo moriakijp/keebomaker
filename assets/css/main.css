@@ -133,9 +133,10 @@ textarea {
     outline: none;
     overflow-wrap: break-word;
     white-space: pre-line;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
     font-size: 2rem;
-    /* z-index: 1; */
+    /* z-index:  */
     /* &:valid { */
     /* // Hides the label */
     /* background: white; */

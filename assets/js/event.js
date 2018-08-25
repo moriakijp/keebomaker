@@ -1,36 +1,24 @@
 let layout = qwerty;
 drawHeatmap(layout);
-onkeydown = (e) => {
-  if (e.shiftKey)
-    layout = qwerty_shift;
-  drawHeatmap(layout);
-};
-
-onkeyup = (e) => {
-  if (!e.shiftKey)
-    layout = qwerty;
-  drawHeatmap(layout);
-};
-
 onresize = () => {
   drawHeatmap(layout);
 };
-
-textarea.focus();
-
-textarea.addEventListener("input", () => {
-  drawHeatmap(layout);
-});
-
-// textarea.addEventListener("input", (e) => {
-//   e.currentTarget.placeholder = countChar(e.currentTarget.value);
-// });
-
+onkeydown = (e) => {
+  if (e.shiftKey) {
+    layout = qwerty_shift;
+    drawHeatmap(layout);
+  }
+};
+onkeyup = (e) => {
+  if (!e.shiftKey) {
+    layout = qwerty;
+    drawHeatmap(layout);
+  }
+};
 
 reset.addEventListener("click", () => {
   resetHeatmap();
-  count_word.innerHTML = 'Word...' + countWord(textarea.value);
-  count_char.innerHTML = 'Char...' + countChar(textarea.value);
+  countText();
 });
 
 // const dropdown = document.getElementById("dropdown-menu");
@@ -39,9 +27,9 @@ reset.addEventListener("click", () => {
 //   dropdown.classList.toggle("is-active");
 // });
 
-textarea.addEventListener("input", (e) => {
-  count_word.innerHTML = 'Word...' + countWord(textarea.value);
-  count_char.innerHTML = 'Char...' + countChar(e.currentTarget.value);
+textarea.focus();
+textarea.addEventListener("input", () => {
+  countText();
 });
 
 select_sampletext.addEventListener("change", (e) => {
@@ -57,11 +45,12 @@ select_sampletext.addEventListener("change", (e) => {
 
 select_layout.addEventListener("change", (e) => {
   var index = e.currentTarget.selectedIndex;
-  layout_option[1].value = qwerty;
-  layout_option[2].value = dvorak;
-  layout_option[3].value = colemak;
+  layout_option[0].value = qwerty;
+  layout_option[1].value = dvorak;
+  layout_option[2].value = colemak;
+  layout = layout_option[index].value;
 
-  drawHeatmap(layout_option[index].value);
+  drawHeatmap(layout);
 });
 
 
