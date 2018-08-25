@@ -43,6 +43,7 @@ drawHeatmap = (layout) => {
     };
 
     function dragged(d) {
+      d.x = d3.event.x;
       d3.select(this)
         .attr("x", d.x = d3.event.x)
         .attr("y", d.y = d3.event.y);
@@ -61,19 +62,20 @@ drawHeatmap = (layout) => {
       .attr("width", width)
       .attr("height", height)
       .append("g")
+      // .call(drag)
       .attr("transform", `translate(${margin.left}, ${ margin.top })`)
 
     svg.selectAll('g').data(data).enter()
       .append('rect')
       .attr("id", "block")
       .attr("class", "block")
-      .call(drag)
       .attr("x", (d, r) => {
         return blocksize * (r % colsize);
       })
       .attr("y", (d, r) => {
         return blocksize * (data[r].row - 1);
       })
+      .call(drag)
       .attr("width", blocksize)
       .attr("height", blocksize)
       .attr("rx", 10)
@@ -83,7 +85,6 @@ drawHeatmap = (layout) => {
       .attr('stroke', '#ccc')
       .on("click", (d, i) => {
         // if (d3.event.defaultPrevented) return; // click suppressed
-
         textarea.value += data[i].char;
         count_char.innerHTML = 'Char...' + countChar(textarea.value);
         drawHeatmap(layout);
@@ -102,13 +103,13 @@ drawHeatmap = (layout) => {
       .ease(d3.easeExpOut)
       .attr("rx", 10)
       .attr("ry", 10)
-
     svg.selectAll('g').data(data).enter()
       .append('text')
       .text(d => d.char + "(" + d.val + ")")
       .attr("x", (d, r) => blocksize * (r % colsize))
       .attr("y", (d, r) => blocksize * (data[r].row - 1))
       .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "middle")
       .attr("fill", "#333")
       .attr("dx", blocksize / 2)
       .attr("dy", blocksize / 2)
