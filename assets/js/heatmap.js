@@ -29,45 +29,45 @@ drawHeatmap = (layout) => {
     }
 
     /* create colorScale */
-    const min = Math.min.apply(null, data.map((d) => {
-      return d.val;
-    }));
-    const max = Math.max.apply(null, data.map((d) => {
-      return d.val;
-    }));
+    const min = Math.min.apply(null, data.map(d => d.val));
+    const max = Math.max.apply(null, data.map(d => d.val));
     // const colorScale = d3.scale.linear().domain([min, max]).range(["#F2F1EF", "#F22613"]);
     const colorScale = d3.scaleLinear().domain([min, max]).range(["#F2F1EF", "#F22613"]);
 
     d3.select("svg").remove(); // erase previous svg
+
+
+    /* drag */
+    function dragstarted(d) {
+      d3.select(this).raise().classed("active", true);
+    };
+
+    function dragged(d) {
+      d3.select(this)
+        .attr("x", d.x = d3.event.x)
+        .attr("y", d.y = d3.event.y);
+    };
+
+    function dragended(d) {
+      d3.select(this).classed("active", false);
+    };
+    var drag = d3.drag()
+      .on("start", dragstarted)
+      .on("drag", dragged)
+      .on("end", dragended);
 
     /* draw heatmap */
     const svg = d3.select("#heatmap").append("svg")
       .attr("width", width)
       .attr("height", height)
       .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-
-    // const dragstarted = (d) => {
-    //   d3.event.sourceEvent.stopPropagation();
-    //   d3.select(this).classed("dragging", true);
-    // };
-    // const dragged = (d) => {
-    //   d3.select(this).attr("x", d.x = d3.event.x).attr("y", d.y = d3.event.y);
-    // };
-    // const dragended = (d) => {
-    //   d3.select(this).classed("dragging", false);
-    // };
-    // var drag = d3.behavior.drag()
-    //   .on("dragstart", dragstarted)
-    //   .on("drag", dragged)
-    //   .on("dragend", dragended);
+      .attr("transform", `translate(${margin.left}, ${ margin.top })`)
 
     svg.selectAll('g').data(data).enter()
       .append('rect')
       .attr("id", "block")
       .attr("class", "block")
+      .call(drag)
       .attr("x", (d, r) => {
         return blocksize * (r % colsize);
       })
@@ -78,27 +78,16 @@ drawHeatmap = (layout) => {
       .attr("height", blocksize)
       .attr("rx", 10)
       .attr("ry", 10)
-      .attr("fill", (d) => {
-        return (d.char) ? colorScale(d.val) : '#FFF';
-      })
+      .attr("fill", d => (d.char) ? colorScale(d.val) : '#FFF')
+      .style("opacity", 0.9)
       .attr('stroke', '#ccc')
-      // .on("click", (d, i) => {
-      //   if (d3.event.defaultPrevented) return; // click suppressed
-      //   console.log("clicked!");
-      //   textarea.value += data[i].char;
-      //   count_char.innerHTML = 'Char...' + countChar(textarea.value);
-      //   drawHeatmap(layout);
-      // })
+      .on("click", (d, i) => {
+        // if (d3.event.defaultPrevented) return; // click suppressed
 
-      // .on("drag", (d, i) => {
-      //   d3.select(svg).attr({
-      //     'x': d3.event.x,
-      //     'y': d3.event.y
-      //   })
-      // })
-      // .call(drag)
-      // .call(d3.behavior.drag())
-      //   .on('drag', drag))
+        textarea.value += data[i].char;
+        count_char.innerHTML = 'Char...' + countChar(textarea.value);
+        drawHeatmap(layout);
+      })
       .attr('stroke-dasharray', '3,3')
       .attr('stroke-linecap', 'round')
       .attr('stroke-width', '1')
@@ -116,52 +105,36 @@ drawHeatmap = (layout) => {
 
     svg.selectAll('g').data(data).enter()
       .append('text')
-      .text((d) => {
-        return d.char + "(" + d.val + ")";
-      })
-      .attr("x", (d, r) => {
-        return blocksize * (r % colsize);
-      })
-      .attr("y", (d, r) => {
-        return blocksize * (data[r].row - 1);
-      })
+      .text(d => d.char + "(" + d.val + ")")
+      .attr("x", (d, r) => blocksize * (r % colsize))
+      .attr("y", (d, r) => blocksize * (data[r].row - 1))
       .attr("text-anchor", "middle")
       .attr("fill", "#333")
       .attr("dx", blocksize / 2)
       .attr("dy", blocksize / 2)
-      .style({
-        "font-size": blocksize * 0.2
-      });
+      .style("font-size", blocksize * 0.2);
 
     const xLabels = svg.selectAll(".Label")
       .data(data)
       .enter().append("text")
-      .text((d) => {
-        return "C" + String(d.col);
-      })
-      .attr("x", (d, i) => {
-        return blocksize * ((i % colsize) + 0.5);
-      })
+      .text((d) => "C" + String(d.col))
+      .attr("x", (d, i) => blocksize * ((i % colsize) + 0.5))
       .attr("y", 0)
       .attr("fill", "#333")
       .style("font-size", blocksize * 0.2)
       .style("text-anchor", "middle")
-      .attr("transform", "translate(" + 0 + "," + 0 + ")");
+      .attr("transform", `translate(${0}, ${0})`);
 
     const yLabels = svg.selectAll(".Label")
       .data(data)
       .enter().append("text")
-      .text((d) => {
-        return "R" + String(d.row);
-      })
+      .text(d => "R" + String(d.row))
       .attr("fill", "#333")
       .attr("x", 0)
-      .attr("y", (d, i) => {
-        return blocksize * (data[i].row - 0.5);
-      })
+      .attr("y", (d, i) => blocksize * (data[i].row - 0.5))
       .style("font-size", blocksize * 0.2)
       .style("text-anchor", "end")
-      .attr("transform", "translate(" + 0 + "," + 0 + ")");
+      .attr("transform", `translate(${0}, ${0})`);
 
   });
 };

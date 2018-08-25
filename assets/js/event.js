@@ -12,7 +12,7 @@ onkeydown = (e) => {
 onkeyup = (e) => {
   if (!e.shiftKey) {
     layout = qwerty;
-    drawHeatmap(layout);
+    // drawHeatmap(layout);
   }
 };
 
@@ -90,7 +90,7 @@ input_file.addEventListener("change", () => {
 //                         d.y = d3.event.y;
 //                         d3.select(this)
 //                         .attr("transform", (d,i)=>{
-//                           return "translate(" + [ d.x, d.y ] + ")"
+//                           return "translate(${d.x}, ${ d.y })"
 //                         })
 //                       });
 
