@@ -35,11 +35,6 @@ drawHeatmap = (layout) => {
     const max = Math.max.apply(null, data.map(d => d.val));
     const colorScale = d3.scaleLinear().domain([min, max]).range(["#F2F1EF", "#F22613"]);
 
-    const createScale = (array, scaledmin, scaledmax) => {
-      const min = Math.min.apply(null, array);
-      const max = Math.max.apply(null, array);
-      return d3.scaleLinear().domain([min, max]).range([scaledmax, scaledmax]);
-    }
 
     d3.select("svg").remove(); // erase previous svg
 
@@ -133,7 +128,7 @@ drawHeatmap = (layout) => {
       .attr("dy", blocksize / 2)
       .style("font-size", d => d.val ? blocksize * 0.2 : blocksize * 0.4);
 
-    /* calc distance from home position as 'cost'  */
+    /* calc distance from home position as 'cost' */
 
     // calcAbspos = (d) => Math.floor(Math.sqrt(d.row ** 2 + d.col ** 2));
     // data[i].abspos = calcAbspos(data[i]);
@@ -154,14 +149,26 @@ drawHeatmap = (layout) => {
       }
       data[i].ave = data[i].sum / home.length;
       data[i].cost = (data[i].val * data[i].ave).toFixed(1);
-      // data[i].cost = createScale(, 0, 100);
     }
 
 
+    const mincost = Math.min.apply(null, data.map(d => d.val * d.ave));
+    const maxcost = Math.max.apply(null, data.map(d => d.val * d.ave));
+    const costScale = d3.scaleLinear().domain([mincost, maxcost]).range([0, 10]);
+    for (i in data) {
+      data[i].cost = costScale(data[i].val * data[i].ave).toFixed(0);
+    }
+
+
+
+
+
+
+    /* ************************************ */
     keys
       .append('text')
       // .attr('class', 'text')
-      .text(d => d.char ? d.cost : "")
+      .text(d => d.char && d.cost != 0 ? d.cost : "")
       .attr("x", (d, r) => blocksize * (r % colsize))
       .attr("y", (d, r) => blocksize * (data[r].row - 1))
       .attr("text-anchor", "middle")
@@ -169,7 +176,8 @@ drawHeatmap = (layout) => {
       .attr("dx", blocksize / 2)
       .attr("dy", blocksize / 2 + 20)
       .attr("fill", "orange")
-      .style("font-size", blocksize * 0.2);
+      .style("font-size", blocksize * 0.3)
+      .style("font-weight", 'bold');
 
 
     const xLabels = keys.selectAll(".Label")
