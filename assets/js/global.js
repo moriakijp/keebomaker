@@ -53,7 +53,7 @@ const countWord = (str) => {
 };
 
 const countChar = (str) => {
-  console.log(this.name);
+  // console.log(this.name);
   if (str == "") return 0;
   return str.replace(/\s/gi, "")
     //exclude all white-space

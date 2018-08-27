@@ -1,7 +1,7 @@
 const resetHeatmap = () => {
   textarea.value = "";
   // d3.select("svg").remove()
-  drawHeatmap(qwerty);
+  drawHeatmap(layout);
 };
 drawHeatmap = (layout) => {
   const width = textarea.clientWidth;
@@ -43,10 +43,15 @@ drawHeatmap = (layout) => {
     };
 
     function dragged(d) {
-      d.x = d3.event.x;
-      d3.select(this)
+      d3.select(this).select("rect")
         .attr("x", d.x = d3.event.x)
-        .attr("y", d.y = d3.event.y);
+        .attr("y", d.y = d3.event.y)
+        .attr("transform", `translate(-${margin.left+blocksize/2}, -${ margin.top+blocksize/2 })`)
+
+      d3.select(this).select("text")
+        .attr("x", d.x = d3.event.x)
+        .attr("y", d.y = d3.event.y)
+        .attr("transform", `translate(-${margin.left+blocksize/2}, -${ margin.top+blocksize/2 })`)
     };
 
     function dragended(d) {
@@ -58,24 +63,23 @@ drawHeatmap = (layout) => {
       .on("end", dragended);
 
     /* draw heatmap */
-    const svg = d3.select("#heatmap").append("svg")
+    const svg = d3
+      .select("#heatmap")
+      .append("svg")
       .attr("width", width)
       .attr("height", height)
+      .selectAll("g")
+      .data(data)
+      .enter()
       .append("g")
-      // .call(drag)
       .attr("transform", `translate(${margin.left}, ${ margin.top })`)
-
-    svg.selectAll('g').data(data).enter()
-      .append('rect')
-      .attr("id", "block")
-      .attr("class", "block")
-      .attr("x", (d, r) => {
-        return blocksize * (r % colsize);
-      })
-      .attr("y", (d, r) => {
-        return blocksize * (data[r].row - 1);
-      })
       .call(drag)
+
+    // svg.selectAll('g').data(data).enter()
+    svg
+      .append('rect')
+      .attr("x", (d, i) => blocksize * (i % colsize))
+      .attr("y", (d, i) => blocksize * (data[i].row - 1))
       .attr("width", blocksize)
       .attr("height", blocksize)
       .attr("rx", 10)
@@ -103,9 +107,11 @@ drawHeatmap = (layout) => {
       .ease(d3.easeExpOut)
       .attr("rx", 10)
       .attr("ry", 10)
-    svg.selectAll('g').data(data).enter()
+
+    // svg.selectAll('g').data(data).enter()
+    svg
       .append('text')
-      .text(d => d.char + "(" + d.val + ")")
+      .text(d => `${d.char}(${d.val})`)
       .attr("x", (d, r) => blocksize * (r % colsize))
       .attr("y", (d, r) => blocksize * (data[r].row - 1))
       .attr("text-anchor", "middle")
@@ -118,7 +124,7 @@ drawHeatmap = (layout) => {
     const xLabels = svg.selectAll(".Label")
       .data(data)
       .enter().append("text")
-      .text((d) => "C" + String(d.col))
+      .text((d) => `C${d.col}`)
       .attr("x", (d, i) => blocksize * ((i % colsize) + 0.5))
       .attr("y", 0)
       .attr("fill", "#333")
@@ -129,14 +135,13 @@ drawHeatmap = (layout) => {
     const yLabels = svg.selectAll(".Label")
       .data(data)
       .enter().append("text")
-      .text(d => "R" + String(d.row))
+      .text(d => `R${d.row}`)
       .attr("fill", "#333")
       .attr("x", 0)
       .attr("y", (d, i) => blocksize * (data[i].row - 0.5))
       .style("font-size", blocksize * 0.2)
       .style("text-anchor", "end")
       .attr("transform", `translate(${0}, ${0})`);
-
   });
 };
 
