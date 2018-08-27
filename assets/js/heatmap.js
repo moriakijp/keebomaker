@@ -1,8 +1,9 @@
-const resetHeatmap = () => {
+const resetHeatmap = (layout) => {
   textarea.value = "";
   // d3.select("svg").remove()
   drawHeatmap(layout);
 };
+
 drawHeatmap = (layout) => {
   const width = textarea.clientWidth;
   // console.log("textareacw:" + width);
@@ -31,7 +32,6 @@ drawHeatmap = (layout) => {
     /* create colorScale */
     const min = Math.min.apply(null, data.map(d => d.val));
     const max = Math.max.apply(null, data.map(d => d.val));
-    // const colorScale = d3.scale.linear().domain([min, max]).range(["#F2F1EF", "#F22613"]);
     const colorScale = d3.scaleLinear().domain([min, max]).range(["#F2F1EF", "#F22613"]);
 
     d3.select("svg").remove(); // erase previous svg
@@ -39,7 +39,7 @@ drawHeatmap = (layout) => {
 
     /* drag */
     function dragstarted(d) {
-      d3.select(this).raise().classed("active", true);
+      d3.select(this).raise().select("text").classed("active", true);
     };
 
     function dragged(d) {
@@ -55,7 +55,7 @@ drawHeatmap = (layout) => {
     };
 
     function dragended(d) {
-      d3.select(this).classed("active", false);
+      d3.select(this).select("text").classed("active", false);
     };
     var drag = d3.drag()
       .on("start", dragstarted)
@@ -74,6 +74,12 @@ drawHeatmap = (layout) => {
       .append("g")
       .attr("transform", `translate(${margin.left}, ${ margin.top })`)
       .call(drag)
+      .on("click", (d, i) => {
+        // if (d3.event.defaultPrevented) return; // click suppressed
+        textarea.value += data[i].char;
+        count_char.innerHTML = 'Char...' + countChar(textarea.value);
+        drawHeatmap(layout);
+      })
 
     // svg.selectAll('g').data(data).enter()
     svg
@@ -87,23 +93,17 @@ drawHeatmap = (layout) => {
       .attr("fill", d => (d.char) ? colorScale(d.val) : '#FFF')
       .style("opacity", 0.9)
       .attr('stroke', '#ccc')
-      .on("click", (d, i) => {
-        // if (d3.event.defaultPrevented) return; // click suppressed
-        textarea.value += data[i].char;
-        count_char.innerHTML = 'Char...' + countChar(textarea.value);
-        drawHeatmap(layout);
-      })
       .attr('stroke-dasharray', '3,3')
       .attr('stroke-linecap', 'round')
       .attr('stroke-width', '1')
       .transition()
       // .delay((d, i)=>{ return i * 100 })
-      .duration(100)
+      .duration(300)
       .ease(d3.easeExpOut)
-      .attr("rx", 20)
-      .attr("ry", 20)
+      .attr("rx", 30)
+      .attr("ry", 30)
       .transition()
-      .duration(50)
+      .duration(200)
       .ease(d3.easeExpOut)
       .attr("rx", 10)
       .attr("ry", 10)
@@ -111,7 +111,7 @@ drawHeatmap = (layout) => {
     // svg.selectAll('g').data(data).enter()
     svg
       .append('text')
-      .text(d => `${d.char}(${d.val})`)
+      .text(d => d.char ? `${d.char}(${d.val})` : "")
       .attr("x", (d, r) => blocksize * (r % colsize))
       .attr("y", (d, r) => blocksize * (data[r].row - 1))
       .attr("text-anchor", "middle")
@@ -146,18 +146,6 @@ drawHeatmap = (layout) => {
 };
 
 
-// drag = (d) => {
-//   console.log('ab');
-//   d3.behavior.drag()
-//     .on("drag", () => {
-//       d3.select(this)
-//         .attr({
-//           x: d3.event.x,
-//           y: d3.event.y
-//         })
-//     });
-// };
-
 //TODO
 // var zoom = d3.behavior.zoom()
 //     .translate(d3.select("svg").enter().translate())
@@ -176,47 +164,3 @@ drawHeatmap = (layout) => {
 //     console.log(k+ ':' + data[k]);
 // }
 //   }
-
-//todo
-// svg.selectAll('g').data(data)
-//   .on("click", ()=>{
-//   console.log(this);
-//   svg.select(this).attr("x", (d, r) => {
-//     return blocksize * (r % colsize+1);
-//   })
-//   .attr("y", (d, r) => {
-//     return blocksize * (data[r].row );
-//   });})
-
-//todo
-// d3.selectAll('#block')
-// .on('drag', drag )
-// .call(drag)
-// .call(d3.behavior.drag()
-//   .on("start", dragstarted)
-//   .on("drag", dragged)
-//   .on("end", dragended));
-
-// function dragstarted(d) {
-//   if (!d3.event.active) line_force.alphaTarget(0.3).restart();
-//   d.fx = d.x;
-//   d.fy = d.y;
-// }
-
-// function drag(d) {
-//   d.x = d3.event.x;
-//   d.y = d3.event.y;
-// }
-
-// function dragended(d) {
-//   if (!d3.event.active) line_force.alphaTarget(0);
-//   d.fx = null;
-//   d.fy = null;
-// }
-
-// var drag = d3.behavior.drag()
-//             .on("drag", function(d) {
-//               d.x = d3.event.x;
-//               d.y = d3.event.y;
-//               d3.select(this).attr("x", d.x).attr("y", d.y);
-//             });
