@@ -7,7 +7,7 @@ const resetHeatmap = (layout) => {
 drawHeatmap = (layout) => {
   const width = textarea.clientWidth;
   // console.log("textareacw:" + width);
-  const height = width * 0.5;
+  const height = innerHeight;
   const margin = {
     top: height * 0.05,
     bottom: height * 0.05,
@@ -17,7 +17,9 @@ drawHeatmap = (layout) => {
   const colsize = 14;
   const blocksize = (width - margin.left - margin.right) / colsize;
 
+
   d3.json(layout).then((data) => {
+
     /* Count chars matching */
     const uploadedText = textarea.value;
     const character = Array.from(uploadedText);
@@ -28,6 +30,11 @@ drawHeatmap = (layout) => {
         }
       }
     }
+
+
+    // /* Create layout.json from user input layout */
+    // for (i in data) data[i].val = 0;
+    // data[0].cost = '1';
 
     /* create colorScale */
     const min = Math.min.apply(null, data.map(d => d.val));
@@ -63,7 +70,7 @@ drawHeatmap = (layout) => {
       .on("end", dragended);
 
     /* draw heatmap */
-    const svg = d3
+    const keys = d3
       .select("#heatmap")
       .append("svg")
       .attr("width", width)
@@ -82,7 +89,7 @@ drawHeatmap = (layout) => {
       })
 
     // svg.selectAll('g').data(data).enter()
-    svg
+    keys
       .append('rect')
       .attr("x", (d, i) => blocksize * (i % colsize))
       .attr("y", (d, i) => blocksize * (data[i].row - 1))
@@ -108,10 +115,13 @@ drawHeatmap = (layout) => {
       .attr("rx", 10)
       .attr("ry", 10)
 
-    // svg.selectAll('g').data(data).enter()
-    svg
+    keys
       .append('text')
-      .text(d => d.char ? `${d.char}(${d.val})` : "")
+      .text(d => {
+        if (d.char && d.val) return `${d.char}(${d.val})`;
+        else if (d.char) return `${d.char}`;
+        else return "";
+      })
       .attr("x", (d, r) => blocksize * (r % colsize))
       .attr("y", (d, r) => blocksize * (data[r].row - 1))
       .attr("text-anchor", "middle")
@@ -119,9 +129,9 @@ drawHeatmap = (layout) => {
       .attr("fill", "#333")
       .attr("dx", blocksize / 2)
       .attr("dy", blocksize / 2)
-      .style("font-size", blocksize * 0.2);
+      .style("font-size", d => d.val ? blocksize * 0.2 : blocksize * 0.4);
 
-    const xLabels = svg.selectAll(".Label")
+    const xLabels = keys.selectAll(".Label")
       .data(data)
       .enter().append("text")
       .text((d) => `C${d.col}`)
@@ -132,7 +142,7 @@ drawHeatmap = (layout) => {
       .style("text-anchor", "middle")
       .attr("transform", `translate(${0}, ${0})`);
 
-    const yLabels = svg.selectAll(".Label")
+    const yLabels = keys.selectAll(".Label")
       .data(data)
       .enter().append("text")
       .text(d => `R${d.row}`)
