@@ -1,9 +1,3 @@
-const resetHeatmap = (layout) => {
-  textarea.value = "";
-  // d3.select("svg").remove()
-  drawHeatmap(layout);
-};
-
 drawHeatmap = (layout) => {
   const width = textarea.clientWidth;
   // console.log("textareacw:" + width);
@@ -41,12 +35,19 @@ drawHeatmap = (layout) => {
     const max = Math.max.apply(null, data.map(d => d.val));
     const colorScale = d3.scaleLinear().domain([min, max]).range(["#F2F1EF", "#F22613"]);
 
+    const createScale = (array, scaledmin, scaledmax) => {
+      const min = Math.min.apply(null, array);
+      const max = Math.max.apply(null, array);
+      return d3.scaleLinear().domain([min, max]).range([scaledmax, scaledmax]);
+    }
+
     d3.select("svg").remove(); // erase previous svg
 
 
     /* drag */
     function dragstarted(d) {
       d3.select(this).raise().select("text").classed("active", true);
+      console.log('this: ', this);
     };
 
     function dragged(d) {
@@ -59,6 +60,7 @@ drawHeatmap = (layout) => {
         .attr("x", d.x = d3.event.x)
         .attr("y", d.y = d3.event.y)
         .attr("transform", `translate(-${margin.left+blocksize/2}, -${ margin.top+blocksize/2 })`)
+
     };
 
     function dragended(d) {
@@ -88,7 +90,7 @@ drawHeatmap = (layout) => {
         drawHeatmap(layout);
       })
 
-    // svg.selectAll('g').data(data).enter()
+
     keys
       .append('rect')
       .attr("x", (d, i) => blocksize * (i % colsize))
@@ -115,8 +117,8 @@ drawHeatmap = (layout) => {
       .attr("rx", 10)
       .attr("ry", 10)
 
-    keys
-      .append('text')
+    keys.append('text')
+      // .attr('class', 'text')
       .text(d => {
         if (d.char && d.val) return `${d.char}(${d.val})`;
         else if (d.char) return `${d.char}`;
@@ -130,6 +132,45 @@ drawHeatmap = (layout) => {
       .attr("dx", blocksize / 2)
       .attr("dy", blocksize / 2)
       .style("font-size", d => d.val ? blocksize * 0.2 : blocksize * 0.4);
+
+    /* calc distance from home position as 'cost'  */
+
+    // calcAbspos = (d) => Math.floor(Math.sqrt(d.row ** 2 + d.col ** 2));
+    // data[i].abspos = calcAbspos(data[i]);
+
+    const home = [];
+    const homerow = [3]
+    const homecol = [2, 3, 4, 5, 8, 9, 10, 11];
+    for (i in data)
+      if (homerow.includes(data[i].row) && homecol.includes(data[i].col))
+        home.push(data[i]);
+
+    calcRelpos = (d, i) => Math.sqrt((d.row - i.row) ** 2 + (d.col - i.col) ** 2);
+
+    for (i in data) {
+      data[i].sum = 0;
+      for (j in home) {
+        data[i].sum += data[i].relpos = calcRelpos(home[j], data[i]);
+      }
+      data[i].ave = data[i].sum / home.length;
+      data[i].cost = (data[i].val * data[i].ave).toFixed(1);
+      // data[i].cost = createScale(, 0, 100);
+    }
+
+
+    keys
+      .append('text')
+      // .attr('class', 'text')
+      .text(d => d.char ? d.cost : "")
+      .attr("x", (d, r) => blocksize * (r % colsize))
+      .attr("y", (d, r) => blocksize * (data[r].row - 1))
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "middle")
+      .attr("dx", blocksize / 2)
+      .attr("dy", blocksize / 2 + 20)
+      .attr("fill", "orange")
+      .style("font-size", blocksize * 0.2);
+
 
     const xLabels = keys.selectAll(".Label")
       .data(data)
@@ -152,6 +193,7 @@ drawHeatmap = (layout) => {
       .style("font-size", blocksize * 0.2)
       .style("text-anchor", "end")
       .attr("transform", `translate(${0}, ${0})`);
+
   });
 };
 

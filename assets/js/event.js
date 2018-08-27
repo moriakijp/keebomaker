@@ -17,7 +17,7 @@ onkeyup = (e) => {
 };
 
 reset.addEventListener("click", () => {
-  resetHeatmap();
+  textarea.value = "";
   countText();
 });
 
@@ -37,6 +37,7 @@ select_sampletext.addEventListener("change", (e) => {
   sampletext_option[1].value = lorem;
   sampletext_option[2].value = jobs;
   sampletext_option[3].value = hhkb;
+  sampletext_option[4].value = alpha;
   textarea.value = sampletext_option[index].value;
   count_word.innerHTML = 'Word...' + countWord(textarea.value);
   count_char.innerHTML = 'Char...' + countChar(sampletext_option[index].value);
