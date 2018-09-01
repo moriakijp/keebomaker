@@ -1,105 +1,195 @@
-drawHeatmap = (layout) => {
+// import * as d3 from 'd3'
+// import {
+//   downloadable
+// } from 'd3-downloadable'
+
+// d3.select('svg#chart')
+//   .call(downloadable());
+
+drawHeatmap = layout => {
   const width = textarea.clientWidth;
-  // console.log("textareacw:" + width);
   const height = innerHeight;
   const margin = {
     top: height * 0.05,
     bottom: height * 0.05,
     left: width * 0.05,
     right: width * 0.05
-  }
+  };
   const colsize = 14;
   const blocksize = (width - margin.left - margin.right) / colsize;
 
-
-  d3.json(layout).then((data) => {
-
-    /* Count chars matching */
-    const uploadedText = textarea.value;
-    const character = Array.from(uploadedText);
-    for (let j in character) {
-      for (let i in data) {
-        if (character[j].toUpperCase() == data[i].char) {
-          data[i].val++;
-        }
-      }
-    }
-
-
-    // /* Create layout.json from user input layout */
-    // for (i in data) data[i].val = 0;
-    // data[0].cost = '1';
-
-    /* create colorScale */
-    const min = Math.min.apply(null, data.map(d => d.val));
-    const max = Math.max.apply(null, data.map(d => d.val));
-    const colorScale = d3.scaleLinear().domain([min, max]).range(["#F2F1EF", "#F22613"]);
-
-
+  d3.json(layout).then(data => {
     d3.select("svg").remove(); // erase previous svg
 
+    const letters = Array.from(textarea.value);
+    console.log('letters : ', letters);
+    let matched = [];
+    let current = [];
+    let prev = [];
+    const home = [];
+    const homerow = [3];
+    const homecol = [2, 3, 4, 5, 8, 9, 10, 11];
+    const calcRelpos = (d, i) => Math.sqrt((d.row - i.row) ** 2 + (d.col - i.col) ** 2);
 
-    /* drag */
+    /* COUNT COST */
+    for (j in letters)
+      for (i in data)
+        if (letters[j].toUpperCase() == data[i].char)
+          data[i].count++;
+
+    /* DISTANCE COST */
+    // for (j in letters) {
+    //   for (i in data) {
+    //     // if (i == letters[0]) matched.push(data[i]);
+    //     if (letters[j].toUpperCase() == data[i].char) {
+    //       prev.push(current.length != 0 ? current : data[i])
+    //       current.push(data[i])
+    //       console.log('current: ', current);
+    //       console.log('prev: ', prev);
+    //       data[i].dist = calcRelpos(current.shift(), prev.shift());
+    //       console.log(`data[${i}].dist: `, data[i].dist);
+    //       // if (letters[0]) prevc.push(data[i])
+    // if (letters[j] == letters[0]) matched.push(data[i]);
+    // console.log(Array.of(data[i].dist));
+    //     }
+    //   }
+    // }
+
+
+
+
+    // console.log(matched);
+    // console.log(matched.length);
+
+    // for (i in matched) {
+    //   current = data[i]
+    //   prev = data.length ? data[data.length - 1] : current
+    //   data[i].dist = calcRelpos(current, prev);
+    //   console.log(`data[${i}].dist: `, data[i].dist);
+    // }
+
+
+    // console.log(`data[${i}].dist: `, data[i].dist.toFixed(1));
+    // data[i].dist = (data[i] != data[0]) ? calcRelpos(, data[i]) : 0;
+
+    // for (j in letters)
+    //   for (i in data)
+    //     if (letters[j].toUpperCase() == data[i].char)
+    //       matched.push(data[i]);
+    // console.log('matched: ', matched);
+
+    // for (i in data) data[i].dist = 0;
+    // for (j in matched) {
+    //   for (i in data) {
+    //     if (matched[j] == data[i])
+    //       data[i].dist = calcRelpos(matched[j], data[i]);
+    //   }
+    //   console.log('data[i].dist: ', data[i].dist);
+    // }
+
+    /* POSITION COST */
+    for (i in data)
+      if (homerow.includes(data[i].row) && homecol.includes(data[i].col))
+        home.push(data[i]);
+    for (i in data) {
+      data[i].sum = 0;
+      for (j in home)
+        data[i].sum += calcRelpos(home[j], data[i]);
+      data[i].pos = data[i].sum / home.length;
+    }
+
+    /* CALC AND SCALE */
+    for (i in data) data[i].cost = (data[i].count * data[i].pos);
+    const costmin = Math.min.apply(null, data.map(d => d.cost));
+    const costmax = Math.max.apply(null, data.map(d => d.cost));
+    const costScale = d3.scaleLinear().domain([costmin, costmax]).range([0, 10]);
+    for (i in data) data[i].cost = costScale(data[i].cost).toFixed(0);
+
+    /* CREATE COLORSCALE */
+    const countmin = Math.min.apply(null, data.map(d => d.count));
+    const countmax = Math.max.apply(null, data.map(d => d.count));
+    const colorScale = d3.scaleLinear().domain([countmin, countmax]).range(["#F2F1EF", "#F22613"]);
+
+    /* DRAG BEHAVIOR */
     function dragstarted(d) {
       d3.select(this).raise().select("text").classed("active", true);
-      console.log('this: ', this);
-    };
+    }
 
     function dragged(d) {
       d3.select(this).select("rect")
-        .attr("x", d.x = d3.event.x)
-        .attr("y", d.y = d3.event.y)
-        .attr("transform", `translate(-${margin.left+blocksize/2}, -${ margin.top+blocksize/2 })`)
-
-      d3.select(this).select("text")
-        .attr("x", d.x = d3.event.x)
-        .attr("y", d.y = d3.event.y)
-        .attr("transform", `translate(-${margin.left+blocksize/2}, -${ margin.top+blocksize/2 })`)
-
-    };
+        .attr("x", (d.x = d3.event.x))
+        .attr("y", (d.y = d3.event.y))
+        .attr(
+          "transform",
+          `translate(-${margin.left + blocksize / 2}, -${margin.top +
+            blocksize / 2})`
+        );
+      d3.select(this).selectAll("text.char")
+        .attr("x", (d.x = d3.event.x))
+        .attr("y", (d.y = d3.event.y))
+        .attr(
+          "transform",
+          `translate(-${margin.left + blocksize / 2}, -${margin.top +
+            blocksize / 2})`
+        );
+      d3.select(this).selectAll("text.cost")
+        .attr("x", (d.x = d3.event.x))
+        .attr("y", (d.y = d3.event.y))
+        .attr(
+          "transform",
+          `translate(-${margin.left + blocksize / 2}, -${margin.top +
+            blocksize / 2})`
+        );
+    }
 
     function dragended(d) {
-      d3.select(this).select("text").classed("active", false);
-    };
-    var drag = d3.drag()
+      d3
+        .select(this)
+        .select("text")
+        .classed("active", false);
+    }
+
+    var drag = d3
+      .drag()
       .on("start", dragstarted)
       .on("drag", dragged)
       .on("end", dragended);
 
-    /* draw heatmap */
+    /* DRAW HEATMAP */
     const keys = d3
       .select("#heatmap")
       .append("svg")
       .attr("width", width)
       .attr("height", height)
+      .style("font-family", "Arial")
       .selectAll("g")
       .data(data)
       .enter()
       .append("g")
-      .attr("transform", `translate(${margin.left}, ${ margin.top })`)
+      .attr('id', 'key')
+      .attr("transform", `translate(${margin.left}, ${margin.top})`)
       .call(drag)
       .on("click", (d, i) => {
         // if (d3.event.defaultPrevented) return; // click suppressed
         textarea.value += data[i].char;
-        count_char.innerHTML = 'Char...' + countChar(textarea.value);
+        count_char.innerHTML = "Char..." + countChar(textarea.value);
         drawHeatmap(layout);
-      })
-
+      });
 
     keys
-      .append('rect')
+      .append("rect")
       .attr("x", (d, i) => blocksize * (i % colsize))
       .attr("y", (d, i) => blocksize * (data[i].row - 1))
       .attr("width", blocksize)
       .attr("height", blocksize)
       .attr("rx", 10)
       .attr("ry", 10)
-      .attr("fill", d => (d.char) ? colorScale(d.val) : '#FFF')
+      .attr("fill", d => (d.char ? colorScale(d.count) : "#FFF"))
       .style("opacity", 0.9)
-      .attr('stroke', '#ccc')
-      .attr('stroke-dasharray', '3,3')
-      .attr('stroke-linecap', 'round')
-      .attr('stroke-width', '1')
+      .attr("stroke", "#ccc")
+      .attr("stroke-dasharray", "3,3")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", "1")
       .transition()
       // .delay((d, i)=>{ return i * 100 })
       .duration(300)
@@ -112,10 +202,11 @@ drawHeatmap = (layout) => {
       .attr("rx", 10)
       .attr("ry", 10)
 
-    keys.append('text')
-      // .attr('class', 'text')
+    keys
+      .append("text")
+      .attr('class', 'char')
       .text(d => {
-        if (d.char && d.val) return `${d.char}(${d.val})`;
+        if (d.char && d.count) return `${d.char}(${d.count})`;
         else if (d.char) return `${d.char}`;
         else return "";
       })
@@ -123,52 +214,15 @@ drawHeatmap = (layout) => {
       .attr("y", (d, r) => blocksize * (data[r].row - 1))
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "middle")
-      .attr("fill", "#333")
       .attr("dx", blocksize / 2)
       .attr("dy", blocksize / 2)
-      .style("font-size", d => d.val ? blocksize * 0.2 : blocksize * 0.4);
+      .attr("fill", "#333")
+      .style("font-size", d => (d.count ? blocksize * 0.2 : blocksize * 0.4))
 
-    /* calc distance from home position as 'cost' */
-
-    // calcAbspos = (d) => Math.floor(Math.sqrt(d.row ** 2 + d.col ** 2));
-    // data[i].abspos = calcAbspos(data[i]);
-
-    const home = [];
-    const homerow = [3]
-    const homecol = [2, 3, 4, 5, 8, 9, 10, 11];
-    for (i in data)
-      if (homerow.includes(data[i].row) && homecol.includes(data[i].col))
-        home.push(data[i]);
-
-    calcRelpos = (d, i) => Math.sqrt((d.row - i.row) ** 2 + (d.col - i.col) ** 2);
-
-    for (i in data) {
-      data[i].sum = 0;
-      for (j in home) {
-        data[i].sum += data[i].relpos = calcRelpos(home[j], data[i]);
-      }
-      data[i].ave = data[i].sum / home.length;
-      data[i].cost = (data[i].val * data[i].ave).toFixed(1);
-    }
-
-
-    const mincost = Math.min.apply(null, data.map(d => d.val * d.ave));
-    const maxcost = Math.max.apply(null, data.map(d => d.val * d.ave));
-    const costScale = d3.scaleLinear().domain([mincost, maxcost]).range([0, 10]);
-    for (i in data) {
-      data[i].cost = costScale(data[i].val * data[i].ave).toFixed(0);
-    }
-
-
-
-
-
-
-    /* ************************************ */
     keys
-      .append('text')
-      // .attr('class', 'text')
-      .text(d => d.char && d.cost != 0 ? d.cost : "")
+      .append("text")
+      .attr('class', 'cost')
+      .text(d => (d.char && d.cost != 0 ? d.cost : ""))
       .attr("x", (d, r) => blocksize * (r % colsize))
       .attr("y", (d, r) => blocksize * (data[r].row - 1))
       .attr("text-anchor", "middle")
@@ -177,23 +231,26 @@ drawHeatmap = (layout) => {
       .attr("dy", blocksize / 2 + 20)
       .attr("fill", "orange")
       .style("font-size", blocksize * 0.3)
-      .style("font-weight", 'bold');
+    // .style("font-weight", "bold")
 
-
-    const xLabels = keys.selectAll(".Label")
+    const xLabels = keys
+      .selectAll(".Label")
       .data(data)
-      .enter().append("text")
-      .text((d) => `C${d.col}`)
-      .attr("x", (d, i) => blocksize * ((i % colsize) + 0.5))
+      .enter()
+      .append("text")
+      .text(d => `C${d.col}`)
+      .attr("x", (d, i) => blocksize * (i % colsize + 0.5))
       .attr("y", 0)
       .attr("fill", "#333")
       .style("font-size", blocksize * 0.2)
       .style("text-anchor", "middle")
       .attr("transform", `translate(${0}, ${0})`);
 
-    const yLabels = keys.selectAll(".Label")
+    const yLabels = keys
+      .selectAll(".Label")
       .data(data)
-      .enter().append("text")
+      .enter()
+      .append("text")
       .text(d => `R${d.row}`)
       .attr("fill", "#333")
       .attr("x", 0)
@@ -201,10 +258,8 @@ drawHeatmap = (layout) => {
       .style("font-size", blocksize * 0.2)
       .style("text-anchor", "end")
       .attr("transform", `translate(${0}, ${0})`);
-
   });
 };
-
 
 //TODO
 // var zoom = d3.behavior.zoom()
