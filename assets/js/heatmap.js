@@ -123,8 +123,17 @@ drawHeatmap = layout => {
           "transform",
           `translate(-${margin.left + blocksize / 2}, -${margin.top +
             blocksize / 2})`
+
         );
       d3.select(this).selectAll("text.char")
+        .attr("x", (d.x = d3.event.x))
+        .attr("y", (d.y = d3.event.y))
+        .attr(
+          "transform",
+          `translate(-${margin.left + blocksize / 2}, -${margin.top +
+            blocksize / 2})`
+        );
+      d3.select(this).selectAll("text.count")
         .attr("x", (d.x = d3.event.x))
         .attr("y", (d.y = d3.event.y))
         .attr(
@@ -190,6 +199,9 @@ drawHeatmap = layout => {
       .attr("stroke-dasharray", "3,3")
       .attr("stroke-linecap", "round")
       .attr("stroke-width", "1")
+      // .on("click", (d, i) => {
+      // d3.select(this)
+      // .select("rect")
       .transition()
       // .delay((d, i)=>{ return i * 100 })
       .duration(300)
@@ -200,16 +212,13 @@ drawHeatmap = layout => {
       .duration(200)
       .ease(d3.easeExpOut)
       .attr("rx", 10)
-      .attr("ry", 10)
+      .attr("ry", 10);
+    // })
 
     keys
       .append("text")
       .attr('class', 'char')
-      .text(d => {
-        if (d.char && d.count) return `${d.char}(${d.count})`;
-        else if (d.char) return `${d.char}`;
-        else return "";
-      })
+      .text(d => d.char)
       .attr("x", (d, r) => blocksize * (r % colsize))
       .attr("y", (d, r) => blocksize * (data[r].row - 1))
       .attr("text-anchor", "middle")
@@ -221,14 +230,28 @@ drawHeatmap = layout => {
 
     keys
       .append("text")
+      .attr('class', 'count')
+      .text(d => (d.char && d.count != 0 ? d.count : ""))
+      .attr("x", (d, r) => blocksize * (r % colsize))
+      .attr("y", (d, r) => blocksize * (data[r].row - 1))
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "middle")
+      .attr("dx", blocksize * 0.5)
+      .attr("dy", blocksize * 0.2)
+      .attr("fill", "orange")
+      .style("font-size", blocksize * 0.3)
+    // .style("font-weight", "bold")
+
+    keys
+      .append("text")
       .attr('class', 'cost')
       .text(d => (d.char && d.cost != 0 ? d.cost : ""))
       .attr("x", (d, r) => blocksize * (r % colsize))
       .attr("y", (d, r) => blocksize * (data[r].row - 1))
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "middle")
-      .attr("dx", blocksize / 2)
-      .attr("dy", blocksize / 2 + 20)
+      .attr("dx", blocksize * 0.5)
+      .attr("dy", blocksize * 0.8)
       .attr("fill", "orange")
       .style("font-size", blocksize * 0.3)
     // .style("font-weight", "bold")
