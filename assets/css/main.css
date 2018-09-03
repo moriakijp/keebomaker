@@ -15,7 +15,7 @@ body {
     min-height: 100vh;
     grid-template-columns: 20vw 80vw;
     grid-template-rows: 40px 1fr 40px;
-    grid-template-areas: 'header header' 'left content' 'footer footer';
+    grid-template-areas: 'header header''left content''footer footer';
     font-family: 'Avenir', 'Helvetica Neue', 'Helvetica', 'Arial', 'Hiragino Sans', 'ヒラギノ角ゴシック', 'Yu Gothic', 'メイリオ', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
 }
 
@@ -61,21 +61,13 @@ body {
 }
 
 /* @media (max-width: 960px) { */
-
 /* .container { */
-
 /* grid-template-areas: "header" "content" "footer"; */
-
 /* grid-template-columns: 1fr; */
-
 /* grid-template-rows: autoHeader 1frContent */
-
 /* auto; */
-
 /* } */
-
 /* } */
-
 .area-footer {
     background: hsl(40, 1%, 90%);
     grid-area: footer;
@@ -166,37 +158,21 @@ label {
 }
 
 /* textarea { */
-
 /* display: block; */
-
 /* resize: none; */
-
 /* } */
-
 /* go-right */
-
 /* .area-content>label { */
-
 /* right: 100%; */
-
 /* width: 100%; */
-
 /* margin-right: -100%; */
-
 /* } */
-
 /* textarea:focus+label { */
-
 /* right: 0; */
-
 /* margin-right: 0; */
-
 /* width: 40%; */
-
 /* padding-top: 5px; */
-
 /* } */
-
 textarea::placeholder {
     font-size: 4rem;
     font-weight: bold;

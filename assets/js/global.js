@@ -1,33 +1,43 @@
 /* data */
 
-const qwerty = "data/qwerty.json";
+const qwerty = 'data/qwerty.json';
 
-const dvorak = "data/dvorak.json";
+const dvorak = 'data/dvorak.json';
 
-const colemak = "data/colemak.json";
+const colemak = 'data/colemak.json';
 
-const qwerty_shift = "data/qwerty-shift.json";
+const qwerty_shift = 'data/qwerty-shift.json';
 
 
 /* element */
 
-const reset = document.getElementById("button-reset");
+const button_reset = document.getElementById('button-reset');
 
-const select_sampletext = document.querySelector("#select-sampletext");
+const select_sampletext = document.querySelector('#select-sampletext');
 
-const sampletext_option = document.querySelectorAll("#select-sampletext option");
+const sampletext_option = document.querySelectorAll('#select-sampletext option');
 
-const select_layout = document.querySelector("#select-layout");
+const select_layout = document.querySelector('#select-layout');
 
-const layout_option = document.querySelectorAll("#select-layout option");
+const layout_option = document.querySelectorAll('#select-layout option');
 
 const input_file = document.getElementById('input-file');
 
-const textarea = document.getElementById('textarea');
+const textarea_main = document.getElementById('textarea-main');
 
-const count_char = document.getElementById("count-char");
+const count_char = document.getElementById('count-char');
 
-const count_word = document.getElementById("count-word");
+const count_word = document.getElementById('count-word');
+
+const check_shift = document.getElementById('check-shift');
+
+const check_count = document.getElementById('check-count');
+
+const check_cost = document.getElementById('check-cost');
+
+const check_color = document.getElementById('check-color');
+
+/* flag */
 
 
 /* function */
@@ -37,34 +47,34 @@ const uploadFile = () => {
   // console.log(file);
   if (!file) alert('Please select a File.');
   let reader = new FileReader();
-  reader.onload = () => textarea.value = reader.result;
+  reader.onload = () => textarea_main.value = reader.result;
   reader.readAsText(file);
 };
 
 const countWord = (str) => {
-  if (str == "") return 0;
-  return str.replace(/(^\s*)|(\s*$)/gi, "")
+  if (str == '') return 0;
+  return str.replace(/(^\s*)|(\s*$)/gi, '')
     //exclude start and end white-space
-    .replace(/[\s]{2,}/gi, " ")
+    .replace(/[\s]{2,}/gi, ' ')
     //convert 2 or more spaces to 1
-    .replace(/\n /, "\n")
+    .replace(/\n /, '\n')
     // exclude newline with a start spacing
     .split(/\s+/).length;
 };
 
 const countChar = (str) => {
   // console.log(this.name);
-  if (str == "") return 0;
-  return str.replace(/\s/gi, "")
+  if (str == '') return 0;
+  return str.replace(/\s/gi, '')
     //exclude all white-space
-    .replace(/[\n]*/gi, "")
+    .replace(/[\n]*/gi, '')
     //exclude all newline
-    .split("").length;
+    .split('').length;
 };
 
 const countText = () => {
-  count_word.innerHTML = 'Word...' + countWord(textarea.value);
-  count_char.innerHTML = 'Char...' + countChar(textarea.value);
+  count_word.innerHTML = 'Word...' + countWord(textarea_main.value);
+  count_char.innerHTML = 'Char...' + countChar(textarea_main.value);
   drawHeatmap(layout);
 }
 
@@ -80,36 +90,36 @@ const countText = () => {
 
 
 // function sns_window(sns, share_url, share_title) {
-//     var size = "";
-//     var url = "";
+//     var size = '';
+//     var url = '';
 //     switch (sns) {
 //         case 'Facebook':
-//             size = "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=800, width=600";
-//             url = "//www.facebook.com/sharer.php?src=bm&u=" + share_url + "&t=" + share_title;
+//             size = 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=800, width=600';
+//             url = '//www.facebook.com/sharer.php?src=bm&u=' + share_url + '&t=' + share_title;
 //             break;
 
 //         case 'Twitter':
-//             size = "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400, width=600";
-//             url = "//twitter.com/share?url=" + share_url + "&text=" + share_title;
+//             size = 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400, width=600';
+//             url = '//twitter.com/share?url=' + share_url + '&text=' + share_title;
 //             break;
 
 //         case 'Google':
-//             size = "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600, width=500";
-//             url = "//plus.google.com/share?url=" + share_url;
+//             size = 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600, width=500';
+//             url = '//plus.google.com/share?url=' + share_url;
 //             break;
 
 //         case 'Hatena':
-//             size = "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600, width=1000";
-//             url = "//b.hatena.ne.jp/entry/" + share_url;
+//             size = 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600, width=1000';
+//             url = '//b.hatena.ne.jp/entry/' + share_url;
 //             break;
 
 //         case 'Pocket':
-//             size = "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500, width=800";
-//             url = "//getpocket.com/edit?url=" + share_url + "&title=" + share_title;
+//             size = 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500, width=800';
+//             url = '//getpocket.com/edit?url=' + share_url + '&title=' + share_title;
 //             break;
 
 //         case 'LINE':
-//             url = "//line.me/R/msg/text/?" + share_title + "%0A" + share_url;
+//             url = '//line.me/R/msg/text/?' + share_title + '%0A' + share_url;
 //             break;
 
 //         default:

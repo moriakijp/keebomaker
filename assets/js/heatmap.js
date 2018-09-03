@@ -7,7 +7,7 @@
 //   .call(downloadable());
 
 drawHeatmap = layout => {
-  const width = textarea.clientWidth;
+  const width = textarea_main.clientWidth;
   const height = innerHeight;
   const margin = {
     top: height * 0.05,
@@ -21,7 +21,7 @@ drawHeatmap = layout => {
   d3.json(layout).then(data => {
     d3.select('svg').remove(); // erase previous svg
 
-    const letters = Array.from(textarea.value);
+    const letters = Array.from(textarea_main.value);
     // console.log('letters : ', letters);
     let matched = [];
     let current = [];
@@ -113,7 +113,8 @@ drawHeatmap = layout => {
     const colorScale = d3.scaleLinear().domain([countmin, countmax]).range(['#F2F1EF', '#F22613']);
 
     /* DRAG BEHAVIOR */
-    //this = nodes[i]
+    //this = nodes[i] !=document.getElementById('keys')
+
     const dragstarted = (d, i, nodes) => {
       d3.select(nodes[i]).raise().select('text').classed('active', true);
     }
@@ -166,13 +167,31 @@ drawHeatmap = layout => {
       .on('drag', dragged)
       .on('end', dragended);
 
+    const easeKeys = (d, i, nodes) => {
+      console.log('nodes[i]: ', nodes[i]);
+      d3.select(nodes[i])
+        .transition()
+        // .delay((d, i)=>{ return i * 100 })
+        .duration(300)
+        .ease(d3.easeExpOut)
+        .attr('rx', 30)
+        .attr('ry', 30)
+        .transition()
+        .duration(200)
+        .ease(d3.easeExpOut)
+        .attr('rx', 10)
+        .attr('ry', 10);
+    }
+
     /* DRAW HEATMAP */
-    const keys = d3
-      .select('#heatmap')
+    const svg = d3.select('#heatmap')
       .append('svg')
       .attr('width', width)
       .attr('height', height)
       .style('font-family', 'Arial')
+
+    const keys = d3
+      .select('svg')
       .selectAll('g')
       .data(data)
       .enter()
@@ -180,11 +199,12 @@ drawHeatmap = layout => {
       .attr('id', 'key')
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
       .call(drag)
-      .on('click', (d, i) => {
+      .on('click', (d, i, nodes) => {
         // if (d3.event.defaultPrevented) return; // click suppressed
-        textarea.value += data[i].char;
-        count_char.innerHTML = 'Char...' + countChar(textarea.value);
+        textarea_main.value += data[i].char;
+        count_char.innerHTML = 'Char...' + countChar(textarea_main.value);
         drawHeatmap(layout);
+        easeKeys(d, i, nodes);
       });
 
     keys
@@ -195,32 +215,18 @@ drawHeatmap = layout => {
       .attr('height', blocksize)
       .attr('rx', 10)
       .attr('ry', 10)
-      .attr('fill', d => (d.char ? colorScale(d.count) : '#FFF'))
+      .attr('fill', d => (d.char && check_color.checked ? colorScale(d.count) : '#FFF'))
       .style('opacity', 0.9)
       .attr('stroke', '#ccc')
       .attr('stroke-dasharray', '3,3')
       .attr('stroke-linecap', 'round')
       .attr('stroke-width', '1')
       .attr('cursor', 'move')
-      .on('mouseover', (d, i, nodes) => {
-        d3.select(nodes[i]).select('rect').attr('class', 'selected')
-        console.log('keys: ', keys.rect);
-      })
-      // .on('click', (d, i) => {
-      // d3.select(this)
-      // .select('rect')
-      .transition()
-      // .delay((d, i)=>{ return i * 100 })
-      .duration(300)
-      .ease(d3.easeExpOut)
-      .attr('rx', 30)
-      .attr('ry', 30)
-      .transition()
-      .duration(200)
-      .ease(d3.easeExpOut)
-      .attr('rx', 10)
-      .attr('ry', 10);
+    // .on('mouseover', (d, i, nodes) => {
+    // d3.select(nodes[i]).select('rect').attr('class', 'selected')
+    // console.log('keys: ', keys.rect);
     // })
+    // .on('click', (d, i, nodes) => {})
 
     keys
       .append('text')
@@ -232,36 +238,37 @@ drawHeatmap = layout => {
       .attr('dominant-baseline', 'middle')
       .attr('dx', blocksize / 2)
       .attr('dy', blocksize / 2)
-      .attr('fill', '#333')
-      .style('font-size', d => (d.count ? blocksize * 0.2 : blocksize * 0.4))
+      .attr('fill', 'black')
+      .style('font-size', blocksize * 0.3)
 
     keys
       .append('text')
       .attr('class', 'count')
-      .text(d => (d.char && d.count != 0 ? d.count : ''))
+      // .text(d => (d.char && d.count != 0 ? d.count : ''))
+      .text(d => (check_count.checked && d.count != 0 ? d.count : ''))
       .attr('x', (d, r) => blocksize * (r % colsize))
       .attr('y', (d, r) => blocksize * (data[r].row - 1))
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'middle')
-      .attr('dx', blocksize * 0.5)
-      .attr('dy', blocksize * 0.2)
-      .attr('fill', 'orange')
-      .style('font-size', blocksize * 0.3)
-    // .style('font-weight', 'bold')
+      .attr('dx', blocksize * 0.75)
+      .attr('dy', blocksize * 0.75)
+      .attr('fill', 'black')
+      .style('font-size', blocksize * 0.2)
+
 
     keys
       .append('text')
       .attr('class', 'cost')
-      .text(d => (d.char && d.cost != 0 ? d.cost : ''))
+      .text(d => (check_cost.checked && d.cost != 0 ? d.cost : ''))
       .attr('x', (d, r) => blocksize * (r % colsize))
       .attr('y', (d, r) => blocksize * (data[r].row - 1))
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'middle')
-      .attr('dx', blocksize * 0.5)
-      .attr('dy', blocksize * 0.8)
-      .attr('fill', 'orange')
-      .style('font-size', blocksize * 0.3)
-
+      .attr('dx', blocksize * 0.25)
+      .attr('dy', blocksize * 0.25)
+      .attr('fill', 'black')
+      .style('font-size', blocksize * 0.2)
+    // .style('font-weight', 'bold')
     keys
       .append('text')
       .text(d => `C${d.col}`)

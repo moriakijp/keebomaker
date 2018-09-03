@@ -97,15 +97,11 @@
       </select>
       <br>
 
-      <input type="checkbox">
-      <input type="checkbox">
-      <input type="checkbox">
+      <input type="checkbox" id="check-shift">Shift <br>
+      <input type="checkbox" id="check-count" checked="checked">Count<br>
+      <input type="checkbox" id="check-cost">Cost<br>
+      <input type="checkbox" id="check-color" checked="checked">Color<br>
 
-      <p>Usage:</p>
-      <p>Click</p>
-      <p>Drag</p>
-      <p>Shift : toggle Shift-mode</p>
-      <p>Button: toggle Analyze-mode </p>
     </div>
 
     <div class='area-content'>
@@ -115,11 +111,11 @@
       </a>
       <form>
         <div>
-          <textarea name="textarea" class="textarea" id="textarea" placeholder='input!'></textarea>
+          <textarea name="textarea" class="textarea" id="textarea-main" maxlength="100000" placeholder='input!'></textarea>
         </div>
-        <label for="textarea" id="count-word">Word...0</label>
+        <label for="textarea-main" id="count-word">Word...0</label>
         <br>
-        <label for="textarea" id="count-char">Char...0</label>
+        <label for="textarea-main" id="count-char">Char...0</label>
       </form>
       <div class="chart" id="heatmap"></div>
     </div>
@@ -128,7 +124,8 @@
       <a> &copy; 2018 Akihito Morita</a>
 
       <!-- Twitter -->
-      <a href="//twitter.com/share?text=<?=$share_title?>&url=<?=$share_url?>&via=wemo_blog" title="share on Twitter" onclick="javascript:window.open(this.href, '_blank', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');return false;">
+      <a href="//twitter.com/share?text=<?=$share_title?>&url=<?=$share_url?>&via=wemo_blog" title="share on Twitter"
+        onclick="javascript:window.open(this.href, '_blank', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');return false;">
         <i class="fab fa-twitter" aria-hidden="true"></i>
       </a>
       <!-- Github -->
