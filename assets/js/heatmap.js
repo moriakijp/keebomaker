@@ -202,7 +202,10 @@ drawHeatmap = layout => {
       .attr('stroke-linecap', 'round')
       .attr('stroke-width', '1')
       .attr('cursor', 'move')
-      // .on('mouseover', d => d3.select(this).select('rect').attr('class', 'selected'))
+      .on('mouseover', (d, i, nodes) => {
+        d3.select(nodes[i]).select('rect').attr('class', 'selected')
+        console.log('keys: ', keys.rect);
+      })
       // .on('click', (d, i) => {
       // d3.select(this)
       // .select('rect')
@@ -258,12 +261,8 @@ drawHeatmap = layout => {
       .attr('dy', blocksize * 0.8)
       .attr('fill', 'orange')
       .style('font-size', blocksize * 0.3)
-    // .style('font-weight', 'bold')
 
-    const xLabels = keys
-      .selectAll('.Label')
-      .data(data)
-      .enter()
+    keys
       .append('text')
       .text(d => `C${d.col}`)
       .attr('x', (d, i) => blocksize * (i % colsize + 0.5))
@@ -273,10 +272,7 @@ drawHeatmap = layout => {
       .style('text-anchor', 'middle')
       .attr('transform', `translate(${0}, ${0})`);
 
-    const yLabels = keys
-      .selectAll('.Label')
-      .data(data)
-      .enter()
+    keys
       .append('text')
       .text(d => `R${d.row}`)
       .attr('fill', '#333')
