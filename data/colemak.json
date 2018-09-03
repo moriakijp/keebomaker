@@ -1,338 +1,281 @@
-[
-  {
+[{
     "char": "`",
     "row": 1,
-    "col": 1,
-    "count": 0
+    "col": 1
   },
   {
     "char": "1",
     "row": 1,
-    "col": 2,
-    "count": 0
+    "col": 2
   },
   {
     "char": "2",
     "row": 1,
-    "col": 3,
-    "count": 0
+    "col": 3
   },
   {
     "char": "3",
     "row": 1,
-    "col": 4,
-    "count": 0
+    "col": 4
   },
   {
     "char": "4",
     "row": 1,
-    "col": 5,
-    "count": 0
+    "col": 5
   },
   {
     "char": "5",
     "row": 1,
-    "col": 6,
-    "count": 0
+    "col": 6
   },
   {
     "char": "6",
     "row": 1,
-    "col": 7,
-    "count": 0
+    "col": 7
   },
   {
     "char": "7",
     "row": 1,
-    "col": 8,
-    "count": 0
+    "col": 8
   },
   {
     "char": "8",
     "row": 1,
-    "col": 9,
-    "count": 0
+    "col": 9
   },
   {
     "char": "9",
     "row": 1,
-    "col": 10,
-    "count": 0
+    "col": 10
   },
   {
     "char": "0",
     "row": 1,
-    "col": 11,
-    "count": 0
+    "col": 11
   },
   {
     "char": "-",
     "row": 1,
-    "col": 12,
-    "count": 0
+    "col": 12
   },
   {
     "char": "=",
     "row": 1,
-    "col": 13,
-    "count": 0
+    "col": 13
   },
   {
     "char": "",
     "row": 1,
-    "col": 14,
-    "count": 0
+    "col": 14
   },
   {
     "char": "",
     "row": 2,
-    "col": 1,
-    "count": 0
+    "col": 1
   },
   {
     "char": "Q",
     "row": 2,
-    "col": 2,
-    "count": 0
+    "col": 2
   },
   {
     "char": "W",
     "row": 2,
-    "col": 3,
-    "count": 0
+    "col": 3
   },
   {
     "char": "F",
     "row": 2,
-    "col": 4,
-    "count": 0
+    "col": 4
   },
   {
     "char": "P",
     "row": 2,
-    "col": 5,
-    "count": 0
+    "col": 5
   },
   {
     "char": "G",
     "row": 2,
-    "col": 6,
-    "count": 0
+    "col": 6
   },
   {
     "char": "J",
     "row": 2,
-    "col": 7,
-    "count": 0
+    "col": 7
   },
   {
     "char": "L",
     "row": 2,
-    "col": 8,
-    "count": 0
+    "col": 8
   },
   {
     "char": "U",
     "row": 2,
-    "col": 9,
-    "count": 0
+    "col": 9
   },
   {
     "char": "Y",
     "row": 2,
-    "col": 10,
-    "count": 0
+    "col": 10
   },
   {
     "char": ";",
     "row": 2,
-    "col": 11,
-    "count": 0
+    "col": 11
   },
   {
     "char": "[",
     "row": 2,
-    "col": 12,
-    "count": 0
+    "col": 12
   },
   {
     "char": "]",
     "row": 2,
-    "col": 13,
-    "count": 0
+    "col": 13
   },
   {
     "char": "\\",
     "row": 2,
-    "col": 14,
-    "count": 0
+    "col": 14
   },
   {
     "char": "",
     "row": 3,
-    "col": 1,
-    "count": 0
+    "col": 1
   },
   {
     "char": "A",
     "row": 3,
-    "col": 2,
-    "count": 0
+    "col": 2
   },
   {
     "char": "R",
     "row": 3,
-    "col": 3,
-    "count": 0
+    "col": 3
   },
   {
     "char": "S",
     "row": 3,
-    "col": 4,
-    "count": 0
+    "col": 4
   },
   {
     "char": "T",
     "row": 3,
-    "col": 5,
-    "count": 0
+    "col": 5
   },
   {
     "char": "D",
     "row": 3,
-    "col": 6,
-    "count": 0
+    "col": 6
   },
   {
     "char": "H",
     "row": 3,
-    "col": 7,
-    "count": 0
+    "col": 7
   },
   {
     "char": "N",
     "row": 3,
-    "col": 8,
-    "count": 0
+    "col": 8
   },
   {
     "char": "E",
     "row": 3,
-    "col": 9,
-    "count": 0
+    "col": 9
   },
   {
     "char": "I",
     "row": 3,
-    "col": 10,
-    "count": 0
+    "col": 10
   },
   {
     "char": "O",
     "row": 3,
-    "col": 11,
-    "count": 0
+    "col": 11
   },
   {
     "char": "'",
     "row": 3,
-    "col": 12,
-    "count": 0
+    "col": 12
   },
   {
     "char": "",
     "row": 3,
-    "col": 13,
-    "count": 0
+    "col": 13
   },
   {
     "char": "",
     "row": 3,
-    "col": 14,
-    "count": 0
+    "col": 14
   },
   {
     "char": "",
     "row": 4,
-    "col": 1,
-    "count": 0
+    "col": 1
   },
   {
     "char": "Z",
     "row": 4,
-    "col": 2,
-    "count": 0
+    "col": 2
   },
   {
     "char": "X",
     "row": 4,
-    "col": 3,
-    "count": 0
+    "col": 3
   },
   {
     "char": "C",
     "row": 4,
-    "col": 4,
-    "count": 0
+    "col": 4
   },
   {
     "char": "V",
     "row": 4,
-    "col": 5,
-    "count": 0
+    "col": 5
   },
   {
     "char": "B",
     "row": 4,
-    "col": 6,
-    "count": 0
+    "col": 6
   },
   {
     "char": "K",
     "row": 4,
-    "col": 7,
-    "count": 0
+    "col": 7
   },
   {
     "char": "M",
     "row": 4,
-    "col": 8,
-    "count": 0
+    "col": 8
   },
   {
     "char": ",",
     "row": 4,
-    "col": 9,
-    "count": 0
+    "col": 9
   },
   {
     "char": ".",
     "row": 4,
-    "col": 10,
-    "count": 0
+    "col": 10
   },
   {
     "char": "/",
     "row": 4,
-    "col": 11,
-    "count": 0
+    "col": 11
   },
   {
     "char": "",
     "row": 4,
-    "col": 12,
-    "count": 0
+    "col": 12
   },
   {
     "char": "",
     "row": 4,
-    "col": 13,
-    "count": 0
+    "col": 13
   },
   {
     "char": "",
     "row": 4,
-    "col": 14,
-    "count": 0
+    "col": 14
   }
 ]
