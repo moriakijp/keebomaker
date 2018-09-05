@@ -11,10 +11,11 @@ const layouts = {
 
 const sampleTexts = {
   sampleText: "",
+  alice,
   lorem,
-  alpha,
   jobs,
   hhkb
+  alpha,
 };
 const cols = Array.from(Array(20));
 const rows = Array.from(Array(20));
