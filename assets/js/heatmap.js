@@ -15,18 +15,25 @@ drawHeatmap = layout => {
     left: width * 0.05,
     right: width * 0.05
   };
-  const colsize = 14;
+  const colsize = select_col.value;
+  const rowsize = select_row.value;
+
+  // const colsize = textarea_col.value;
+  // const rowsize = textarea_row.value;
+
+
   const blocksize = (width - margin.left - margin.right) / colsize;
 
   d3.json(layout).then(data => {
     d3.select('svg').remove(); // erase previous svg
+    for (i in data) {
+      data[i].col = i % colsize + 1;
+      // data[i].row = i % rowsize + 1;
 
+    }
     const letters = Array.from(textarea_main.value);
     // console.log('letters : ', letters);
-    let matched = [];
-    let current = [];
-    let prev = [];
-    const home = [];
+    let matched, current, prev, home = [];
     const homerow = [3];
     const homecol = [2, 3, 4, 5, 8, 9, 10, 11];
     const calcRelpos = (d, i) => Math.sqrt((d.row - i.row) ** 2 + (d.col - i.col) ** 2);
@@ -107,7 +114,7 @@ drawHeatmap = layout => {
     const costScale = d3.scaleLinear().domain([costmin, costmax]).range([0, 10]);
     for (i in data) data[i].cost = costScale(data[i].cost).toFixed(0);
 
-    /* CREATE COLORSCALE */
+    /* CREATE SCALE */
     const countmin = Math.min.apply(null, data.map(d => d.count));
     const countmax = Math.max.apply(null, data.map(d => d.count));
     const colorScale = d3.scaleLinear().domain([countmin, countmax]).range(['#F2F1EF', '#F22613']);
@@ -232,8 +239,8 @@ drawHeatmap = layout => {
       .append('text')
       .attr('class', 'char')
       .text(d => d.char)
-      .attr('x', (d, r) => blocksize * (r % colsize))
-      .attr('y', (d, r) => blocksize * (data[r].row - 1))
+      .attr('x', (d, i) => blocksize * (i % colsize))
+      .attr('y', (d, i) => blocksize * (data[i].row - 1))
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'middle')
       .attr('dx', blocksize / 2)
@@ -246,8 +253,8 @@ drawHeatmap = layout => {
       .attr('class', 'count')
       // .text(d => (d.char && d.count != 0 ? d.count : ''))
       .text(d => (check_count.checked && d.count != 0 ? d.count : ''))
-      .attr('x', (d, r) => blocksize * (r % colsize))
-      .attr('y', (d, r) => blocksize * (data[r].row - 1))
+      .attr('x', (d, i) => blocksize * (i % colsize))
+      .attr('y', (d, i) => blocksize * (data[i].row - 1))
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'middle')
       .attr('dx', blocksize * 0.75)
@@ -260,8 +267,8 @@ drawHeatmap = layout => {
       .append('text')
       .attr('class', 'cost')
       .text(d => (check_cost.checked && d.cost != 0 ? d.cost : ''))
-      .attr('x', (d, r) => blocksize * (r % colsize))
-      .attr('y', (d, r) => blocksize * (data[r].row - 1))
+      .attr('x', (d, i) => blocksize * (i % colsize))
+      .attr('y', (d, i) => blocksize * (data[i].row - 1))
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'middle')
       .attr('dx', blocksize * 0.25)
@@ -281,7 +288,7 @@ drawHeatmap = layout => {
 
     keys
       .append('text')
-      .text(d => `R${d.row}`)
+      .text(d => `R${rowsize-(d.row-1)}`)
       .attr('fill', '#333')
       .attr('x', 0)
       .attr('y', (d, i) => blocksize * (data[i].row - 0.5))
