@@ -119,7 +119,7 @@ form {}
 textarea {
     position: relative;
     width: 100%;
-    height: 120px;
+    height: 100px;
     resize: none;
     border: none;
     outline: none;
@@ -146,6 +146,7 @@ textarea {
 }
 
 .active {
+    fill: 'yellow';
     stroke: #000;
     stroke-width: 1px;
 }
@@ -182,8 +183,7 @@ textarea::placeholder {
 }
 
 .chart {
-    position: relative;
-    margin-top: 5vh;
+    /* position: relative; */
     -webkit-touch-callout: none;
     /* iOS Safari */
     -webkit-user-select: none;
@@ -195,4 +195,9 @@ textarea::placeholder {
     -ms-user-select: none;
     /* Internet Explorer/Edge */
     user-select: none;
+}
+
+.rect {
+    position: relative;
+    margin-top: 20vh;
 }

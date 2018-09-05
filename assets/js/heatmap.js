@@ -9,8 +9,9 @@
 drawHeatmap = layout => {
   const width = textarea_main.clientWidth;
   const height = innerHeight;
+  // const height = document.getElementById('heatmap').style.height;
   const margin = {
-    top: height * 0.05,
+    top: height * 0.2,
     bottom: height * 0.05,
     left: width * 0.05,
     right: width * 0.05
@@ -123,7 +124,7 @@ drawHeatmap = layout => {
     //this = nodes[i] !=document.getElementById('keys')
 
     const dragstarted = (d, i, nodes) => {
-      d3.select(nodes[i]).raise().select('text').classed('active', true);
+      d3.select(nodes[i]).raise().classed('active', true).select('rect').attr('fill', 'aquamarine');
     }
 
     const dragged = (d, i, nodes) => {
@@ -165,8 +166,8 @@ drawHeatmap = layout => {
     const dragended = (d, i, nodes) => {
       d3
         .select(nodes[i])
-        .select('text')
-        .classed('active', false);
+        .classed('active', false)
+        .select('rect').attr('fill', d => (d.char && check_color.checked ? colorScale(d.count) : '#FFF'));
     }
 
     const drag = d3.drag()
