@@ -13,7 +13,7 @@ body {
     display: grid;
     /*sticky footer*/
     min-height: 100vh;
-    grid-template-columns: 20vw 80vw;
+    grid-template-columns: 200px auto;
     grid-template-rows: 40px 1fr 40px;
     grid-template-areas: 'header header''left content''footer footer';
     font-family: 'Avenir', 'Helvetica Neue', 'Helvetica', 'Arial', 'Hiragino Sans', 'ヒラギノ角ゴシック', 'Yu Gothic', 'メイリオ', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
@@ -118,7 +118,7 @@ form {}
 
 textarea {
     position: relative;
-    width: 100%;
+    width: calc(100vw + -200px);
     height: 100px;
     resize: none;
     border: none;
@@ -127,8 +127,8 @@ textarea {
     white-space: pre-line;
     overflow-x: hidden;
     overflow-y: scroll;
-    font-size: 2rem;
-    /* z-index:  */
+    font-size: 1rem;
+    /* z-index: ; */
     /* &:valid { */
     /* // Hides the label */
     /* background: white; */
@@ -146,16 +146,15 @@ textarea {
 }
 
 .active {
-    fill: 'yellow';
     stroke: #000;
     stroke-width: 1px;
 }
 
 label {
     /* transition: background 0.2s, color 0.2s, top 0.2s, bottom 0.2s, right 0.2s, left 0.2s; */
-    position: relative;
+    /* margin-top: 10vh; */
     color: #999;
-    font-size: 2rem;
+    font-size: 1rem;
 }
 
 /* textarea { */
@@ -182,8 +181,9 @@ textarea::placeholder {
     opacity: 0.3;
 }
 
-.chart {
-    /* position: relative; */
+#heatmap-main {
+    position: relative;
+    height: calc(100vh + -40px + -100px + -40px + -30px);
     -webkit-touch-callout: none;
     /* iOS Safari */
     -webkit-user-select: none;
@@ -197,7 +197,6 @@ textarea::placeholder {
     user-select: none;
 }
 
-.rect {
-    position: relative;
-    margin-top: 20vh;
+svg {
+    position: absolute;
 }

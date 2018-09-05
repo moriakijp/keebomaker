@@ -3,15 +3,14 @@
 //   downloadable
 // } from 'd3-downloadable'
 
-// d3.select('svg#chart')
+// d3.select('svg#heatmap-main')
 //   .call(downloadable());
 
 drawHeatmap = layout => {
-  const width = textarea_main.clientWidth;
-  const height = innerHeight;
-  // const height = document.getElementById('heatmap').style.height;
+  const width = document.getElementById('heatmap-main').clientWidth;
+  const height = document.getElementById('heatmap-main').clientHeight;
   const margin = {
-    top: height * 0.2,
+    top: height * 0.05,
     bottom: height * 0.05,
     left: width * 0.05,
     right: width * 0.05
@@ -192,7 +191,7 @@ drawHeatmap = layout => {
     }
 
     /* DRAW HEATMAP */
-    const svg = d3.select('#heatmap')
+    const svg = d3.select('#heatmap-main')
       .append('svg')
       .attr('width', width)
       .attr('height', height)

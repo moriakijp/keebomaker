@@ -69,7 +69,7 @@ input_file.addEventListener('change', () => {
   uploadFile();
   count_word.innerHTML = 'Word...' + countWord(textarea_main.value);
   count_char.innerHTML = 'Char...' + countChar(textarea_main.value);
-  drawHeatmap(qwerty);
+  drawHeatmap(layout);
 });
 
 onresize = () => {
