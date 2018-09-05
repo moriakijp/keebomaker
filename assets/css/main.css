@@ -196,7 +196,3 @@ textarea::placeholder {
     /* Internet Explorer/Edge */
     user-select: none;
 }
-
-svg {
-    position: absolute;
-}

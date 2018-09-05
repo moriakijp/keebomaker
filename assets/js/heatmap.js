@@ -10,8 +10,8 @@ drawHeatmap = layout => {
   const width = document.getElementById('heatmap-main').clientWidth;
   const height = document.getElementById('heatmap-main').clientHeight;
   const margin = {
-    top: height * 0.05,
-    bottom: height * 0.05,
+    top: height * 0.2,
+    // bottom: height * 0.5,
     left: width * 0.05,
     right: width * 0.05
   };
