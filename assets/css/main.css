@@ -14,7 +14,7 @@ body {
     /*sticky footer*/
     min-height: 100vh;
     grid-template-columns: 200px auto;
-    grid-template-rows: 40px 1fr 40px;
+    grid-template-rows: 1.5rem 1fr 1.5rem;
     grid-template-areas: 'header header''left content''footer footer';
     font-family: 'Avenir', 'Helvetica Neue', 'Helvetica', 'Arial', 'Hiragino Sans', 'ヒラギノ角ゴシック', 'Yu Gothic', 'メイリオ', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
 }
@@ -176,7 +176,7 @@ textarea::placeholder {
 #heatmap-main {
     position: relative;
     width: calc(100vw + -200px);
-    height: calc(100vh + -40px + -100px + -40px + -30px);
+    height: calc(100vh + -40px + -100px + -50px);
     -webkit-touch-callout: none;
     /* iOS Safari */
     -webkit-user-select: none;
