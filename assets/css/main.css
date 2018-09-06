@@ -190,7 +190,7 @@ textarea::placeholder {
     user-select: none;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 512px) {
     .container {
         grid-template-areas: "header""content""footer";
         grid-template-columns: 1fr;
