@@ -14,7 +14,7 @@ body {
     /*sticky footer*/
     min-height: 100vh;
     grid-template-columns: 200px auto;
-    grid-template-rows: 40px 1fr 40px;
+    grid-template-rows: 1.5rem 1fr 1.5rem;
     grid-template-areas: 'header header''left content''footer footer';
     font-family: 'Avenir', 'Helvetica Neue', 'Helvetica', 'Arial', 'Hiragino Sans', 'ヒラギノ角ゴシック', 'Yu Gothic', 'メイリオ', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
 }
@@ -60,14 +60,6 @@ body {
     font-size: 1rem;
 }
 
-/* @media (max-width: 960px) { */
-/* .container { */
-/* grid-template-areas: "header" "content" "footer"; */
-/* grid-template-columns: 1fr; */
-/* grid-template-rows: autoHeader 1frContent */
-/* auto; */
-/* } */
-/* } */
 .area-footer {
     background: hsl(40, 1%, 90%);
     grid-area: footer;
@@ -183,7 +175,8 @@ textarea::placeholder {
 
 #heatmap-main {
     position: relative;
-    height: calc(100vh + -40px + -100px + -40px + -30px);
+    width: calc(100vw + -200px);
+    height: calc(100vh + -40px + -100px + -50px);
     -webkit-touch-callout: none;
     /* iOS Safari */
     -webkit-user-select: none;
@@ -195,4 +188,31 @@ textarea::placeholder {
     -ms-user-select: none;
     /* Internet Explorer/Edge */
     user-select: none;
+}
+
+@media (max-width: 511px) {
+    .container {
+        grid-template-areas: "header""content""footer";
+        grid-template-columns: 1fr;
+        grid-template-rows: autoHeader 1frContent auto;
+    }
+
+    .area-left {
+        display: none;
+    }
+
+    textarea {
+        width: 100vw;
+    }
+
+    #heatmap-main {
+        width: 100vw;
+        /* height: 100vh; */
+    }
+}
+
+@media screen and (max-width: 768px) and(orientation: landscape) {
+    textarea {
+        height: 1rem;
+    }
 }

@@ -11,10 +11,13 @@ const layouts = {
 
 const sampleTexts = {
   sampleText: "",
+  alice,
+  mingpao,
+  xingyusi,
   lorem,
-  alpha,
   jobs,
-  hhkb
+  hhkb,
+  alpha,
 };
 const cols = Array.from(Array(20));
 const rows = Array.from(Array(20));
