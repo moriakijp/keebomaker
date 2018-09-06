@@ -2,7 +2,6 @@
 // import {
 //   downloadable
 // } from 'd3-downloadable'
-
 // d3.select('svg#heatmap-main')
 //   .call(downloadable());
 
@@ -10,7 +9,7 @@ drawHeatmap = layout => {
   const width = document.getElementById('heatmap-main').clientWidth;
   const height = document.getElementById('heatmap-main').clientHeight;
   const margin = {
-    top: height * 0.2,
+    top: height * 0.1,
     // bottom: height * 0.5,
     left: width * 0.05,
     right: width * 0.05
