@@ -37,42 +37,17 @@
     </div>
 
     <div class='area-left'>
-      <div>
-        <!-- <a class="active" href="#">
-          <i class="fas fa-trash"></i>
-        </a> -->
-        <button class="button" id="button-reset">
-          Reset
-        </button>
-      </div>
-      <!-- <a href="#">
-        <i class="fas fa-list-ul"></i>
-      </a> -->
       <select class="select" name="select" id="select-sampletext">
-      </select>
-
-      <div class="input">
-        <!-- <a href="#">
-          <i class="fas fa-file-upload"></i>
-        </a> -->
-        <input type="file" name="resume" id="input-file">
-      </div>
-      <!-- <a href="#">
-        <i class="fas fa-keyboard"></i>
-      </a> -->
-      <select class="select" name="select" id="select-layout">
       </select><br>
-      <select class="select" name="select" id="select-col">
-      </select>col
-      <br>
-      <select class="select" name="select" id="select-row">
-      </select>row
-      <br>
-
+      <input class="input" type="file" name="resume" id="input-main">
+      <select class="select" name="select" id="select-layout"></select><br>
+      <input class="input" type="file" name="resume" id="input-layout"><br>
+      <select class="select" name="select" id="select-col"></select>col<br>
+      <select class="select" name="select" id="select-row"></select>row<br>
       <!-- <input type="checkbox" id="check-shift">Shift <br> -->
       <input type="checkbox" id="check-count" checked="checked">Count<br>
-      <input type="checkbox" id="check-cost">Cost<br>
       <input type="checkbox" id="check-color" checked="checked">Color<br>
+      <button class="button" id="button-reset" style="">reset</button>
 
     </div>
 
@@ -83,10 +58,12 @@
       </a>
 
 
-      <textarea name="textarea" class="textarea" id="textarea-main" maxlength="100000" placeholder='input!'></textarea>
+      <textarea name="textarea" class="textarea" id="textarea-main" maxlength="100000" placeholder='text'></textarea>
 
       <label for="textarea-main" id="count-word">Word...0</label>
       <label for="textarea-main" id="count-char">Char...0</label>
+
+      <textarea name="textarea" class="textarea" id="textarea-layout" maxlength="10000" placeholder='layout'></textarea>
       <div class="heatmap" id="heatmap-main"></div>
     </div>
 

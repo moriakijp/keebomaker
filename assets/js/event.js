@@ -2,6 +2,7 @@
 
 const layouts = {
   qwerty,
+  arr,
   qwerty_shift,
   dvorak,
   dvorak_shift,
@@ -64,14 +65,22 @@ select_sampletext.addEventListener('change', (e) => {
 
 select_layout.addEventListener('change', (e) => {
   const i = e.currentTarget.selectedIndex;
-  layout = select_layout[i].value;
+  const layout = select_layout[i].value;
+  // textarea_layout.value = ;
   drawHeatmap(layout);
 });
 
-input_file.addEventListener('change', () => {
-  uploadFile();
+input_main.addEventListener('change', () => {
+  const file_main = input_main.files[0];
+  readFileAsText(file_main, textarea_main);
   count_word.innerHTML = 'Word...' + countWord(textarea_main.value);
   count_char.innerHTML = 'Char...' + countChar(textarea_main.value);
+  drawHeatmap(layout);
+});
+
+input_layout.addEventListener('change', () => {
+  const file_layout = input_layout.files[0];
+  readFileAsText(file_layout, textarea_layout);
   drawHeatmap(layout);
 });
 
@@ -93,10 +102,6 @@ select_row.addEventListener('change', () => drawHeatmap(layout));
 // });
 
 check_count.addEventListener('change', () => {
-  drawHeatmap(layout);
-});
-
-check_cost.addEventListener('change', () => {
   drawHeatmap(layout);
 });
 

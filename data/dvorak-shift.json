@@ -1,225 +1,169 @@
 [{
-    "char": "~",
-    "row": 1
+    "char": "~"
   },
   {
-    "char": "!",
-    "row": 1
+    "char": "!"
   },
   {
-    "char": "@",
-    "row": 1
+    "char": "@"
   },
   {
-    "char": "#",
-    "row": 1
+    "char": "#"
   },
   {
-    "char": "$",
-    "row": 1
+    "char": "$"
   },
   {
-    "char": "%",
-    "row": 1
+    "char": "%"
   },
   {
-    "char": "^",
-    "row": 1
+    "char": "^"
   },
   {
-    "char": "&",
-    "row": 1
+    "char": "&"
   },
   {
-    "char": "*",
-    "row": 1
+    "char": "*"
   },
   {
-    "char": "(",
-    "row": 1
+    "char": "("
   },
   {
-    "char": ")",
-    "row": 1
+    "char": ")"
   },
   {
-    "char": "{",
-    "row": 1
+    "char": "{"
   },
   {
-    "char": "}",
-    "row": 1
+    "char": "}"
   },
   {
-    "char": "",
-    "row": 1
+    "char": ""
   },
   {
-    "char": "",
-    "row": 2
+    "char": ""
   },
   {
-    "char": "\"",
-    "row": 2
+    "char": "\""
   },
   {
-    "char": "<",
-    "row": 2
+    "char": "<"
   },
   {
-    "char": ">",
-    "row": 2
+    "char": ">"
   },
   {
-    "char": "",
-    "row": 2
+    "char": ""
   },
   {
-    "char": "",
-    "row": 2
+    "char": ""
   },
   {
-    "char": "",
-    "row": 2
+    "char": ""
   },
   {
-    "char": "",
-    "row": 2
+    "char": ""
   },
   {
-    "char": "",
-    "row": 2
+    "char": ""
   },
   {
-    "char": "",
-    "row": 2
+    "char": ""
   },
   {
-    "char": "",
-    "row": 2
+    "char": ""
   },
   {
-    "char": "?",
-    "row": 2
+    "char": "?"
   },
   {
-    "char": "+",
-    "row": 2
+    "char": "+"
   },
   {
-    "char": "|",
-    "row": 2
+    "char": "|"
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "_",
-    "row": 3
+    "char": "_"
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": ":",
-    "row": 4
+    "char": ":"
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   }
 ]

@@ -1,4 +1,5 @@
 /* data location*/
+const arr = 'data/qwerty-arr.json';
 const qwerty = 'data/qwerty.json';
 const qwerty_shift = 'data/qwerty-shift.json';
 
@@ -22,9 +23,12 @@ const select_col = document.querySelector('#select-col');
 
 const select_row = document.querySelector('#select-row');
 
-const input_file = document.getElementById('input-file');
+const input_main = document.getElementById('input-main');
+const input_layout = document.getElementById('input-layout');
 
 const textarea_main = document.getElementById('textarea-main');
+
+const textarea_layout = document.getElementById('textarea-layout');
 
 const count_char = document.getElementById('count-char');
 
@@ -34,8 +38,6 @@ const check_shift = document.getElementById('check-shift');
 
 const check_count = document.getElementById('check-count');
 
-const check_cost = document.getElementById('check-cost');
-
 const check_color = document.getElementById('check-color');
 
 /* flag */
@@ -43,13 +45,11 @@ const check_color = document.getElementById('check-color');
 
 /* function */
 
-const uploadFile = () => {
-  let file = input_file.files[0];
-  // console.log(file);
+const readFileAsText = (file, textarea) => {
+  const reader = new FileReader();
   if (!file) alert('Please select a File.');
-  let reader = new FileReader();
-  reader.onload = () => textarea_main.value = reader.result;
   reader.readAsText(file);
+  reader.onload = () => textarea.value = reader.result;
 };
 
 const countWord = str => {

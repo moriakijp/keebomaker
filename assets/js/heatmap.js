@@ -18,25 +18,34 @@ drawHeatmap = layout => {
   const colsize = select_col.value;
   const rowsize = select_row.value;
 
-  // const colsize = textarea_col.value;
-  // const rowsize = textarea_row.value;
-
+  // for (i = 0; i < rowsize; i++)
+  //   for (j = 0; j < colsize; j++)
+  //     if (data[i][j] == letters[i].toUpperCase())
+  //       data.count++;
 
   const blocksize = (width - margin.left - margin.right) / colsize;
 
   d3.json(layout).then(data => {
     d3.select('svg').remove(); // erase previous svg
-    for (i in data) {
-      data[i].col = i % colsize + 1;
-      // data[i].row = i % rowsize + 1;
 
+    // for (i = 0; i < rowsize; i++) {
+    //   for (j = 0; j < colsize; j++) {
+    //     data[i][j].col = j;
+    //     data[i][j].row = i;
+    //   }
+    // }
+
+    for (i in data) {
+      data[i].char = data[i]
+      data[i].col = i % colsize + 1;
+      data[i].row = Math.floor(i / colsize) + 1;
     }
     const letters = Array.from(textarea_main.value);
     // console.log('letters : ', letters);
     let matched, current, prev, home = [];
     const homerow = [3];
     const homecol = [2, 3, 4, 5, 8, 9, 10, 11];
-    const calcRelpos = (d, i) => Math.sqrt((d.row - i.row) ** 2 + (d.col - i.col) ** 2);
+    const calcRelpos = (a, b) => Math.sqrt((a.row - b.row) ** 2 + (a.col - b.col) ** 2);
 
     /* COUNT COST */
     for (i in data)
@@ -58,13 +67,11 @@ drawHeatmap = layout => {
     //       data[i].dist = calcRelpos(current.shift(), prev.shift());
     //       console.log(`data[${i}].dist: `, data[i].dist);
     //       // if (letters[0]) prevc.push(data[i])
-    // if (letters[j] == letters[0]) matched.push(data[i]);
-    // console.log(Array.of(data[i].dist));
+    //       if (letters[j] == letters[0]) matched.push(data[i]);
+    //       console.log(Array.of(data[i].dist));
     //     }
     //   }
     // }
-
-
 
 
     // console.log(matched);
@@ -214,10 +221,26 @@ drawHeatmap = layout => {
         easeKeys(d, i, nodes);
       });
 
+    // keys
+    //   .append('rect')
+    //   .attr('x', (d, i) => blocksize * (i % colsize))
+    //   .attr('y', (d, i) => blocksize * Math.floor(i / colsize))
+    //   .attr('width', blocksize)
+    //   .attr('height', blocksize)
+    //   .attr('rx', 10)
+    //   .attr('ry', 10)
+    //   .attr('fill', '#FFF')
+    //   .style('opacity', 0.9)
+    //   .attr('stroke', '#ccc')
+    //   .attr('stroke-dasharray', '3,3')
+    //   .attr('stroke-linecap', 'round')
+    //   .attr('stroke-width', '1')
+    //   .attr('cursor', 'move')
+
     keys
       .append('rect')
       .attr('x', (d, i) => blocksize * (i % colsize))
-      .attr('y', (d, i) => blocksize * (data[i].row - 1))
+      .attr('y', (d, i) => blocksize * (Math.floor(i / colsize)))
       .attr('width', blocksize)
       .attr('height', blocksize)
       .attr('rx', 10)
@@ -229,18 +252,18 @@ drawHeatmap = layout => {
       .attr('stroke-linecap', 'round')
       .attr('stroke-width', '1')
       .attr('cursor', 'move')
-    // .on('mouseover', (d, i, nodes) => {
-    // d3.select(nodes[i]).select('rect').attr('class', 'selected')
-    // console.log('keys: ', keys.rect);
-    // })
-    // .on('click', (d, i, nodes) => {})
+      .on('mouseover', (d, i, nodes) => {
+        d3.select(nodes[i]).select('rect').attr('class', 'selected')
+        console.log('keys: ', keys.rect);
+      })
+      .on('click', (d, i, nodes) => {})
 
     keys
       .append('text')
       .attr('class', 'char')
       .text(d => d.char)
       .attr('x', (d, i) => blocksize * (i % colsize))
-      .attr('y', (d, i) => blocksize * (data[i].row - 1))
+      .attr('y', (d, i) => blocksize * (Math.floor(i / colsize)))
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'middle')
       .attr('dx', blocksize / 2)
@@ -254,7 +277,7 @@ drawHeatmap = layout => {
       // .text(d => (d.char && d.count != 0 ? d.count : ''))
       .text(d => (check_count.checked && d.count != 0 ? d.count : ''))
       .attr('x', (d, i) => blocksize * (i % colsize))
-      .attr('y', (d, i) => blocksize * (data[i].row - 1))
+      .attr('y', (d, i) => blocksize * (Math.floor(i / colsize)))
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'middle')
       .attr('dx', blocksize * 0.75)
@@ -262,20 +285,6 @@ drawHeatmap = layout => {
       .attr('fill', 'black')
       .style('font-size', blocksize * 0.2)
 
-
-    keys
-      .append('text')
-      .attr('class', 'cost')
-      .text(d => (check_cost.checked && d.cost != 0 ? d.cost : ''))
-      .attr('x', (d, i) => blocksize * (i % colsize))
-      .attr('y', (d, i) => blocksize * (data[i].row - 1))
-      .attr('text-anchor', 'middle')
-      .attr('dominant-baseline', 'middle')
-      .attr('dx', blocksize * 0.25)
-      .attr('dy', blocksize * 0.25)
-      .attr('fill', 'black')
-      .style('font-size', blocksize * 0.2)
-    // .style('font-weight', 'bold')
     keys
       .append('text')
       .text(d => `C${d.col}`)
@@ -291,7 +300,7 @@ drawHeatmap = layout => {
       .text(d => `R${rowsize-(d.row-1)}`)
       .attr('fill', '#333')
       .attr('x', 0)
-      .attr('y', (d, i) => blocksize * (data[i].row - 0.5))
+      .attr('y', (d, i) => blocksize * (d.row - 0.5))
       .style('font-size', blocksize * 0.2)
       .style('text-anchor', 'end')
       .attr('transform', `translate(${0}, ${0})`);

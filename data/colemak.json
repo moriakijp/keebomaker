@@ -1,225 +1,169 @@
 [{
-    "char": "`",
-    "row": 1
+    "char": "`"
   },
   {
-    "char": "1",
-    "row": 1
+    "char": "1"
   },
   {
-    "char": "2",
-    "row": 1
+    "char": "2"
   },
   {
-    "char": "3",
-    "row": 1
+    "char": "3"
   },
   {
-    "char": "4",
-    "row": 1
+    "char": "4"
   },
   {
-    "char": "5",
-    "row": 1
+    "char": "5"
   },
   {
-    "char": "6",
-    "row": 1
+    "char": "6"
   },
   {
-    "char": "7",
-    "row": 1
+    "char": "7"
   },
   {
-    "char": "8",
-    "row": 1
+    "char": "8"
   },
   {
-    "char": "9",
-    "row": 1
+    "char": "9"
   },
   {
-    "char": "0",
-    "row": 1
+    "char": "0"
   },
   {
-    "char": "-",
-    "row": 1
+    "char": "-"
   },
   {
-    "char": "=",
-    "row": 1
+    "char": "="
   },
   {
-    "char": "",
-    "row": 1
+    "char": ""
   },
   {
-    "char": "",
-    "row": 2
+    "char": ""
   },
   {
-    "char": "Q",
-    "row": 2
+    "char": "Q"
   },
   {
-    "char": "W",
-    "row": 2
+    "char": "W"
   },
   {
-    "char": "F",
-    "row": 2
+    "char": "F"
   },
   {
-    "char": "P",
-    "row": 2
+    "char": "P"
   },
   {
-    "char": "G",
-    "row": 2
+    "char": "G"
   },
   {
-    "char": "J",
-    "row": 2
+    "char": "J"
   },
   {
-    "char": "L",
-    "row": 2
+    "char": "L"
   },
   {
-    "char": "U",
-    "row": 2
+    "char": "U"
   },
   {
-    "char": "Y",
-    "row": 2
+    "char": "Y"
   },
   {
-    "char": ";",
-    "row": 2
+    "char": ";"
   },
   {
-    "char": "[",
-    "row": 2
+    "char": "["
   },
   {
-    "char": "]",
-    "row": 2
+    "char": "]"
   },
   {
-    "char": "\\",
-    "row": 2
+    "char": "\\"
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "A",
-    "row": 3
+    "char": "A"
   },
   {
-    "char": "R",
-    "row": 3
+    "char": "R"
   },
   {
-    "char": "S",
-    "row": 3
+    "char": "S"
   },
   {
-    "char": "T",
-    "row": 3
+    "char": "T"
   },
   {
-    "char": "D",
-    "row": 3
+    "char": "D"
   },
   {
-    "char": "H",
-    "row": 3
+    "char": "H"
   },
   {
-    "char": "N",
-    "row": 3
+    "char": "N"
   },
   {
-    "char": "E",
-    "row": 3
+    "char": "E"
   },
   {
-    "char": "I",
-    "row": 3
+    "char": "I"
   },
   {
-    "char": "O",
-    "row": 3
+    "char": "O"
   },
   {
-    "char": "'",
-    "row": 3
+    "char": "'"
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "",
-    "row": 3
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": "Z",
-    "row": 4
+    "char": "Z"
   },
   {
-    "char": "X",
-    "row": 4
+    "char": "X"
   },
   {
-    "char": "C",
-    "row": 4
+    "char": "C"
   },
   {
-    "char": "V",
-    "row": 4
+    "char": "V"
   },
   {
-    "char": "B",
-    "row": 4
+    "char": "B"
   },
   {
-    "char": "K",
-    "row": 4
+    "char": "K"
   },
   {
-    "char": "M",
-    "row": 4
+    "char": "M"
   },
   {
-    "char": ",",
-    "row": 4
+    "char": ","
   },
   {
-    "char": ".",
-    "row": 4
+    "char": "."
   },
   {
-    "char": "/",
-    "row": 4
+    "char": "/"
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   },
   {
-    "char": "",
-    "row": 4
+    "char": ""
   }
 ]
