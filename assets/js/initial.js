@@ -79,6 +79,63 @@ const countText = () => {
   drawHeatmap(layout);
 }
 
+const flatten = (array) => {
+  return array.reduce((a, c) => {
+    return Array.isArray(c) ? a.concat(flatten(c)) : a.concat(c);
+  }, []);
+};
+
+
+const allIndexOf = (array, target) => {
+  if (array === null) {
+    return [-1];
+  }
+  var len = array.length,
+    // hasIndexOf = Array.prototype.indexOf, // you know, because of IE
+    // i = (hasIndexOf) ? this.indexOf(target) : 0,
+    i = array.indexOf(target),
+    n,
+    idx = 0,
+    result = [];
+  if (len === 0 || i === -1) {
+    return [-1];
+  }
+  // if (hasIndexOf) {
+  // Array.indexOf does exist
+  for (n = 0; n <= len; n++) {
+    i = array.indexOf(target, idx);
+    if (i !== -1) {
+      idx = i + 1;
+      result.push(i);
+    } else {
+      return result;
+    }
+  }
+  return result;
+  // } else {
+  //   // Array.indexOf doesn't exist
+  //   for (n = 0; n <= len; n++) {
+  //     if (array[n] === target) {
+  //       result.push(n);
+  //     }
+  //   }
+  //   return (result.length > 0) ? result : [-1];
+  // }
+};
+
+function removeElement(arr) {
+  var what, a = arguments,
+    L = a.length,
+    ax;
+  while (L > 1 && arr.length) {
+    what = a[--L];
+    while ((ax = arr.indexOf(what)) !== -1) {
+      arr.splice(ax, 1);
+    }
+  }
+  return arr;
+}
+
 // const complementalColor = c => {
 //   return '#' + (('ffffff' ^ c).toString(16)).slice(-6)
 // }
