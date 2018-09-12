@@ -24,15 +24,18 @@ const select_col = document.querySelector('#select-col');
 const select_row = document.querySelector('#select-row');
 
 const input_main = document.getElementById('input-main');
+
 const input_layout = document.getElementById('input-layout');
 
 const textarea_main = document.getElementById('textarea-main');
 
 const textarea_layout = document.getElementById('textarea-layout');
 
-const count_char = document.getElementById('count-char');
+const label_char = document.getElementById('label-char');
 
-const count_word = document.getElementById('count-word');
+const label_word = document.getElementById('label-word');
+
+const label_cost = document.getElementById('label-cost');
 
 const check_shift = document.getElementById('check-shift');
 
@@ -73,10 +76,8 @@ const countChar = str => {
     .split('').length;
 };
 
-const countText = () => {
-  count_word.innerHTML = 'Word...' + countWord(textarea_main.value);
-  count_char.innerHTML = 'Char...' + countChar(textarea_main.value);
-  drawHeatmap(layout);
+const countCost = (str, layout) => {
+
 }
 
 const flatten = (array) => {
@@ -123,7 +124,7 @@ const allIndexOf = (array, target) => {
   // }
 };
 
-function removeElement(arr) {
+const removeElement = (arr) => {
   var what, a = arguments,
     L = a.length,
     ax;
@@ -159,7 +160,6 @@ function removeElement(arr) {
 //             draw(data)
 //         })
 //     });
-// fetch(url)
 
 
 // function sns_window(sns, share_url, share_title) {

@@ -1,11 +1,7 @@
 const dragbarleft = newg
   .append("rect")
-  .attr("x", d => {
-    return d.x - dragbarw / 2;
-  })
-  .attr("y", d => {
-    return d.y + dragbarw / 2;
-  })
+  .attr("x", d => d.x - dragbarw / 2)
+  .attr("y", d => d.y + dragbarw / 2)
   .attr("height", height - dragbarw)
   .attr("id", "dragleft")
   .attr("width", dragbarw)
@@ -16,12 +12,8 @@ const dragbarleft = newg
 
 const dragbarright = newg
   .append("rect")
-  .attr("x", d => {
-    return d.x + width - dragbarw / 2;
-  })
-  .attr("y", d => {
-    return d.y + dragbarw / 2;
-  })
+  .attr("x", d => d.x + width - dragbarw / 2)
+  .attr("y", d => d.y + dragbarw / 2)
   .attr("id", "dragright")
   .attr("height", height - dragbarw)
   .attr("width", dragbarw)
@@ -32,12 +24,8 @@ const dragbarright = newg
 
 const dragbartop = newg
   .append("rect")
-  .attr("x", d => {
-    return d.x + dragbarw / 2;
-  })
-  .attr("y", d => {
-    return d.y - dragbarw / 2;
-  })
+  .attr("x", d => d.x + dragbarw / 2)
+  .attr("y", d => d.y - dragbarw / 2)
   .attr("height", dragbarw)
   .attr("id", "dragleft")
   .attr("width", width - dragbarw)
@@ -48,12 +36,8 @@ const dragbartop = newg
 
 const dragbarbottom = newg
   .append("rect")
-  .attr("x", d => {
-    return d.x + dragbarw / 2;
-  })
-  .attr("y", d => {
-    return d.y + height - dragbarw / 2;
-  })
+  .attr("x", d => d.x + dragbarw / 2)
+  .attr("y", d => d.y + height - dragbarw / 2)
   .attr("id", "dragright")
   .attr("height", dragbarw)
   .attr("width", width - dragbarw)
@@ -76,22 +60,22 @@ const dragmove = d => {
     });
     dragbarbottom.attr("x", d => {
       return d.x + dragbarw / 2;
-    });
-  }
-  if (isYChecked) {
-    dragrect.attr("y", (d.y = Math.max(0, Math.min(h - height, d3.event.y))));
-    dragbarleft.attr("y", d => {
-      return d.y + dragbarw / 2;
-    });
-    dragbarright.attr("y", d => {
-      return d.y + dragbarw / 2;
-    });
-    dragbartop.attr("y", d => {
-      return d.y - dragbarw / 2;
-    });
-    dragbarbottom.attr("y", d => {
-      return d.y + height - dragbarw / 2;
-    });
+    })
+    if (isYChecked) {
+      dragrect.attr("y", (d.y = Math.max(0, Math.min(h - height, d3.event.y))));
+      dragbarleft.attr("y", d => {
+        return d.y + dragbarw / 2;
+      });
+      dragbarright.attr("y", d => {
+        return d.y + dragbarw / 2;
+      });
+      dragbartop.attr("y", d => {
+        return d.y - dragbarw / 2;
+      });
+      dragbarbottom.attr("y", d => {
+        return d.y + height - dragbarw / 2;
+      })
+    }
   }
 }
 
@@ -119,7 +103,7 @@ const ldragresize = d => {
       .attr("x", d => {
         return d.x + dragbarw / 2;
       })
-      .attr("width", width - dragbarw);
+      .attr("width", width - dragbarw)
   }
 }
 
@@ -141,7 +125,7 @@ const rdragresize = d => {
     //as we are only resizing from the right, the x coordinate does not need to change
     dragrect.attr("width", width);
     dragbartop.attr("width", width - dragbarw);
-    dragbarbottom.attr("width", width - dragbarw);
+    dragbarbottom.attr("width", width - dragbarw)
   }
 }
 
@@ -171,7 +155,7 @@ const tdragresize = d => {
       .attr("y", d => {
         return d.y + dragbarw / 2;
       })
-      .attr("height", height - dragbarw);
+      .attr("height", height - dragbarw)
   }
 }
 
@@ -183,19 +167,16 @@ const bdragresize = d => {
       d.y + dragbarw / 2,
       Math.min(h, d.y + height + d3.event.dy)
     );
-
     //recalculate width
     height = dragy - d.y;
-
     //move the right drag handle
     dragbarbottom.attr("y", d => {
       return dragy - dragbarw / 2;
     });
-
     //resize the drag rectangle
     //as we are only resizing from the right, the x coordinate does not need to change
     dragrect.attr("height", height);
     dragbarleft.attr("height", height - dragbarw);
-    dragbarright.attr("height", height - dragbarw);
+    dragbarright.attr("height", height - dragbarw)
   }
 }

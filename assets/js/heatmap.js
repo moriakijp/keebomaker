@@ -10,8 +10,8 @@ drawHeatmap = layout => {
   const width = document.getElementById("heatmap-main").clientWidth;
   const height = document.getElementById("heatmap-main").clientHeight;
   const margin = {
-    top: height * 0.2,
-    // bottom: height * 0.5,
+    top: height * 0.20,
+    bottom: height * 0.05,
     left: width * 0.05,
     right: width * 0.05
   };
@@ -23,11 +23,10 @@ drawHeatmap = layout => {
   //     if (data[i][j] == letters[i].toUpperCase())
   //       data.count++;
 
-  const blocksize = (width - margin.left - margin.right) / colsize;
+  const rectwidth = rectheight = (width - margin.left - margin.right) / colsize;
 
   d3.json(layout).then(data => {
     d3.select("svg").remove(); // erase previous svg
-
     // for (i = 0; i < rowsize; i++) {
     //   for (j = 0; j < colsize; j++) {
     //     data[i][j].col = j;
@@ -45,6 +44,8 @@ drawHeatmap = layout => {
     //   char
     // }));
 
+
+    /* LAYOUT DATA CLEANING & ADD PROPERTY */
     for (i in data) {
       data[i] = data[i].map(char => ({
         char: char,
@@ -52,7 +53,11 @@ drawHeatmap = layout => {
         row: i
       }));
     }
-    data = flatten(data).filter(v => v.char !== "");
+    // data = flatten(data).filter(v => v.char !== "");
+    data = flatten(data);
+    for (i in data)
+      if (data[i].char === "") data[i].col = i % colsize;
+
 
     // for (i in data)
     //   if (data[i].char === "") {
@@ -72,9 +77,6 @@ drawHeatmap = layout => {
     //   else if (data[i].col.length == 1)
     //   data[i].col = data[i].col[0];
     // }
-
-
-    console.log('data: ', data);
 
     // for (i in rowsize)
     //   for (j in colsize) {
@@ -100,6 +102,7 @@ drawHeatmap = layout => {
         if (letters[j].toUpperCase() == data[i].char) data[i].count++;
 
     /* DISTANCE COST */
+
     // for (j in letters) {
     //   for (i in data) {
     //     // if (i == letters[0]) matched.push(data[i]);
@@ -193,28 +196,29 @@ drawHeatmap = layout => {
         .attr("y", (d.y = d3.event.y))
         .attr(
           "transform",
-          `translate(-${margin.left + blocksize / 2}, -${margin.top +
-            blocksize / 2})`
+          `translate(-${margin.left + rectwidth / 2}, -${margin.top +
+            rectheight / 2})`
         );
       d3
         .select(nodes[i])
-        .selectAll("text.char")
+        .select("text.char")
         .attr("x", (d.x = d3.event.x))
         .attr("y", (d.y = d3.event.y))
         .attr(
           "transform",
-          `translate(-${margin.left + blocksize / 2}, -${margin.top +
-            blocksize / 2})`
+          `translate(-${margin.left + rectwidth / 2}, -${margin.top +
+            rectheight / 2})`
         );
       d3
         .select(nodes[i])
         .selectAll("text.count")
+        // .selectAll('*')
         .attr("x", (d.x = d3.event.x))
         .attr("y", (d.y = d3.event.y))
         .attr(
           "transform",
-          `translate(-${margin.left + blocksize / 2}, -${margin.top +
-            blocksize / 2})`
+          `translate(-${margin.left + rectwidth / 2}, -${margin.top +
+      rectheight / 2})`
         );
     };
 
@@ -252,53 +256,46 @@ drawHeatmap = layout => {
         .attr("ry", 10);
     };
 
+
+    const zoomed = () => {
+      keys.attr("transform", d3.event.transform);
+    }
+
+
     /* DRAW HEATMAP */
-    const svg = d3
+    const svg_main = d3
       .select("#heatmap-main")
       .append("svg")
       .attr("width", width)
       .attr("height", height)
       .style("font-family", "Arial");
 
-    const keys = d3
-      .select("svg")
+    const keys = svg_main
       .selectAll("g")
       .data(data)
       .enter()
       .append("g")
-      .attr("id", "key")
+      .attr("id", "keys")
       .attr("transform", `translate(${margin.left}, ${margin.top})`)
+      .attr("cursor", "move")
       .call(drag)
       .on("click", (d, i, nodes) => {
         // if (d3.event.defaultPrevented) return; // click suppressed
-        textarea_main.value += data[i].char;
-        count_char.innerHTML = "Char..." + countChar(textarea_main.value);
+        // textarea_main.value += check_shift.checked ? data[i].char.toUpperCase() : data[i].char.toLowerCase();
+        textarea_main.value += data[i].char.toLowerCase();
+        label_char.innerHTML = "Char..." + countChar(textarea_main.value, textarea_layout.value);
         drawHeatmap(layout);
-        easeKeys(d, i, nodes);
-      });
-
-    // keys
-    //   .append('rect')
-    //   .attr('x', (d, i) => blocksize * (i % colsize))
-    //   .attr('y', (d, i) => blocksize * Math.floor(i / colsize))
-    //   .attr('width', blocksize)
-    //   .attr('height', blocksize)
-    //   .attr('rx', 10)
-    //   .attr('ry', 10)
-    //   .attr('fill', '#FFF')
-    //   .style('opacity', 0.9)
-    //   .attr('stroke', '#ccc')
-    //   .attr('stroke-dasharray', '3,3')
-    //   .attr('stroke-linecap', 'round')
-    //   .attr('stroke-width', '1')
-    //   .attr('cursor', 'move')
+        // easeKeys(d, i, nodes);
+      })
+      .on('zoom', zoomed);
 
     keys
       .append("rect")
-      .attr("x", (d, i) => blocksize * d.col)
-      .attr("y", (d, i) => blocksize * d.row)
-      .attr("width", blocksize)
-      .attr("height", blocksize)
+      .attr("class", "key")
+      .attr("x", (d, i) => rectwidth * d.col) // considering "" does not have .col
+      .attr("y", (d, i) => rectheight * d.row)
+      .attr("width", rectwidth)
+      .attr("height", rectheight)
       .attr("rx", 10)
       .attr("ry", 10)
       .attr(
@@ -310,73 +307,87 @@ drawHeatmap = layout => {
       .attr("stroke-dasharray", "3,3")
       .attr("stroke-linecap", "round")
       .attr("stroke-width", "1")
-      .attr("cursor", "move")
       .on("mouseover", (d, i, nodes) => {
         d3
           .select(nodes[i])
           .select("rect")
           .attr("class", "selected");
-        console.log("keys: ", keys.rect);
       })
-      .on("click", (d, i, nodes) => {});
+
 
     keys
       .append("text")
       .attr("class", "char")
       .text(d => d.char)
-      .attr("x", (d, i) => blocksize * d.col)
-      .attr("y", (d, i) => blocksize * d.row)
+      .attr("x", (d, i) => rectwidth * d.col)
+      .attr("y", (d, i) => rectheight * d.row)
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "middle")
-      .attr("dx", blocksize / 2)
-      .attr("dy", blocksize / 2)
+      .attr("dx", rectwidth / 2)
+      .attr("dy", rectheight / 2)
       .attr("fill", "black")
-      .style("font-size", blocksize * 0.3);
+      .style("font-size", rectwidth * 0.3);
 
     keys
       .append("text")
       .attr("class", "count")
       // .text(d => (d.char && d.count != 0 ? d.count : ''))
       .text(d => (check_count.checked && d.count != 0 ? d.count : ""))
-      .attr("x", (d, i) => blocksize * d.col)
-      .attr("y", (d, i) => blocksize * d.row)
+      .attr("x", (d, i) => rectwidth * d.col)
+      .attr("y", (d, i) => rectheight * d.row)
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "middle")
-      .attr("dx", blocksize * 0.75)
-      .attr("dy", blocksize * 0.75)
+      .attr("dx", rectwidth * 0.75)
+      .attr("dy", rectheight * 0.75)
       .attr("fill", "black")
-      .style("font-size", blocksize * 0.2);
+      .style("font-size", rectwidth * 0.2);
 
+    var xScale = d3.scaleBand()
+      .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+      .range([0, width]);
+
+    // svg_main.data(data).enter()
     keys
       .append("text")
+      .attr("id", "xAxisLabel")
+      .attr("class", "axislabel")
       .text(d => `C${d.col}`)
-      .attr("class", "xLabel")
-      .attr("x", (d, i) => blocksize * (d.col + 0.5))
+      .attr("x", (d, i) => rectwidth * d.col)
       .attr("y", 0)
+      // .call(d3.axisTop(xScale))
       .attr("fill", "#333")
-      .style("font-size", blocksize * 0.2)
+      .style("font-size", rectwidth * 0.2)
       .style("text-anchor", "middle")
-      .attr("transform", `translate(${0}, ${0})`);
+      .attr("transform", `translate(${rectwidth*0.5}, ${-rectheight*0.25})`);
 
     keys
       .append("text")
+      .attr("id", "yAxisLabel")
+      .attr("class", "axislabel")
       .text(d => `R${d.row}`)
-      .attr("fill", "#333")
-      .attr("class", "yLabel")
       .attr("x", 0)
-      .attr("y", (d, i) => blocksize * d.row)
-      .style("font-size", blocksize * 0.2)
+      .attr("y", (d, i) => rectheight * d.row)
+      .attr("fill", "#333")
+      .style("font-size", rectwidth * 0.2)
       .style("text-anchor", "end")
-      .attr("transform", `translate(${0}, ${0})`);
+      .attr("transform", `translate(${-rectwidth*0.25}, ${rectheight*0.5})`);
+
   });
+
 };
 
 //TODO
-// var zoom = d3.behavior.zoom()
+// const zoomed = (element) =>{
+//   element.attr("transform", d3.event.transform);
+// }
+
+// var zoom = d3.zoom()
 //     .translate(d3.select('svg').enter().translate())
 //     .scale(d3.select('svg').scale())
 //     .scaleExtent([height, 8 * height])
 //     .on('zoom', zoomed);
+
+
 
 //TODO
 // const arr = (new Array(4)).fill(1).map((v, i) => v + i)

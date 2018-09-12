@@ -58,29 +58,35 @@ onload = () => {
 select_sampletext.addEventListener('change', (e) => {
   const i = e.currentTarget.selectedIndex;
   textarea_main.value = select_sampletext[i].value;
-  count_word.innerHTML = 'Word...' + countWord(textarea_main.value);
-  count_char.innerHTML = 'Char...' + countChar(select_sampletext[i].value);
+  label_word.innerHTML = 'Word...' + countWord(textarea_main.value);
+  label_char.innerHTML = 'Char...' + countChar(select_sampletext[i].value);
   drawHeatmap(layout);
 });
 
 select_layout.addEventListener('change', (e) => {
   const i = e.currentTarget.selectedIndex;
   const layout = select_layout[i].value;
-  // textarea_layout.value = ;
+  fetch(layout)
+    .then(response => response.text())
+    .then(text => {
+      textarea_layout.value = `${text.replace(/\[\n|\n\]/g, "")}`;
+    });
   drawHeatmap(layout);
 });
 
 input_main.addEventListener('change', () => {
   const file_main = input_main.files[0];
   readFileAsText(file_main, textarea_main);
-  count_word.innerHTML = 'Word...' + countWord(textarea_main.value);
-  count_char.innerHTML = 'Char...' + countChar(textarea_main.value);
+  label_word.innerHTML = 'Word...' + countWord(textarea_main.value);
+  label_char.innerHTML = 'Char...' + countChar(textarea_main.value);
+  label_cost.innerHTML = 'Cost[ count * distance * position ]...' + countChar(textarea_layout.value);
   drawHeatmap(layout);
 });
 
 input_layout.addEventListener('change', () => {
   const file_layout = input_layout.files[0];
   readFileAsText(file_layout, textarea_layout);
+  label_cost.innerHTML = 'Cost[ count * distance * position ]...' + countChar(textarea_layout.value);
   drawHeatmap(layout);
 });
 
@@ -111,10 +117,26 @@ check_color.addEventListener('change', () => {
 
 button_reset.addEventListener('click', () => {
   textarea_main.value = '';
-  countText();
+  label_word.innerHTML = 'Word...' + countWord(textarea_main.value);
+  label_char.innerHTML = 'Char...' + countChar(textarea_main.value);
+  label_cost.innerHTML = 'Cost[ count * distance * position ]...' + countChar(textarea_layout.value);
+  drawHeatmap(layout);
 });
 
 textarea_main.focus();
+
 textarea_main.addEventListener('input', () => {
-  countText();
+  label_word.innerHTML = 'Word...' + countWord(textarea_main.value);
+  label_char.innerHTML = 'Char...' + countChar(textarea_main.value);
+  label_cost.innerHTML = 'Cost[ count * distance * position ]...' + countChar(textarea_layout.value);
+  drawHeatmap(layout);
+});
+
+textarea_layout.addEventListener('input', () => {
+  label_word.innerHTML = 'Word...' + countWord(textarea_main.value);
+  label_char.innerHTML = 'Char...' + countChar(textarea_main.value);
+  label_cost.innerHTML = 'Cost[ count * distance * position ]...' + countChar(textarea_layout.value);
+  console.log('`${"["+textarea_layout.value+"]"}`: \n', `${"[\n"+textarea_layout.value+"\n]"}`);
+  // layout = JSON.parse(`${"[\n"+textarea_layout.value+"\n]"}`);
+  drawHeatmap(layout);
 });

@@ -29,9 +29,26 @@ body {
 
 .area-left {
     background: hsl(40, 1%, 80%);
+    /* background: linear-gradient(178deg, #000000, #ffffff); */
+    animation: darksmorg 3s ease infinite;
+
     grid-area: left;
     font-size: 1rem;
 }
+
+form {
+    /* display: none; */
+}
+
+input.text {
+    width: 50%;
+}
+
+/* @keyframes darksmorg { */
+/* 0%{background-position:0% 66%} */
+/* 50%{background-position:100% 35%} */
+/* 100%{background-position:0% 66%} */
+/* } */
 
 /* .icon-bar { */
 /* width: auto; */
@@ -111,8 +128,10 @@ form {}
 textarea {
     position: relative;
     width: calc(100vw + -200px);
-    height: 100px;
-    /* resize: none; */
+    height: 6rem;
+    min-height: 1.5rem;
+    max-height: 20vh;
+    resize: vertical;
     border: none;
     outline: none;
     overflow-wrap: break-word;
@@ -142,6 +161,46 @@ textarea {
     stroke-width: 1px;
 }
 
+#forkongithub a {
+    background: #aaa;
+    color: #fff;
+    text-decoration: none;
+    font-family: arial, sans-serif;
+    text-align: center;
+    padding: 5px 40px;
+    font-size: 1rem;
+    line-height: 1.2rem;
+    position: relative;
+}
+
+#forkongithub a:hover {
+    background: #c11;
+    color: #fff;
+}
+
+
+@media screen and (min-width:800px) {
+    #forkongithub {
+        position: absolute;
+        display: block;
+        top: 0;
+        right: 0;
+        width: 200px;
+        overflow: hidden;
+        height: 200px;
+        z-index: 2;
+    }
+
+    #forkongithub a {
+        width: 140px;
+        position: absolute;
+        top: 50px;
+        right: -50px;
+        transform: rotate(45deg);
+    }
+}
+
+
 label {
     /* transition: background 0.2s, color 0.2s, top 0.2s, bottom 0.2s, right 0.2s, left 0.2s; */
     /* margin-top: 10vh; */
@@ -166,9 +225,10 @@ label {
 /* padding-top: 5px; */
 /* } */
 textarea::placeholder {
-    font-size: 4rem;
+    font-size: 1rem;
     font-weight: bold;
     text-align: center;
+
     /* text-transform: uppercase; */
     opacity: 0.3;
 }

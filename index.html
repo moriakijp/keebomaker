@@ -37,33 +37,37 @@
     </div>
 
     <div class='area-left'>
-      <select class="select" name="select" id="select-sampletext">
-      </select><br>
-      <input class="input" type="file" name="resume" id="input-main">
-      <select class="select" name="select" id="select-layout"></select><br>
-      <input class="input" type="file" name="resume" id="input-layout"><br>
-      <select class="select" name="select" id="select-col"></select>col<br>
-      <select class="select" name="select" id="select-row"></select>row<br>
-      <!-- <input type="checkbox" id="check-shift">Shift <br> -->
-      <input type="checkbox" id="check-count" checked="checked">Count<br>
-      <input type="checkbox" id="check-color" checked="checked">Color<br>
-      <button class="button" id="button-reset" style="">reset</button>
+      <form method="" action="" name="form">
 
+        <select class="select" name="select" id="select-sampletext">
+        </select><br>
+        <input type="file" class="input" name="resume" id="input-main">
+        <select class="select" name="select" id="select-layout"></select><br>
+        <input type="file" class="input" name="resume" id="input-layout"><br>
+        <select class="select" name="select" id="select-col"></select>col<br>
+        <select class="select" name="select" id="select-row"></select>row<br>
+        <!-- <input type="checkbox" id="check-shift">Shift <br> -->
+        <input type="checkbox" id="check-count" checked="checked">Count<br>
+        <input type="checkbox" id="check-color" checked="checked">Color<br>
+        <input type="number" class="text" id="text-width" value=1>width<br>
+        <input type="number" class="text" id="text-height" value=1>height<br>
+        <input type="number" class="text" id="text-movestep" value=1>move<br>
+        <input type="number" class="text" id="text-sizestep" step=0.25 value=0.25>resize<br>
+        <input type="number" class="text" id="text-rotatestep" step="15">rotate<br>
+        <button class="button" id="button-reset">reset</button>
+      </form>
     </div>
 
     <div class='area-content'>
-      <a href="https://github.com/moriakijp/kbvis">
-        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-          alt="Fork me on GitHub">
-      </a>
-
+      <!-- <span id="forkongithub"><a href="https://github.com/codepo8/css-fork-on-github-ribbon">Fork me on GitHub</a></span> -->
 
       <textarea name="textarea" class="textarea" id="textarea-main" maxlength="100000" placeholder='text'></textarea>
 
-      <label for="textarea-main" id="count-word">Word...0</label>
-      <label for="textarea-main" id="count-char">Char...0</label>
+      <label for="textarea-main" id="label-word">Word...0</label>
+      <label for="textarea-main" id="label-char">Char...0</label>
 
       <textarea name="textarea" class="textarea" id="textarea-layout" maxlength="10000" placeholder='layout'></textarea>
+      <label for="textarea-layout" id="label-cost">Cost[ count * distance * position ]...0</label>
       <div class="heatmap" id="heatmap-main"></div>
     </div>
 
