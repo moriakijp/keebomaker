@@ -30,28 +30,33 @@ onload = () => {
     option.text = k;
     option.value = sampleTexts[k];
     option.selected = (k == 0) ? true : false;
-    document.getElementById('select-sampletext').appendChild(option);
+    select_sampletext.appendChild(option);
   })
   Object.keys(layouts).forEach(k => {
     let option = document.createElement('option');
     option.text = k;
     option.value = layouts[k];
     option.selected = (k == 0) ? true : false;
-    document.getElementById('select-layout').appendChild(option);
+    select_layout.appendChild(option);
   })
   Object.keys(cols).forEach(k => {
     let option = document.createElement('option');
     option.text = option.value = k;
     option.selected = (k == 14) ? true : false;
-    document.getElementById('select-col').appendChild(option);
+    select_col.appendChild(option);
   })
   Object.keys(rows).forEach(k => {
     let option = document.createElement('option');
     option.text = option.value = k;
     option.selected = (k == 4) ? true : false;
-    document.getElementById('select-row').appendChild(option);
+    select_row.appendChild(option);
   })
-  layout = document.getElementById('select-layout').value;
+  layout = select_layout.value;
+  fetch(layout)
+    .then(response => response.text())
+    .then(text => {
+      textarea_layout.value = `${text.replace(/\[\n|\n\]/g, "")}`;
+    });
   drawHeatmap(layout);
 }
 
