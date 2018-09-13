@@ -197,7 +197,7 @@ drawHeatmap = layout => {
         .attr(
           "transform",
           `translate(-${margin.left + rectwidth / 2}, -${margin.top +
-            rectheight / 2})`
+          rectheight / 2})`
         );
       d3
         .select(nodes[i])
@@ -256,10 +256,16 @@ drawHeatmap = layout => {
         .attr("ry", 10);
     };
 
-
-    const zoomed = () => {
-      keys.attr("transform", d3.event.transform);
+    const mouseover = (d, i, nodes) => {
+      d3.select(nodes[i])
+        .classed("active", true)
+        .select("circle")
+        .attr("fill", "red");
     }
+
+    // const zoom = (d, i, nodes) => {
+    //   keys.attr("transform", d3.event.transform);
+    // }
 
 
     /* DRAW HEATMAP */
@@ -287,13 +293,13 @@ drawHeatmap = layout => {
         drawHeatmap(layout);
         // easeKeys(d, i, nodes);
       })
-      .on('zoom', zoomed);
+    // .on('zoom', zoom);
 
     keys
       .append("rect")
       .attr("class", "key")
-      .attr("x", (d, i) => rectwidth * d.col) // considering "" does not have .col
-      .attr("y", (d, i) => rectheight * d.row)
+      .attr("x", d => rectwidth * d.col) // considering "" does not have .col
+      .attr("y", d => rectheight * d.row)
       .attr("width", rectwidth)
       .attr("height", rectheight)
       .attr("rx", 10)
@@ -307,24 +313,29 @@ drawHeatmap = layout => {
       .attr("stroke-dasharray", "3,3")
       .attr("stroke-linecap", "round")
       .attr("stroke-width", "1")
-      .on("mouseover", (d, i, nodes) => {
-        d3
-          .select(nodes[i])
-          .select("rect")
-          .attr("class", "selected");
-      })
+      .call(mouseover)
+
+    // keys
+    //   .append("circle")
+    //   .attr("class", "top_handle")
+    //   .attr("cx", d => rectwidth * d.col)
+    //   .attr("cy", d => rectheight * d.row)
+    //   .attr("dy", d => rectwidth * 0.5)
+    //   .attr("r", rectwidth * 0.05)
+    //   .attr("fill", "grey")
+    //   .attr("transform", `translate(${rectwidth * 0.05}, ${rectwidth*0.5})`)
 
 
     keys
       .append("text")
       .attr("class", "char")
       .text(d => d.char)
-      .attr("x", (d, i) => rectwidth * d.col)
-      .attr("y", (d, i) => rectheight * d.row)
+      .attr("x", d => rectwidth * d.col)
+      .attr("y", d => rectheight * d.row)
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "middle")
-      .attr("dx", rectwidth / 2)
-      .attr("dy", rectheight / 2)
+      .attr("dx", rectwidth * 0.5)
+      .attr("dy", rectheight * 0.5)
       .attr("fill", "black")
       .style("font-size", rectwidth * 0.3);
 
@@ -333,14 +344,14 @@ drawHeatmap = layout => {
       .attr("class", "count")
       // .text(d => (d.char && d.count != 0 ? d.count : ''))
       .text(d => (check_count.checked && d.count != 0 ? d.count : ""))
-      .attr("x", (d, i) => rectwidth * d.col)
-      .attr("y", (d, i) => rectheight * d.row)
+      .attr("x", d => rectwidth * d.col)
+      .attr("y", d => rectheight * d.row)
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "middle")
       .attr("dx", rectwidth * 0.75)
       .attr("dy", rectheight * 0.75)
       .attr("fill", "black")
-      .style("font-size", rectwidth * 0.2);
+      .style("font-size", rectwidth * 0.2)
 
     var xScale = d3.scaleBand()
       .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
@@ -352,7 +363,7 @@ drawHeatmap = layout => {
       .attr("id", "xAxisLabel")
       .attr("class", "axislabel")
       .text(d => `C${d.col}`)
-      .attr("x", (d, i) => rectwidth * d.col)
+      .attr("x", d => rectwidth * d.col)
       .attr("y", 0)
       // .call(d3.axisTop(xScale))
       .attr("fill", "#333")
@@ -366,7 +377,7 @@ drawHeatmap = layout => {
       .attr("class", "axislabel")
       .text(d => `R${d.row}`)
       .attr("x", 0)
-      .attr("y", (d, i) => rectheight * d.row)
+      .attr("y", d => rectheight * d.row)
       .attr("fill", "#333")
       .style("font-size", rectwidth * 0.2)
       .style("text-anchor", "end")
