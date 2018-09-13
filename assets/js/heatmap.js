@@ -2,7 +2,6 @@
 // import {
 //   downloadable
 // } from 'd3-downloadable'
-
 // d3.select('svg#heatmap-main')
 //   .call(downloadable());
 
