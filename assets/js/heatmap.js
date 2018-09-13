@@ -313,7 +313,7 @@ drawHeatmap = layout => {
       .attr("stroke-dasharray", "3,3")
       .attr("stroke-linecap", "round")
       .attr("stroke-width", "1")
-      .call(mouseover)
+    // .call(mouseover)
 
     // keys
     //   .append("circle")
