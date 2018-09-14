@@ -99,8 +99,20 @@ onresize = () => {
   drawHeatmap(layout);
 };
 
-select_col.addEventListener('change', () => drawHeatmap(layout));
-select_row.addEventListener('change', () => drawHeatmap(layout));
+select_col.addEventListener('change', () => {
+  const arr = Array.from(JSON.parse(`${"[\n"+textarea_layout.value+"\n]"}`));
+  console.log(arr.forEach((v, i) => Math.max(v[i].length, v[i - 1].length)));
+  if (select_col.value > arr[0].length) arr.forEach(a => a.push(""));
+  else arr.forEach(a => a.pop());
+  textarea_layout.value = JSON.stringify(arr).replace(/^\[|\]$/g, "").replace(/\],/g, "\],\n");
+  drawHeatmap(layout);
+});
+
+
+select_row.addEventListener('change', () => {
+  const arr = Array.from(JSON.parse(`${"[\n"+textarea_layout.value+"\n]"}`));
+  drawHeatmap(layout)
+});
 
 // check_shift.addEventListener('change', () => {
 //   if (check_shift.checked) {
@@ -142,6 +154,6 @@ textarea_layout.addEventListener('input', () => {
   label_char.innerHTML = 'Char...' + countChar(textarea_main.value);
   label_cost.innerHTML = 'Cost[ count * distance * position ]...' + countChar(textarea_layout.value);
   console.log('`${"["+textarea_layout.value+"]"}`: \n', `${"[\n"+textarea_layout.value+"\n]"}`);
-  // layout = JSON.parse(`${"[\n"+textarea_layout.value+"\n]"}`);
+  // layout = JSON.stringify(`${"[\n"+textarea_layout.value+"\n]"}`);
   drawHeatmap(layout);
 });

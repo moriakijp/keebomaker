@@ -44,18 +44,23 @@ drawHeatmap = layout => {
     // }));
 
 
-    /* LAYOUT DATA CLEANING & ADD PROPERTY */
+    /* LAYOUT DATA CLEANING & ADD PROPERTY - "id" "col" */
+    let id = 0;
     for (i in data) {
-      data[i] = data[i].map(char => ({
-        char: char,
-        col: data[i].indexOf(char),
-        row: i
-      }));
+      data[i] = data[i].map(char => {
+        id++;
+        return {
+          id: id,
+          char: char,
+          col: (id - 1) % data[i].length,
+          row: i
+        }
+      });
     }
+
     // data = flatten(data).filter(v => v.char !== "");
     data = flatten(data);
-    for (i in data)
-      if (data[i].char === "") data[i].col = i % colsize;
+    console.log('data: ', data);
 
 
     // for (i in data)
@@ -99,6 +104,11 @@ drawHeatmap = layout => {
     for (j in letters)
       for (i in data)
         if (letters[j].toUpperCase() == data[i].char) data[i].count++;
+
+    // data.reduce((a, b) => {
+    //   a[b] = a[b] ? a[b] + 1 : 1;
+    //   return a;
+    // }, []);
 
     /* DISTANCE COST */
 
@@ -183,14 +193,14 @@ drawHeatmap = layout => {
         .select(nodes[i])
         .raise()
         .classed("active", true)
-        .select("rect")
+        .select("rect.key")
         .attr("fill", "aquamarine");
     };
 
     const dragged = (d, i, nodes) => {
       d3
         .select(nodes[i])
-        .select("rect")
+        .select("rect.key")
         .attr("x", (d.x = d3.event.x))
         .attr("y", (d.y = d3.event.y))
         .attr(
@@ -225,7 +235,7 @@ drawHeatmap = layout => {
       d3
         .select(nodes[i])
         .classed("active", false)
-        .select("rect")
+        .select("rect.key")
         .attr(
           "fill",
           d => (d.char && check_color.checked ? colorScale(d.count) : "#FFF")
@@ -294,6 +304,22 @@ drawHeatmap = layout => {
       })
     // .on('zoom', zoom);
 
+
+    // keys
+    //   .append("rect")
+    //   .attr("class", "frame")
+    //   .attr("x", (d, i) => i % colsize) // considering "" does not have .col
+    //   .attr("y", d => rectheight * d.row)
+    //   .attr("width", rectwidth)
+    //   .attr("height", rectheight)
+    //   .attr("rx", 10)
+    //   .attr("ry", 10)
+    //   .attr("fill", "white")
+    //   .attr("stroke", "#ccc")
+    //   .attr("stroke-dasharray", "3,3")
+    //   .attr("stroke-linecap", "round")
+    //   .attr("stroke-width", "1")
+
     keys
       .append("rect")
       .attr("class", "key")
@@ -312,6 +338,8 @@ drawHeatmap = layout => {
       .attr("stroke-dasharray", "3,3")
       .attr("stroke-linecap", "round")
       .attr("stroke-width", "1")
+
+
     // .call(mouseover)
 
     // keys
@@ -336,7 +364,7 @@ drawHeatmap = layout => {
       .attr("dx", rectwidth * 0.5)
       .attr("dy", rectheight * 0.5)
       .attr("fill", "black")
-      .style("font-size", rectwidth * 0.3);
+      .style("font-size", d => Math.min(rectwidth * 0.3, rectwidth / (d.char.length ** 0.8)))
 
     keys
       .append("text")
