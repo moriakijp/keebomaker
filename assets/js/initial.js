@@ -80,13 +80,13 @@ const countCost = (str, layout) => {
 
 }
 
-// const flatten = array => {
-//   return array.reduce((acc, cur) => {
-//     return Array.isArray(cur) ? acc.concat(flatten(cur)) : acc.concat(cur);
-//   }, []);
-// };
+const flatten = array => {
+  return array.reduce((acc, cur) => {
+    return Array.isArray(cur) ? acc.concat(flatten(cur)) : acc.concat(cur);
+  }, []);
+};
 
-const flatten = array => array.reduce((pre, current) => {
+const decrementDegree = array => array.reduce((pre, current) => {
   pre.push(...current);
   return pre
 });

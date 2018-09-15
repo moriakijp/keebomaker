@@ -11,7 +11,6 @@ const layouts = {
 };
 
 const sampleTexts = {
-  sampleText: "",
   alice,
   mingpao,
   xingyusi,
@@ -20,10 +19,9 @@ const sampleTexts = {
   hhkb,
   alpha,
 };
-const cols = Array.from(Array(20));
-const rows = Array.from(Array(20));
 
-
+const cols = Array(10).fill(10).map((v, i) => v + i).reverse();
+const rows = Array(10).fill(1).map((v, i) => v + i).reverse();
 onload = () => {
   Object.keys(sampleTexts).forEach(k => {
     let option = document.createElement('option');
@@ -39,25 +37,25 @@ onload = () => {
     option.selected = (k == 0) ? true : false;
     select_layout.appendChild(option);
   })
-  Object.keys(cols).forEach(k => {
+  Object.values(cols).forEach(k => {
     let option = document.createElement('option');
-    option.text = option.value = k;
+    option.text = k;
     option.selected = (k == 14) ? true : false;
     select_col.appendChild(option);
   })
-  Object.keys(rows).forEach(k => {
+  Object.values(rows).forEach(k => {
     let option = document.createElement('option');
-    option.text = option.value = k;
+    option.text = k;
     option.selected = (k == 4) ? true : false;
     select_row.appendChild(option);
   })
+  textarea_main.value = select_sampletext.value;
   layout = select_layout.value;
   fetch(layout)
     .then(response => response.text())
     .then(text => {
-      textarea_layout.value = `${text.replace(/\[\n|\n\]/g, "")}`;
-    });
-  drawHeatmap(layout);
+      textarea_layout.value = `${text.replace(/\s|\n/g, "").replace(/^\[|\]$/g, "").replace(/\],/g, "\],\n")}`;
+    }).then(drawHeatmap);
 }
 
 select_sampletext.addEventListener('change', (e) => {
@@ -65,7 +63,7 @@ select_sampletext.addEventListener('change', (e) => {
   textarea_main.value = select_sampletext[i].value;
   label_word.innerHTML = 'Word...' + countWord(textarea_main.value);
   label_char.innerHTML = 'Char...' + countChar(select_sampletext[i].value);
-  drawHeatmap(layout);
+  drawHeatmap();
 });
 
 select_layout.addEventListener('change', (e) => {
@@ -74,9 +72,8 @@ select_layout.addEventListener('change', (e) => {
   fetch(layout)
     .then(response => response.text())
     .then(text => {
-      textarea_layout.value = `${text.replace(/\[\n|\n\]/g, "")}`;
-    });
-  drawHeatmap(layout);
+      textarea_layout.value = `${text.replace(/\s|\n/g, "").replace(/^\[|\]$/g, "").replace(/\],/g, "\],\n")}`;
+    }).then(drawHeatmap);
 });
 
 input_main.addEventListener('change', () => {
@@ -85,51 +82,73 @@ input_main.addEventListener('change', () => {
   label_word.innerHTML = 'Word...' + countWord(textarea_main.value);
   label_char.innerHTML = 'Char...' + countChar(textarea_main.value);
   label_cost.innerHTML = 'Cost[ count * distance * position ]...' + countChar(textarea_layout.value);
-  drawHeatmap(layout);
+  drawHeatmap();
 });
 
 input_layout.addEventListener('change', () => {
   const file_layout = input_layout.files[0];
   readFileAsText(file_layout, textarea_layout);
   label_cost.innerHTML = 'Cost[ count * distance * position ]...' + countChar(textarea_layout.value);
-  drawHeatmap(layout);
+  drawHeatmap();
 });
 
 onresize = () => {
-  drawHeatmap(layout);
+  drawHeatmap();
 };
 
+select_col.addEventListener('focus', () => {
+  select_col.prev = select_col.value;
+})
 select_col.addEventListener('change', () => {
   const arr = Array.from(JSON.parse(`${"[\n"+textarea_layout.value+"\n]"}`));
-  console.log(arr.forEach((v, i) => Math.max(v[i].length, v[i - 1].length)));
-  if (select_col.value > arr[0].length) arr.forEach(a => a.push(""));
-  else arr.forEach(a => a.pop());
-  textarea_layout.value = JSON.stringify(arr).replace(/^\[|\]$/g, "").replace(/\],/g, "\],\n");
-  drawHeatmap(layout);
+  // console.log(arr.forEach((v, i) => Math.max(v[i].length, v[i - 1].length)));
+  const d = select_col.value - select_col.prev;
+  console.log('d: ', d);
+  if (d > 0) arr.forEach(a => {
+    for (let i = 0; i < d; i++) a.push("");
+  });
+  else arr.forEach(a => {
+    for (let i = 0; i < d * -1; i++) a.pop("");
+  });
+  select_col.prev = select_col.value;
+  textarea_layout.value = JSON.stringify(arr).replace(/\s|\n/g, "").replace(/^\[|\]$/g, "").replace(/\],/g, "\],\n");
+  layout = "[" + textarea_layout.value + "]"
+  drawHeatmap();
 });
 
-
+select_row.addEventListener('focus', () => {
+  select_row.prev = select_row.value;
+})
 select_row.addEventListener('change', () => {
   const arr = Array.from(JSON.parse(`${"[\n"+textarea_layout.value+"\n]"}`));
-  drawHeatmap(layout)
+  const new_row = Array(arr[0].length).fill('')
+  const d = select_row.value - select_row.prev;
+  if (d > 0)
+    for (let i = 0; i < d; i++) arr.push(new_row);
+  else
+    for (let i = 0; i < d * -1; i++) arr.pop();
+  select_row.prev = select_row.value;
+  textarea_layout.value = JSON.stringify(arr).replace(/\s|\n/g, "").replace(/^\[|\]$/g, "").replace(/\],/g, "\],\n");
+  layout = "[" + textarea_layout.value + "]"
+  drawHeatmap()
 });
 
 // check_shift.addEventListener('change', () => {
 //   if (check_shift.checked) {
 //     layout = `${layout.slice(0,-5)}-shift.json`;
-//     drawHeatmap(layout);
+//     drawHeatmap();
 //   } else {
 //     layout = document.getElementById('select-layout').value;
-//     drawHeatmap(layout);
+//     drawHeatmap();
 //   }
 // });
 
 check_count.addEventListener('change', () => {
-  drawHeatmap(layout);
+  drawHeatmap();
 });
 
 check_color.addEventListener('change', () => {
-  drawHeatmap(layout);
+  drawHeatmap();
 });
 
 button_reset.addEventListener('click', () => {
@@ -137,7 +156,7 @@ button_reset.addEventListener('click', () => {
   label_word.innerHTML = 'Word...' + countWord(textarea_main.value);
   label_char.innerHTML = 'Char...' + countChar(textarea_main.value);
   label_cost.innerHTML = 'Cost[ count * distance * position ]...' + countChar(textarea_layout.value);
-  drawHeatmap(layout);
+  drawHeatmap();
 });
 
 textarea_main.focus();
@@ -146,7 +165,7 @@ textarea_main.addEventListener('input', () => {
   label_word.innerHTML = 'Word...' + countWord(textarea_main.value);
   label_char.innerHTML = 'Char...' + countChar(textarea_main.value);
   label_cost.innerHTML = 'Cost[ count * distance * position ]...' + countChar(textarea_layout.value);
-  drawHeatmap(layout);
+  drawHeatmap();
 });
 
 textarea_layout.addEventListener('input', () => {
@@ -155,5 +174,5 @@ textarea_layout.addEventListener('input', () => {
   label_cost.innerHTML = 'Cost[ count * distance * position ]...' + countChar(textarea_layout.value);
   console.log('`${"["+textarea_layout.value+"]"}`: \n', `${"[\n"+textarea_layout.value+"\n]"}`);
   // layout = JSON.stringify(`${"[\n"+textarea_layout.value+"\n]"}`);
-  drawHeatmap(layout);
+  drawHeatmap();
 });
