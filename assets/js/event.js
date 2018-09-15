@@ -69,9 +69,13 @@ select_sampletext.addEventListener('change', (e) => {
 select_layout.addEventListener('change', (e) => {
   const i = e.currentTarget.selectedIndex;
   const layout = select_layout[i].value;
+  // select_col.option[layout[0].length].selected = true;
+  // select_row.option[layout.length].selected = true;
   fetch(layout)
     .then(response => response.text())
     .then(text => {
+      select_col.value = JSON.parse(text)[0].length;
+      select_row.value = JSON.parse(text).length;
       textarea_layout.value = `${text.replace(/\s|\n/g, "").replace(/^\[|\]$/g, "").replace(/\],/g, "\],\n")}`;
     }).then(drawHeatmap);
 });
@@ -100,7 +104,7 @@ select_col.addEventListener('focus', () => {
   select_col.prev = select_col.value;
 })
 select_col.addEventListener('change', () => {
-  const arr = Array.from(JSON.parse(`${"[\n"+textarea_layout.value+"\n]"}`));
+  const arr = Array.from(JSON.parse(`[${textarea_layout.value}]`));
   // console.log(arr.forEach((v, i) => Math.max(v[i].length, v[i - 1].length)));
   const d = select_col.value - select_col.prev;
   console.log('d: ', d);
@@ -120,7 +124,7 @@ select_row.addEventListener('focus', () => {
   select_row.prev = select_row.value;
 })
 select_row.addEventListener('change', () => {
-  const arr = Array.from(JSON.parse(`${"[\n"+textarea_layout.value+"\n]"}`));
+  const arr = Array.from(JSON.parse(`[${textarea_layout.value}]`));
   const new_row = Array(arr[0].length).fill('')
   const d = select_row.value - select_row.prev;
   if (d > 0)
@@ -172,7 +176,9 @@ textarea_layout.addEventListener('input', () => {
   label_word.innerHTML = 'Word...' + countWord(textarea_main.value);
   label_char.innerHTML = 'Char...' + countChar(textarea_main.value);
   label_cost.innerHTML = 'Cost[ count * distance * position ]...' + countChar(textarea_layout.value);
-  console.log('`${"["+textarea_layout.value+"]"}`: \n', `${"[\n"+textarea_layout.value+"\n]"}`);
-  // layout = JSON.stringify(`${"[\n"+textarea_layout.value+"\n]"}`);
+
+  const arr = Array.from(JSON.parse(`[${textarea_layout.value}]`));
+  select_col.value = arr.map(v => v.length).reduce((a, c) => a > c ? a : c);
+  select_row.value = arr.length;
   drawHeatmap();
 });

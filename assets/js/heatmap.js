@@ -9,7 +9,7 @@ drawHeatmap = () => {
   const width = document.getElementById("heatmap-main").clientWidth;
   const height = document.getElementById("heatmap-main").clientHeight;
   const margin = {
-    top: height * 0.20,
+    top: height * 0.2,
     bottom: height * 0.05,
     left: width * 0.05,
     right: width * 0.05
@@ -22,49 +22,56 @@ drawHeatmap = () => {
   //     if (data[i][j] == letters[i].toUpperCase())
   //       data.count++;
 
-  const rectwidth = rectheight = (width - margin.left - margin.right) / colsize;
+  const rectwidth = (rectheight =
+    (width - margin.left - margin.right) / colsize);
 
   let data = JSON.parse(`[${textarea_layout.value}]`);
-
-  console.log('data: ', data);
-
   d3.select("svg").remove(); // erase previous svg
-  // for (i = 0; i < rowsize; i++) {
-  //   for (j = 0; j < colsize; j++) {
-  //     data[i][j].col = j;
-  //     data[i][j].row = i;
-  //   }
-  // }
-
-  // const obj = data.map(x =>
-  //   x.reduce((acc, cur) => {
-  //     acc.push(...cur);
-  //   }, [])
-  // );
 
   // const obj = data.map((char) => ({
   //   char
   // }));
-
 
   /* LAYOUT DATA CLEANING & ADD PROPERTY - "id" "col" */
   let id = 0;
   for (i in data) {
     data[i] = data[i].map(char => {
       id++;
+
+      // const sumElement = (start, end, arr) => {
+      //   let sum = 0;
+      //   if (start == end) sum += arr[start];
+      //   for (i = start; i <= end; ++i)
+      //     sum += arr[i];
+      //   return sum;
+      // }
+
+      const recSum = (arr, i) => {
+        let sum = 0;
+        if (i == 0) return sum;
+        else {
+          sum = recSum(arr, --i);
+          return sum + arr[i];
+        }
+      };
+
+      // const datum = [1, 2, 3, 3, 3];
+      // console.log(recSum(datum, datum.length));
+
+      // console.log("data.map(v => v.length): ", data.map(v => v.length));
       return {
         id: id,
         char: char,
-        col: (id - 1) % data[i].length,
+        col: i == 0 ? id - 1 : id - 1 - recSum(data.map(v => v.length), i),
+        // col: (id - 1) % data[i].length,
         row: i
-      }
+      };
     });
   }
 
   // data = flatten(data).filter(v => v.char !== "");
   data = flatten(data);
-  console.log('data: ', data);
-
+  console.log("data: ", data);
 
   // for (i in data)
   //   if (data[i].char === "") {
@@ -76,7 +83,6 @@ drawHeatmap = () => {
   //   tmp = data[i].col;
   //   while (tmp = data[i].col.shift())
   //     console.log('tmp: ', tmp);
-
 
   // for (j in data[i])
   //   if (data[i].col.length > 1)
@@ -219,7 +225,7 @@ drawHeatmap = () => {
       .attr(
         "transform",
         `translate(-${margin.left + rectwidth / 2}, -${margin.top +
-            rectheight / 2})`
+          rectheight / 2})`
       );
     d3
       .select(nodes[i])
@@ -230,7 +236,7 @@ drawHeatmap = () => {
       .attr(
         "transform",
         `translate(-${margin.left + rectwidth / 2}, -${margin.top +
-      rectheight / 2})`
+          rectheight / 2})`
       );
   };
 
@@ -268,17 +274,9 @@ drawHeatmap = () => {
       .attr("ry", 10);
   };
 
-  const mouseover = (d, i, nodes) => {
-    d3.select(nodes[i])
-      .classed("active", true)
-      .select("circle")
-      .attr("fill", "red");
-  }
-
   // const zoom = (d, i, nodes) => {
   //   keys.attr("transform", d3.event.transform);
   // }
-
 
   /* DRAW HEATMAP */
   const svg_main = d3
@@ -301,12 +299,12 @@ drawHeatmap = () => {
       // if (d3.event.defaultPrevented) return; // click suppressed
       // textarea_main.value += check_shift.checked ? data[i].char.toUpperCase() : data[i].char.toLowerCase();
       textarea_main.value += data[i].char.toLowerCase();
-      label_char.innerHTML = "Char..." + countChar(textarea_main.value, textarea_layout.value);
+      label_char.innerHTML =
+        "Char..." + countChar(textarea_main.value, textarea_layout.value);
       drawHeatmap();
       // easeKeys(d, i, nodes);
-    })
+    });
   // .on('zoom', zoom);
-
 
   // keys
   //   .append("rect")
@@ -340,21 +338,19 @@ drawHeatmap = () => {
     .attr("stroke", "#ccc")
     .attr("stroke-dasharray", "3,3")
     .attr("stroke-linecap", "round")
-    .attr("stroke-width", "1")
-
+    .attr("stroke-width", "1");
 
   // .call(mouseover)
 
-  // keys
-  //   .append("circle")
-  //   .attr("class", "top_handle")
-  //   .attr("cx", d => rectwidth * d.col)
-  //   .attr("cy", d => rectheight * d.row)
-  //   .attr("dy", d => rectwidth * 0.5)
-  //   .attr("r", rectwidth * 0.05)
-  //   .attr("fill", "grey")
-  //   .attr("transform", `translate(${rectwidth * 0.05}, ${rectwidth*0.5})`)
-
+  keys
+    .append("circle")
+    .attr("class", "top_handle")
+    .attr("cx", d => rectwidth * d.col)
+    .attr("cy", d => rectheight * d.row)
+    .attr("dy", d => rectwidth * 0.5)
+    .attr("r", rectwidth * 0.05)
+    .attr("fill", "orange")
+    .attr("transform", `translate(${rectwidth * 0.05}, ${rectwidth * 0.5})`);
 
   keys
     .append("text")
@@ -367,7 +363,9 @@ drawHeatmap = () => {
     .attr("dx", rectwidth * 0.5)
     .attr("dy", rectheight * 0.5)
     .attr("fill", "black")
-    .style("font-size", d => Math.min(rectwidth * 0.3, rectwidth / (d.char.length) ** 0.8))
+    .style("font-size", d =>
+      Math.min(rectwidth * 0.3, rectwidth / d.char.length ** 0.8)
+    );
 
   keys
     .append("text")
@@ -381,9 +379,10 @@ drawHeatmap = () => {
     .attr("dx", rectwidth * 0.75)
     .attr("dy", rectheight * 0.75)
     .attr("fill", "black")
-    .style("font-size", rectwidth * 0.2)
+    .style("font-size", rectwidth * 0.2);
 
-  var xScale = d3.scaleBand()
+  var xScale = d3
+    .scaleBand()
     .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     .range([0, width]);
 
@@ -399,7 +398,7 @@ drawHeatmap = () => {
     .attr("fill", "#333")
     .style("font-size", rectwidth * 0.2)
     .style("text-anchor", "middle")
-    .attr("transform", `translate(${rectwidth*0.5}, ${-rectheight*0.25})`);
+    .attr("transform", `translate(${rectwidth * 0.5}, ${-rectheight * 0.25})`);
 
   keys
     .append("text")
@@ -411,10 +410,9 @@ drawHeatmap = () => {
     .attr("fill", "#333")
     .style("font-size", rectwidth * 0.2)
     .style("text-anchor", "end")
-    .attr("transform", `translate(${-rectwidth*0.25}, ${rectheight*0.5})`);
+    .attr("transform", `translate(${-rectwidth * 0.25}, ${rectheight * 0.5})`);
 
   // });
-
 };
 
 //TODO
@@ -427,8 +425,6 @@ drawHeatmap = () => {
 //     .scale(d3.select('svg').scale())
 //     .scaleExtent([height, 8 * height])
 //     .on('zoom', zoomed);
-
-
 
 //TODO
 // const arr = (new Array(4)).fill(1).map((v, i) => v + i)

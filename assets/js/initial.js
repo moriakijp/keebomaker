@@ -80,6 +80,17 @@ const countCost = (str, layout) => {
 
 }
 
+
+const recSum = (arr, i) => {
+  let sum = 0;
+  if (i == 0) return sum;
+  else {
+    sum = recSum(arr, --i);
+    return sum + arr[i];
+  }
+};
+
+
 const flatten = array => {
   return array.reduce((acc, cur) => {
     return Array.isArray(cur) ? acc.concat(flatten(cur)) : acc.concat(cur);
