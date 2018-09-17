@@ -17,8 +17,7 @@ drawHeatmap = () => {
   const colsize = select_col.value;
   const rowsize = select_row.value;
 
-  const rectwidth = (rectheight =
-    (width - margin.left - margin.right) / colsize);
+  const rectwidth = rectheight = (width - margin.left - margin.right) / colsize;
 
   let data = JSON.parse(`[${textarea_layout.value}]`);
   d3.select("svg").remove(); // erase previous svg
@@ -35,7 +34,9 @@ drawHeatmap = () => {
         char: char,
         col: i == 0 ? id - 1 : id - 1 - recSum(data.map(v => v.length), i),
         // col: (id - 1) % data[i].length,
-        row: i
+        row: i,
+        x: rectwidth * (i == 0 ? id - 1 : id - 1 - recSum(data.map(v => v.length), i)),
+        y: rectheight * i
       };
     });
   }
@@ -158,15 +159,15 @@ drawHeatmap = () => {
       // .select("rect.key")
       // .select("text.char")
       // .selectAll("text.count")
-      .attr("x", d3.event.x)
-      .attr("y", d3.event.y)
+      .attr("x", d.x = d3.event.x)
+      .attr("y", d.y = d3.event.y)
       // .attr("dx", d3.event.dx)
       // .attr("dy", d3.event.dy)
-      .attr(
-        "transform",
-        `translate(-${margin.left + rectwidth * 0.5}, -${margin.top +
-        rectheight * 0.5})`
-      )
+      .attr("transform", d => {
+        console.log(d3.select('rect'));
+        console.log(d);
+        return `translate(${d3.event.x -d.dx }, ${ d3.event.y -d.dy})`
+      })
 
     d3.select(nodes[i])
       .selectAll("circle.left")
@@ -174,28 +175,31 @@ drawHeatmap = () => {
       .attr("cy", d3.event.y)
       .attr(
         "transform",
-        `translate(-${margin.left + rectwidth * (0.5-0.1)}, -${margin.top})`)
+        `translate(${rectwidth * 0.1}, ${rectheight*0.5})`)
+
     d3.select(nodes[i])
       .selectAll("circle.right")
       .attr("cx", d3.event.x)
       .attr("cy", d3.event.y)
       .attr(
         "transform",
-        `translate(-${margin.left + rectwidth * (0.5-1 + 0.1)}, -${margin.top})`)
+        `translate(${rectwidth * (1 - 0.1)}, ${rectheight*0.5})`)
+
     d3.select(nodes[i])
       .selectAll("circle.top")
       .attr("cx", d3.event.x)
       .attr("cy", d3.event.y)
       .attr(
         "transform",
-        `translate(-${margin.left}, -${margin.top + rectheight *(0.5 - 0.1)})`)
+        `translate(${rectwidth*0.5}, ${ rectheight *0.1})`)
+
     d3.select(nodes[i])
       .selectAll("circle.bottom")
       .attr("cx", d3.event.x)
       .attr("cy", d3.event.y)
       .attr(
         "transform",
-        `translate(-${margin.left }, -${margin.top + rectheight * (0.1-0.5)})`)
+        `translate(${rectwidth*0.5}, ${ rectheight * (1-0.1)})`)
   };
 
   const dragended = (d, i, nodes) => {
@@ -203,10 +207,7 @@ drawHeatmap = () => {
       .select(nodes[i])
       .classed("active", false)
       .select("rect.key")
-      .attr(
-        "fill",
-        d => (d.char && check_color.checked ? colorScale(d.count) : "#FFF")
-      );
+      .attr("fill", d => d.char && check_color.checked ? colorScale(d.count) : "#FFF");
   };
 
   const drag = d3
@@ -251,6 +252,7 @@ drawHeatmap = () => {
     .append("g")
     .attr("id", "keys")
     .attr("transform", `translate(${margin.left}, ${margin.top})`)
+    // .style("margin", "30vw")
     .attr("cursor", "move")
     .call(drag)
     .on("click", (d, i, nodes) => {
@@ -281,8 +283,8 @@ drawHeatmap = () => {
   keys
     .append("rect")
     .attr("class", "key")
-    .attr("x", d => rectwidth * d.col)
-    .attr("y", d => rectheight * d.row)
+    .attr("x", d => d.x)
+    .attr("y", d => d.y)
     .attr("width", rectwidth)
     .attr("height", rectheight)
     .attr("rx", 10)
