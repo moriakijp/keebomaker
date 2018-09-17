@@ -37,7 +37,11 @@ const label_word = document.getElementById('label-word');
 
 const label_cost = document.getElementById('label-cost');
 
-const check_shift = document.getElementById('check-shift');
+const check_move = document.getElementById('check-move')
+
+const check_resize = document.getElementById('check-resize')
+
+const check_rotate = document.getElementById('check-rotate')
 
 const check_count = document.getElementById('check-count');
 
@@ -79,17 +83,6 @@ const countChar = str => {
 const countCost = (str, layout) => {
 
 }
-
-
-const recSum = (arr, i) => {
-  let sum = 0;
-  if (i == 0) return sum;
-  else {
-    sum = recSum(arr, --i);
-    return sum + arr[i];
-  }
-};
-
 
 const flatten = array => {
   return array.reduce((acc, cur) => {
@@ -151,6 +144,16 @@ const removeElement = (arr) => {
   }
   return arr;
 }
+
+const recSum = (arr, i) => {
+  let sum = 0;
+  if (i == 0) return sum;
+  else {
+    sum = recSum(arr, --i);
+    return sum + arr[i];
+  }
+};
+
 
 // const complementalColor = c => {
 //   return '#' + (('ffffff' ^ c).toString(16)).slice(-6)

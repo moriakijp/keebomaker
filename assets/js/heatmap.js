@@ -17,47 +17,18 @@ drawHeatmap = () => {
   const colsize = select_col.value;
   const rowsize = select_row.value;
 
-  // for (i = 0; i < rowsize; i++)
-  //   for (j = 0; j < colsize; j++)
-  //     if (data[i][j] == letters[i].toUpperCase())
-  //       data.count++;
-
   const rectwidth = (rectheight =
     (width - margin.left - margin.right) / colsize);
 
   let data = JSON.parse(`[${textarea_layout.value}]`);
   d3.select("svg").remove(); // erase previous svg
 
-  // const obj = data.map((char) => ({
-  //   char
-  // }));
-
   /* LAYOUT DATA CLEANING & ADD PROPERTY - "id" "col" */
+
   let id = 0;
   for (i in data) {
     data[i] = data[i].map(char => {
       id++;
-
-      // const sumElement = (start, end, arr) => {
-      //   let sum = 0;
-      //   if (start == end) sum += arr[start];
-      //   for (i = start; i <= end; ++i)
-      //     sum += arr[i];
-      //   return sum;
-      // }
-
-      const recSum = (arr, i) => {
-        let sum = 0;
-        if (i == 0) return sum;
-        else {
-          sum = recSum(arr, --i);
-          return sum + arr[i];
-        }
-      };
-
-      // const datum = [1, 2, 3, 3, 3];
-      // console.log(recSum(datum, datum.length));
-
       // console.log("data.map(v => v.length): ", data.map(v => v.length));
       return {
         id: id,
@@ -72,31 +43,6 @@ drawHeatmap = () => {
   // data = flatten(data).filter(v => v.char !== "");
   data = flatten(data);
   console.log("data: ", data);
-
-  // for (i in data)
-  //   if (data[i].char === "") {
-  //     tmp = data[i].col.shift();
-  //     data[i].col = tmp;
-  //   }
-
-  // for (i in data) {
-  //   tmp = data[i].col;
-  //   while (tmp = data[i].col.shift())
-  //     console.log('tmp: ', tmp);
-
-  // for (j in data[i])
-  //   if (data[i].col.length > 1)
-  //     data[i].col = data[i].col.shift();
-  //   else if (data[i].col.length == 1)
-  //   data[i].col = data[i].col[0];
-  // }
-
-  // for (i in rowsize)
-  //   for (j in colsize) {
-  //     data[i][j].char = data[i][j];
-  //     data[i][j].col = i % colsize + 1;
-  //     data[i][j].row = Math.floor(i / colsize) + 1;
-  //   }
   const letters = Array.from(textarea_main.value);
   // console.log('letters : ', letters);
   let matched,
@@ -207,37 +153,49 @@ drawHeatmap = () => {
   };
 
   const dragged = (d, i, nodes) => {
-    d3
-      .select(nodes[i])
-      .select("rect.key")
-      .attr("x", (d.x = d3.event.x))
-      .attr("y", (d.y = d3.event.y))
+    d3.select(nodes[i])
+      .selectAll('*')
+      // .select("rect.key")
+      // .select("text.char")
+      // .selectAll("text.count")
+      .attr("x", d3.event.x)
+      .attr("y", d3.event.y)
+      // .attr("dx", d3.event.dx)
+      // .attr("dy", d3.event.dy)
       .attr(
         "transform",
-        `translate(-${margin.left + rectwidth / 2}, -${margin.top +
-          rectheight / 2})`
-      );
-    d3
-      .select(nodes[i])
-      .select("text.char")
-      .attr("x", (d.x = d3.event.x))
-      .attr("y", (d.y = d3.event.y))
+        `translate(-${margin.left + rectwidth * 0.5}, -${margin.top +
+        rectheight * 0.5})`
+      )
+
+    d3.select(nodes[i])
+      .selectAll("circle.left")
+      .attr("cx", d3.event.x)
+      .attr("cy", d3.event.y)
       .attr(
         "transform",
-        `translate(-${margin.left + rectwidth / 2}, -${margin.top +
-          rectheight / 2})`
-      );
-    d3
-      .select(nodes[i])
-      .selectAll("text.count")
-      // .selectAll('*')
-      .attr("x", (d.x = d3.event.x))
-      .attr("y", (d.y = d3.event.y))
+        `translate(-${margin.left + rectwidth * (0.5-0.1)}, -${margin.top})`)
+    d3.select(nodes[i])
+      .selectAll("circle.right")
+      .attr("cx", d3.event.x)
+      .attr("cy", d3.event.y)
       .attr(
         "transform",
-        `translate(-${margin.left + rectwidth / 2}, -${margin.top +
-          rectheight / 2})`
-      );
+        `translate(-${margin.left + rectwidth * (0.5-1 + 0.1)}, -${margin.top})`)
+    d3.select(nodes[i])
+      .selectAll("circle.top")
+      .attr("cx", d3.event.x)
+      .attr("cy", d3.event.y)
+      .attr(
+        "transform",
+        `translate(-${margin.left}, -${margin.top + rectheight *(0.5 - 0.1)})`)
+    d3.select(nodes[i])
+      .selectAll("circle.bottom")
+      .attr("cx", d3.event.x)
+      .attr("cy", d3.event.y)
+      .attr(
+        "transform",
+        `translate(-${margin.left }, -${margin.top + rectheight * (0.1-0.5)})`)
   };
 
   const dragended = (d, i, nodes) => {
@@ -297,8 +255,7 @@ drawHeatmap = () => {
     .call(drag)
     .on("click", (d, i, nodes) => {
       // if (d3.event.defaultPrevented) return; // click suppressed
-      // textarea_main.value += check_shift.checked ? data[i].char.toUpperCase() : data[i].char.toLowerCase();
-      textarea_main.value += data[i].char.toLowerCase();
+      textarea_main.value += d3.event.shiftKey ? data[i].char.toUpperCase() : data[i].char.toLowerCase();
       label_char.innerHTML =
         "Char..." + countChar(textarea_main.value, textarea_layout.value);
       drawHeatmap();
@@ -309,7 +266,7 @@ drawHeatmap = () => {
   // keys
   //   .append("rect")
   //   .attr("class", "frame")
-  //   .attr("x", (d, i) => i % colsize) // considering "" does not have .col
+  //   .attr("x", d => rectwidth * d.col)
   //   .attr("y", d => rectheight * d.row)
   //   .attr("width", rectwidth)
   //   .attr("height", rectheight)
@@ -324,7 +281,7 @@ drawHeatmap = () => {
   keys
     .append("rect")
     .attr("class", "key")
-    .attr("x", d => rectwidth * d.col) // considering "" does not have .col
+    .attr("x", d => rectwidth * d.col)
     .attr("y", d => rectheight * d.row)
     .attr("width", rectwidth)
     .attr("height", rectheight)
@@ -344,13 +301,41 @@ drawHeatmap = () => {
 
   keys
     .append("circle")
-    .attr("class", "top_handle")
+    .attr("class", "left")
     .attr("cx", d => rectwidth * d.col)
     .attr("cy", d => rectheight * d.row)
-    .attr("dy", d => rectwidth * 0.5)
     .attr("r", rectwidth * 0.05)
-    .attr("fill", "orange")
-    .attr("transform", `translate(${rectwidth * 0.05}, ${rectwidth * 0.5})`);
+    .attr("fill", "white")
+    .attr("style", "stroke: #ccc")
+    .attr("transform", `translate(${rectwidth * 0.1}, ${rectheight * 0.5})`);
+
+  keys
+    .append("circle")
+    .attr("class", "right")
+    .attr("cx", d => rectwidth * d.col)
+    .attr("cy", d => rectheight * d.row)
+    .attr("r", rectwidth * 0.05)
+    .attr("fill", "white")
+    .attr("style", "stroke: #ccc")
+    .attr("transform", `translate(${rectwidth * (1 - 0.1)}, ${rectheight * 0.5})`);
+  keys
+    .append("circle")
+    .attr("class", "top")
+    .attr("cx", d => rectwidth * d.col)
+    .attr("cy", d => rectheight * d.row)
+    .attr("r", rectwidth * 0.05)
+    .attr("fill", "white")
+    .attr("style", "stroke: #ccc")
+    .attr("transform", `translate(${rectwidth * 0.5}, ${rectheight * 0.1})`);
+  keys
+    .append("circle")
+    .attr("class", "bottom")
+    .attr("cx", d => rectwidth * d.col)
+    .attr("cy", d => rectheight * d.row)
+    .attr("r", rectwidth * 0.05)
+    .attr("fill", "white")
+    .attr("style", "stroke: #ccc")
+    .attr("transform", `translate(${rectwidth * 0.5}, ${rectheight * (1-0.1) })`);
 
   keys
     .append("text")
@@ -365,7 +350,8 @@ drawHeatmap = () => {
     .attr("fill", "black")
     .style("font-size", d =>
       Math.min(rectwidth * 0.3, rectwidth / d.char.length ** 0.8)
-    );
+    )
+  // .attr("transform", `translate(${rectwidth * 0.5}, ${rectheight * 0.5})`);
 
   keys
     .append("text")
@@ -379,15 +365,16 @@ drawHeatmap = () => {
     .attr("dx", rectwidth * 0.75)
     .attr("dy", rectheight * 0.75)
     .attr("fill", "black")
-    .style("font-size", rectwidth * 0.2);
+    .style("font-size", rectwidth * 0.2)
 
-  var xScale = d3
-    .scaleBand()
-    .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-    .range([0, width]);
 
-  // svg_main.data(data).enter()
-  keys
+  // var xScale = d3
+  //   .scaleBand()
+  //   .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+  //   .range([0, width]);
+
+  svg_main.select("g").append("g").selectAll("g").data(data).enter()
+    // keys
     .append("text")
     .attr("id", "xAxisLabel")
     .attr("class", "axislabel")
@@ -400,7 +387,9 @@ drawHeatmap = () => {
     .style("text-anchor", "middle")
     .attr("transform", `translate(${rectwidth * 0.5}, ${-rectheight * 0.25})`);
 
-  keys
+
+  svg_main.select("g").append("g").selectAll("g").data(data).enter()
+    // keys
     .append("text")
     .attr("id", "yAxisLabel")
     .attr("class", "axislabel")

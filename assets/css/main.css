@@ -161,6 +161,10 @@ textarea {
     stroke-width: 1px;
 }
 
+circle {
+    /* display: none; */
+}
+
 #forkongithub a {
     background: #aaa;
     color: #fff;

@@ -2,99 +2,102 @@
 <html lang="ja">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <meta name="description" content="Visualization of keydown frequency">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <!-- OGP -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="KeeBoMaker">
-  <meta property="og:description" content="Visualization of keydown frequency">
-  <meta property="og:url" content="https://github.com/moriakijp/kbvis">
-  <meta property="og:image" content="">
-  <!-- <meta property="og:image:secure_url" content="https://secure.example.com/ogp.jpg" /> -->
-  <!-- <meta property="og:image:type" content="image/jpeg" /> -->
-  <!-- <meta property="og:image:width" content="400"> -->
-  <!-- <meta property="og:image:height" content="300"> -->
-  <!-- twitter -->
-  <meta name="twitter:card" content="summary">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="Visualization of keydown frequency">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- OGP -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="KeeBoMaker">
+    <meta property="og:description" content="Visualization of keydown frequency">
+    <meta property="og:url" content="https://github.com/moriakijp/kbvis">
+    <meta property="og:image" content="">
+    <!-- <meta property="og:image:secure_url" content="https://secure.example.com/ogp.jpg" /> -->
+    <!-- <meta property="og:image:type" content="image/jpeg" /> -->
+    <!-- <meta property="og:image:width" content="400"> -->
+    <!-- <meta property="og:image:height" content="300"> -->
+    <!-- twitter -->
+    <meta name="twitter:card" content="summary">
 
-  <title>KeeBoMaker</title>
-  <link rel="stylesheet" href="assets/css/main.css">
-  <link rel="shortcut icon" href="img/favicon.ico">
-  <link rel="apple-touch-icon" href="img/touch-icon.png">　
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
-    crossorigin="anonymous">
+    <title>KeeBoMaker</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="apple-touch-icon" href="img/touch-icon.png">　
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous">
 </head>
 
 <body>
-  <div class='container'>
-    <div class='area-header'>
-      <a class="header-item" href="index.html">
-        <i class="fas fa-keyboard"> KeeBoMaker</i>
-      </a>
-      <!-- <a class="header-item" href="about.html">ABOUT</a> -->
-      <!-- <a class="header-item" href="help.html">HELP</a> -->
+    <div class='container'>
+        <div class='area-header'>
+            <a class="header-item" href="index.html">
+                <i class="fas fa-keyboard"> KeeBoMaker</i>
+            </a>
+            <!-- <a class="header-item" href="about.html">ABOUT</a> -->
+            <!-- <a class="header-item" href="help.html">HELP</a> -->
+        </div>
+
+        <div class='area-left'>
+            <form method="" action="" name="form">
+
+                <select class="select" name="select" id="select-sampletext">
+                </select><br>
+                <input type="file" class="input" name="resume" id="input-main">
+                <select class="select" name="select" id="select-layout"></select><br>
+                <input type="file" class="input" name="resume" id="input-layout"><br>
+                <select class="select" name="select" id="select-col"></select>col<br>
+                <select class="select" name="select" id="select-row"></select>row<br>
+                <!-- <input type="checkbox" id="check-shift">Shift <br> -->
+                <input type="checkbox" id="check-count" checked="checked">Count<br>
+                <input type="checkbox" id="check-color" checked="checked">Color<br>
+                <br>
+                <!-- <p>ColorPicker</p> -->
+                <!-- <p>CharactorPicker</p> -->
+                <!-- <p>Print Summary</p> -->
+                <!-- <p>Tool</p> -->
+
+                <input type="checkbox" id="check-move" checked="">move
+                <!-- <select class="select" name="select" id="select-move"></select>move<br> -->
+                <input type="checkbox" id="check-resize" checked="">resize
+                <!-- <select class="select" name="select" id="select-resize"></select>resize<br> -->
+                <input type="checkbox" id="check-rotate" checked="">rotate
+                <!-- <select class="select" name="select" id="select-rotate"></select>rotate<br> -->
+                <input type="number" class="text" id="text-movestep" step=0.25 value=0.25>move<br>
+                <input type="number" class="text" id="text-sizestep" step=0.25 value=0.25>resize<br>
+                <input type="number" class="text" id="text-rotatestep" step="15" value=15>rotate<br><br>
+                <button class="button" id="button-reset">reset</button>
+            </form>
+        </div>
+
+        <div class='area-content'>
+            <!-- <span id="forkongithub"><a href="https://github.com/codepo8/css-fork-on-github-ribbon">Fork me on GitHub</a></span> -->
+
+            <textarea name="textarea" class="textarea" id="textarea-main" maxlength="100000" placeholder='text'></textarea>
+
+            <label for="textarea-main" id="label-word">Word...0</label>
+            <label for="textarea-main" id="label-char">Char...0</label>
+
+            <textarea name="textarea" class="textarea" id="textarea-layout" maxlength="10000" placeholder='layout'></textarea>
+            <label for="textarea-layout" id="label-cost">Cost[ count * distance * position ]...0</label>
+            <div class="heatmap" id="heatmap-main"></div>
+        </div>
+
+        <div class='area-footer'>
+            <a> &copy; 2018 Akihito Morita</a>
+
+            <!-- Twitter -->
+            <a href="//twitter.com/share?text=<?=$share_title?>&url=<?=$share_url?>&via=wemo_blog" title="share on Twitter"
+                onclick="javascript:window.open(this.href, '_blank', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');return false;">
+                <i class="fab fa-twitter" aria-hidden="true"></i>
+            </a>
+            <!-- Github -->
+            <a href="https://github.com/moriakijp">
+                <i class="fab fa-github" aria-hidden="true"></i>
+            </a>
+        </div>
     </div>
 
-    <div class='area-left'>
-      <form method="" action="" name="form">
-
-        <select class="select" name="select" id="select-sampletext">
-        </select><br>
-        <input type="file" class="input" name="resume" id="input-main">
-        <select class="select" name="select" id="select-layout"></select><br>
-        <input type="file" class="input" name="resume" id="input-layout"><br>
-        <select class="select" name="select" id="select-col"></select>col<br>
-        <select class="select" name="select" id="select-row"></select>row<br>
-        <!-- <input type="checkbox" id="check-shift">Shift <br> -->
-        <input type="checkbox" id="check-count" checked="checked">Count<br>
-        <input type="checkbox" id="check-color" checked="checked">Color<br>
-        <br>
-        <!-- <p>ColorPicker</p> -->
-        <!-- <p>CharactorPicker</p> -->
-        <!-- <p>Print Summary</p> -->
-        <!-- <p>Tool</p> -->
-        <p>Step</p>
-        <!-- <select class="select" name="select" id="select-move"></select>move<br> -->
-        <!-- <select class="select" name="select" id="select-resize"></select>resize<br> -->
-        <!-- <select class="select" name="select" id="select-rotate"></select>rotate<br> -->
-        <input type="number" class="text" id="text-movestep" step=0.25 value=0.25>move<br>
-        <input type="number" class="text" id="text-sizestep" step=0.25 value=0.25>resize<br>
-        <input type="number" class="text" id="text-rotatestep" step="15" value=15>rotate<br><br>
-        <button class="button" id="button-reset">reset</button>
-      </form>
-    </div>
-
-    <div class='area-content'>
-      <!-- <span id="forkongithub"><a href="https://github.com/codepo8/css-fork-on-github-ribbon">Fork me on GitHub</a></span> -->
-
-      <textarea name="textarea" class="textarea" id="textarea-main" maxlength="100000" placeholder='text'></textarea>
-
-      <label for="textarea-main" id="label-word">Word...0</label>
-      <label for="textarea-main" id="label-char">Char...0</label>
-
-      <textarea name="textarea" class="textarea" id="textarea-layout" maxlength="10000" placeholder='layout'></textarea>
-      <label for="textarea-layout" id="label-cost">Cost[ count * distance * position ]...0</label>
-      <div class="heatmap" id="heatmap-main"></div>
-    </div>
-
-    <div class='area-footer'>
-      <a> &copy; 2018 Akihito Morita</a>
-
-      <!-- Twitter -->
-      <a href="//twitter.com/share?text=<?=$share_title?>&url=<?=$share_url?>&via=wemo_blog" title="share on Twitter"
-        onclick="javascript:window.open(this.href, '_blank', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');return false;">
-        <i class="fab fa-twitter" aria-hidden="true"></i>
-      </a>
-      <!-- Github -->
-      <a href="https://github.com/moriakijp">
-        <i class="fab fa-github" aria-hidden="true"></i>
-      </a>
-    </div>
-  </div>
-
-  <!-- <div class="modal">
+    <!-- <div class="modal">
                 <div class="modal-background"></div>
                 <div class="modal-content">
                   <p class="image is-4by3">
@@ -105,11 +108,11 @@
             </div> -->
 
 
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.js'></script>
-  <script src="assets/js/initial.js"></script>
-  <script src="assets/js/sample.js"></script>
-  <script src="assets/js/heatmap.js"></script>
-  <script src="assets/js/event.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.js'></script>
+    <script src="assets/js/initial.js"></script>
+    <script src="assets/js/sample.js"></script>
+    <script src="assets/js/heatmap.js"></script>
+    <script src="assets/js/event.js"></script>
 </body>
 
 </html>
