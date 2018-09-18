@@ -52,8 +52,8 @@ drawHeatmap = () => {
     home = [];
   const homerow = [3];
   const homecol = [2, 3, 4, 5, 8, 9, 10, 11];
-  const calcRelpos = (a, b) =>
-    Math.sqrt((a.row - b.row) ** 2 + (a.col - b.col) ** 2);
+  const calcRelpos = (a, b) => Math.sqrt((a.row - b.row) ** 2 + (a.col - b.col) ** 2);
+  const calcDistance = (x1, y1, x2, y2) => ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** (1 / 2);
 
   /* COUNT COST */
   for (i in data) data[i].count = 0;
@@ -141,12 +141,9 @@ drawHeatmap = () => {
     .domain([countmin, countmax])
     .range(["#F2F1EF", "#F22613"]);
 
-  /* DRAG BEHAVIOR */
-  //this = nodes[i] !=document.getElementById('keys')
-
+  /* DRAG BEHAVIOR */ //this = nodes[i] !=document.getElementById('keys')
   const dragstarted = (d, i, nodes) => {
-    d3
-      .select(nodes[i])
+    d3.select(nodes[i])
       .raise()
       .classed("active", true)
       .select("rect.key")
@@ -156,62 +153,39 @@ drawHeatmap = () => {
   const dragged = (d, i, nodes) => {
     d3.select(nodes[i])
       .selectAll('*')
-      // .select("rect.key")
-      // .select("text.char")
-      // .selectAll("text.count")
       .attr("x", d.x = d3.event.x)
       .attr("y", d.y = d3.event.y)
-      // .attr("dx", d3.event.dx)
-      // .attr("dy", d3.event.dy)
-      .attr("transform", d => {
-        console.log(d3.select('rect'));
-        console.log(d);
-        return `translate(${d3.event.x -d.dx }, ${ d3.event.y -d.dy})`
-      })
-
+      .attr("transform", d => `translate(${d3.event.x -d.dx }, ${ d3.event.y -d.dy})`)
+    d3.select(nodes[i])
+      .selectAll("circle")
+      .attr("cx", d.x = d3.event.x)
+      .attr("cy", d.y = d3.event.y)
     d3.select(nodes[i])
       .selectAll("circle.left")
-      .attr("cx", d3.event.x)
-      .attr("cy", d3.event.y)
-      .attr(
-        "transform",
-        `translate(${rectwidth * 0.1}, ${rectheight*0.5})`)
-
+      .attr("transform", `translate(${rectwidth * 0.1}, ${rectheight*0.5})`)
     d3.select(nodes[i])
       .selectAll("circle.right")
-      .attr("cx", d3.event.x)
-      .attr("cy", d3.event.y)
-      .attr(
-        "transform",
-        `translate(${rectwidth * (1 - 0.1)}, ${rectheight*0.5})`)
-
+      .attr("transform", `translate(${rectwidth * (1 - 0.1)}, ${rectheight*0.5})`)
     d3.select(nodes[i])
       .selectAll("circle.top")
-      .attr("cx", d3.event.x)
-      .attr("cy", d3.event.y)
-      .attr(
-        "transform",
-        `translate(${rectwidth*0.5}, ${ rectheight *0.1})`)
-
+      .attr("transform", `translate(${rectwidth*0.5}, ${ rectheight *0.1})`)
     d3.select(nodes[i])
       .selectAll("circle.bottom")
-      .attr("cx", d3.event.x)
-      .attr("cy", d3.event.y)
-      .attr(
-        "transform",
-        `translate(${rectwidth*0.5}, ${ rectheight * (1-0.1)})`)
+      .attr("transform", `translate(${rectwidth*0.5}, ${ rectheight * (1-0.1)})`)
   };
 
   const dragended = (d, i, nodes) => {
-    d3
-      .select(nodes[i])
+    d3.select(nodes[i])
       .classed("active", false)
       .select("rect.key")
+      // .attr("x", d => {
+      // if (d3.event.x > )
+      // })
+      .attr("y", d => {})
       .attr("fill", d => d.char && check_color.checked ? colorScale(d.count) : "#FFF");
   };
 
-  const drag = d3
-    .drag()
+  const drag = d3.drag()
     .on("start", dragstarted)
     .on("drag", dragged)
     .on("end", dragended);
