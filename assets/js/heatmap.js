@@ -1,10 +1,5 @@
-// import * as d3 from 'd3'
-// import {
-//   downloadable
-// } from 'd3-downloadable'
-// d3.select('svg#heatmap-main')
-//   .call(downloadable());
-
+// import * as d3 from 'd3';
+// import { downloadable } from 'd3-downloadable';
 
 drawHeatmap = () => {
   const width  = document.getElementById("heatmap-main").clientWidth;
@@ -32,7 +27,7 @@ drawHeatmap = () => {
         id     : id,
         char   : char,
         col    : i == 0 ? id - 1 : id - 1 - recSum(data.map(v => v.length), i),
-        // col : (id     - 1) % data[i].length,
+        //? col : (id     - 1) % data[i].length,
         row    : i,
         x      : rectwidth * (i == 0 ? id - 1 : id - 1 - recSum(data.map(v => v.length), i)),
         y      : rectheight * i
@@ -179,7 +174,9 @@ drawHeatmap = () => {
       .classed("active", false)
       .select("rect.key")
       // .attr("x", d => {
-      // if (d3.event.x > )
+      //   console.log('nodes[i + 1].x: ', nodes[i + 1].x);
+      //   if (d3.event.x > nodes[i + 1].x) /* align to grid */
+      //     return nodes[i + 1].x;
       // })
       // .attr("y", d => {})
       .attr("fill", d => (d.char && check_color.checked ? colorScale(d.count) : "#FFF"));
@@ -353,10 +350,10 @@ drawHeatmap = () => {
   //   .range([0, width]);
 
   svg_main
-    .select("g")
     .append("g")
     .selectAll("g")
-    .data(data)
+    // .select("g")
+    .data(data.filter(d => d.row == 1 ))
     .enter()
     // keys
     .append("text")
@@ -369,13 +366,12 @@ drawHeatmap = () => {
     .attr("fill", "#333")
     .style("font-size", rectwidth * 0.2)
     .style("text-anchor", "middle")
-    .attr("transform", `translate(${rectwidth * 0.5}, ${-rectheight * 0.25})`);
+    .attr("transform", `translate(${rectwidth * 0.5 + margin.left}, ${-rectheight * 0.25 + margin.top})`);
 
   svg_main
-    .select("g")
     .append("g")
     .selectAll("g")
-    .data(data)
+    .data(data.filter(d => d.col == 1))
     .enter()
     // keys
     .append("text")
@@ -387,8 +383,7 @@ drawHeatmap = () => {
     .attr("fill", "#333")
     .style("font-size", rectwidth * 0.2)
     .style("text-anchor", "end")
-    .attr("transform", `translate(${-rectwidth * 0.25}, ${rectheight * 0.5})`);
-
+    .attr("transform", `translate(${-rectwidth * 0.25+ margin.left}, ${rectheight * 0.5+margin.top})`);
   // });
 };
 
@@ -407,7 +402,7 @@ drawHeatmap = () => {
 // const arr = (new Array(4)).fill(1).map((v, i) => v + i)
 // console.log(arr);
 // console.log(data[1].row);
-// console.log(() => (d){return d.ro/w});
+// console.log(() => (d){return d.row});
 // const row = data.map(() => (d){ return d.row; })
 // for(let k in data) {
 //   if(data.hasOwnProperty(k)) {
