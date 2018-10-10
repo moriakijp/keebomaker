@@ -156,10 +156,7 @@ textarea {
     /* } */
 }
 
-.active {
-    stroke: #000;
-    stroke-width: 1px;
-}
+/* .active {} */
 
 circle {
     /* display: none; */
@@ -252,6 +249,36 @@ textarea::placeholder {
     -ms-user-select: none;
     /* Internet Explorer/Edge */
     user-select: none;
+}
+
+.lasso path {
+    stroke: rgb(80, 80, 80);
+    stroke-width: 2px;
+}
+
+.lasso .drawn {
+    fill-opacity: .05;
+}
+
+.lasso .loop_close {
+    fill: none;
+    stroke-dasharray: 4, 4;
+}
+
+.lasso .origin {
+    fill: #3399FF;
+    fill-opacity: .5;
+}
+
+/* .not_possible {
+} */
+
+.possible {
+    fill: aquamarine;
+}
+
+.selected {
+    fill: aquamarine;
 }
 
 @media (max-width: 511px) {

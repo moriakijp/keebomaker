@@ -2,36 +2,39 @@
 // import { downloadable } from 'd3-downloadable';
 
 drawHeatmap = () => {
-  const width  = document.getElementById("heatmap-main").clientWidth;
+  const width = document.getElementById("heatmap-main").clientWidth;
   const height = document.getElementById("heatmap-main").clientHeight;
   const margin = {
-    top    : height * 0.2,
-    bottom : height * 0.05,
-    left   : width  * 0.05,
-    right  : width  * 0.05
+    top: height * 0.2,
+    bottom: height * 0.05,
+    left: width * 0.05,
+    right: width * 0.05
   };
   const colsize = select_col.value;
-    const rowsize = select_row.value;
+  const rowsize = select_row.value;
 
-  const rectwidth = (rectheight = (width - margin.left - margin.right) / colsize);
-  let   data      = JSON.parse(`[${textarea_layout.value}]`);
-  d3.select("svg").remove();  /* erase previous svg */
+  const rectwidth = (rectheight =
+    (width - margin.left - margin.right) / colsize);
+  let data = JSON.parse(`[${textarea_layout.value}]`);
+  d3.select("svg").remove(); /* erase previous svg */
 
   //# LAYOUT DATA CLEANING & ADD PROPERTY - "id" "col"
   let id = 0;
   for (i in data) {
     data[i] = data[i].map(char => {
       id++;
-     // console.log("data.map(v => v.length): ", data.map(v => v.length));
+      // console.log("data.map(v => v.length): ", data.map(v => v.length));
       return {
-        id     : id,
-        char   : char,
-        col    : i == 0 ? id - 1 : id - 1 - recSum(data.map(v => v.length), i),
+        id: id,
+        char: char,
+        col: i == 0 ? id - 1 : id - 1 - recSum(data.map(v => v.length), i),
         //? col : (id     - 1) % data[i].length,
-        row    : i,
-        x      : rectwidth * (i == 0 ? id - 1 : id - 1 - recSum(data.map(v => v.length), i)),
-        y      : rectheight * i
-        };
+        row: Number(i),
+        x:
+          rectwidth *
+          (i == 0 ? id - 1 : id - 1 - recSum(data.map(v => v.length), i)),
+        y: rectheight * i
+      };
     });
   }
 
@@ -40,13 +43,13 @@ drawHeatmap = () => {
   console.log("data: ", data);
   const letters = Array.from(textarea_main.value);
   // console.log('letters : ', letters);
-  let matched
-    , current
-    , prev
-    , home           = [];
-    const homerow    = [3];
-    const homecol    = [2, 3, 4, 5, 8, 9, 10, 11];
-    const calcRelpos = (a, b) =>
+  let matched,
+    current,
+    prev,
+    home = [];
+  const homerow = [3];
+  const homecol = [2, 3, 4, 5, 8, 9, 10, 11];
+  const calcRelpos = (a, b) =>
     Math.sqrt((a.row - b.row) ** 2 + (a.col - b.col) ** 2);
   const calcDistance = (x1, y1, x2, y2) =>
     ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** (1 / 2);
@@ -54,30 +57,38 @@ drawHeatmap = () => {
   //# COUNT COST
   for (i in data) data[i].count = 0;
   for (j in letters)
-    for (i in data)
-      if (letters[j].toUpperCase() == data[i].char) data[i].count++;
-
+    for (i in data) {
+      if (letters[j].toUpperCase() == data[i].char.toUpperCase())
+        data[i].count++;
+    }
   // data.reduce((a, b) => {
   //   a[b] = a[b] ? a[b] + 1 : 1;
   //   return a;
   // }, []);
 
+  ////# PARTIAL MATCH OF NUMBER OF CHARACTER STRINGS
+  // for (i in data) {
+  //   const pattern = new RegExp(data[i].char +"|| []", "g");
+  //   let countmatched = (textarea_main.value.match(pattern) || [] ).length;
+  //   if (countmatched) data[i].count += countmatched;
+  // }
+
   //# DISTANCE COST
   // for (j in letters) {
-    // for (i in data) {
-      // if (i == letters[0]) matched.push(data[i]);
-      // if (letters[j].toUpperCase() == data[i].char) {
-        // prev.push(current.length != 0 ? current : data[i])
-        // current.push(data[i])
-        // console.log('current: ', current);
-        // console.log('prev: ', prev);
-        // data[i].dist = calcRelpos(current.shift(), prev.shift());
-        // console.log(`data[${i}].dist: `, data[i].dist);
-        //  if (letters[0]) prevc.push(data[i])
-        // if (letters[j] == letters[0]) matched.push(data[i]);
-        // console.log(Array.of(data[i].dist));
-      // }
-    // }
+  // for (i in data) {
+  // if (i == letters[0]) matched.push(data[i]);
+  // if (letters[j].toUpperCase() == data[i].char) {
+  // prev.push(current.length != 0 ? current : data[i])
+  // current.push(data[i])
+  // console.log('current: ', current);
+  // console.log('prev: ', prev);
+  // data[i].dist = calcRelpos(current.shift(), prev.shift());
+  // console.log(`data[${i}].dist: `, data[i].dist);
+  //  if (letters[0]) prevc.push(data[i])
+  // if (letters[j] == letters[0]) matched.push(data[i]);
+  // console.log(Array.of(data[i].dist));
+  // }
+  // }
   // }
 
   // console.log(matched);
@@ -120,31 +131,54 @@ drawHeatmap = () => {
 
   //# CALC AND SCALE
   for (i in data) data[i].cost = data[i].count * data[i].pos;
-  const costmin   = Math.min.apply(null, data.map(d => d.cost));
-  const costmax   = Math.max.apply(null, data.map(d => d.cost));
-  const costScale = d3.scaleLinear().domain([costmin, costmax]).range([0, 10]);
+  const costmin = Math.min.apply(null, data.map(d => d.cost));
+  const costmax = Math.max.apply(null, data.map(d => d.cost));
+  const costScale = d3
+    .scaleLinear()
+    .domain([costmin, costmax])
+    .range([0, 10]);
 
   for (i in data) data[i].cost = costScale(data[i].cost).toFixed(0);
 
   //# CREATE SCALE
   const countmin = Math.min.apply(null, data.map(d => d.count));
   const countmax = Math.max.apply(null, data.map(d => d.count));
-  const colorScale = d3.scaleLinear().domain([countmin, countmax]).range(["#F2F1EF", "#F22613"]);
+  const colorScale = d3
+    .scaleLinear()
+    .domain([countmin, countmax])
+    .range(["#F2F1EF", "#F22613"]);
 
   //this = nodes[i] !=document.getElementById('keys')
 
   //# DRAG BEHAVIOR
   const dragstarted = (d, i, nodes) => {
-    d3.select(nodes[i]).raise().classed("active", true).select("rect.key").attr("fill", "aquamarine");
+    d3
+      .select(nodes[i])
+      .classed("active", true)
+      .raise()
+      .select("rect.key")
+      .classed("selected", true);
+    // .attr("fill", "aquamarine");
   };
 
   const dragged = (d, i, nodes) => {
+    // console.log('nodes[i]: ', nodes[i]);
+
+    // console.log('d3.selectAll(\'g\'): ', d3.selectAll('g').filter((d,i)=>d.active));
+
+    // nudge(d3.event.dx, d3.event.dy);
     d3
-      .select(nodes[i])
-      .selectAll("*")
-      .attr("x", (d.x = d3.event.x))
-      .attr("y", (d.y = d3.event.y))
-      .attr("transform", d => `translate(${d3.event.x - d.dx}, ${d3.event.y - d.dy})`);
+    // .select(nodes[i])
+    .selectAll('.active')
+    // .selectAll('g#keys.active')
+    .selectAll("*")
+    // .attr("x", (d.x = d3.event.x))
+    // .attr("y", (d.y = d3.event.y))
+    // .attr("x", (d, i, nodes) => (d.x + d3.event.x))
+    // .attr("y", (d, i, nodes) => (d.y + d3.event.y))
+    .attr("x", (d, i, nodes) => (d.x + d3.event.dx))
+    .attr("y", (d, i, nodes) => (d.y + d3.event.dy))
+    // .attr("transform", d => `translate(${d3.event.x - d.dx}, ${d3.event.y - d.dy})`);
     d3
       .select(nodes[i])
       .selectAll("circle")
@@ -157,7 +191,10 @@ drawHeatmap = () => {
     d3
       .select(nodes[i])
       .selectAll("circle.right")
-      .attr("transform", `translate(${rectwidth * (1 - 0.1)}, ${rectheight * 0.5})`);
+      .attr(
+        "transform",
+        `translate(${rectwidth * (1 - 0.1)}, ${rectheight * 0.5})`
+      );
     d3
       .select(nodes[i])
       .selectAll("circle.top")
@@ -165,24 +202,41 @@ drawHeatmap = () => {
     d3
       .select(nodes[i])
       .selectAll("circle.bottom")
-      .attr("transform", `translate(${rectwidth * 0.5}, ${rectheight * (1 - 0.1)})`);
+      .attr(
+        "transform",
+        `translate(${rectwidth * 0.5}, ${rectheight * (1 - 0.1)})`
+      );
   };
+
+  // const nudge = (dx, dy) => {
+  //   console.log("d3.selectAll('g#keys'): ", d3.selectAll("g#keys").selectAll("*").filter(d=>d.selected));
+  //   return d3
+  //     .selectAll("g#keys").filter(d => { d.active}).selectAll("*")
+  //     .attr("x", d => { d.x += dx; })
+  //     .attr("y", d => { d.y += dy; });
+  // };
 
   const dragended = (d, i, nodes) => {
     d3
-      .select(nodes[i])
+      // .select(nodes[i])
+      .selectAll(".active")
       .classed("active", false)
       .select("rect.key")
-      // .attr("x", d => {
-      //   console.log('nodes[i + 1].x: ', nodes[i + 1].x);
-      //   if (d3.event.x > nodes[i + 1].x) /* align to grid */
-      //     return nodes[i + 1].x;
-      // })
-      // .attr("y", d => {})
-      .attr("fill", d => (d.char && check_color.checked ? colorScale(d.count) : "#FFF"));
+      .classed("selected", false);
+    // .attr("x", d => {
+    //   console.log('nodes[i + 1].x: ', nodes[i + 1].x);
+    //   if (d3.event.x > nodes[i + 1].x) /* align to grid */
+    //     return nodes[i + 1].x;
+    // })
+    // .attr("y", d => {})
+    // .attr("fill", d => (d.char && check_color.checked ? colorScale(d.count) : "#FFF"));
   };
 
-  const drag = d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
+  const drag = d3
+    .drag()
+    .on("start", dragstarted)
+    .on("drag", dragged)
+    .on("end", dragended);
 
   const easeKeys = (d, i, nodes) => {
     console.log("nodes[i]: ", nodes[i]);
@@ -225,13 +279,14 @@ drawHeatmap = () => {
     .call(drag)
     .on("click", (d, i, nodes) => {
       // if (d3.event.defaultPrevented) return; // click suppressed
-      textarea_main.value += d3.event.shiftKey ?
-        data[i].char.toUpperCase():
-        data[i].char.toLowerCase();
-      label_char.innerHTML = "Char..." + countChar(textarea_main.value, textarea_layout.value);
+      textarea_main.value += d3.event.shiftKey
+        ? data[i].char.toUpperCase()
+        : data[i].char.toLowerCase();
+      label_char.innerHTML =
+        "Char..." + countChar(textarea_main.value, textarea_layout.value);
       drawHeatmap();
-      // easeKeys(d, i, nodes);
     });
+  // easeKeys(d, i, nodes);
   // .on('zoom', zoom);
 
   // keys
@@ -249,7 +304,7 @@ drawHeatmap = () => {
   //   .attr("stroke-linecap", "round")
   //   .attr("stroke-width", "1")
 
-  keys
+  const rects = keys
     .append("rect")
     .attr("class", "key")
     .attr("x", d => d.x)
@@ -353,20 +408,24 @@ drawHeatmap = () => {
     .append("g")
     .selectAll("g")
     // .select("g")
-    .data(data.filter(d => d.row == 1 ))
+    .data(data.filter(d => d.row == 1))
     .enter()
     // keys
     .append("text")
     .attr("id", "xAxisLabel")
     .attr("class", "axislabel")
-    .text(d => `C${d.col}`)
+    .text(d => `C${d.col + 1}`)
     .attr("x", d => rectwidth * d.col)
     .attr("y", 0)
     // .call(d3.axisTop(xScale))
     .attr("fill", "#333")
     .style("font-size", rectwidth * 0.2)
     .style("text-anchor", "middle")
-    .attr("transform", `translate(${rectwidth * 0.5 + margin.left}, ${-rectheight * 0.25 + margin.top})`);
+    .attr(
+      "transform",
+      `translate(${rectwidth * 0.5 + margin.left}, ${-rectheight * 0.25 +
+        margin.top})`
+    );
 
   svg_main
     .append("g")
@@ -377,17 +436,80 @@ drawHeatmap = () => {
     .append("text")
     .attr("id", "yAxisLabel")
     .attr("class", "axislabel")
-    .text(d => `R${d.row}`)
+    .text(d => `R${d.row + 1}`)
     .attr("x", 0)
     .attr("y", d => rectheight * d.row)
     .attr("fill", "#333")
     .style("font-size", rectwidth * 0.2)
     .style("text-anchor", "end")
-    .attr("transform", `translate(${-rectwidth * 0.25+ margin.left}, ${rectheight * 0.5+margin.top})`);
+    .attr(
+      "transform",
+      `translate(${-rectwidth * 0.25 + margin.left}, ${rectheight * 0.5 +
+        margin.top})`
+    );
   // });
+  //# LASSO BEHAVIOR
+  const lassostarted = () => {
+    lasso
+      .items()
+      .classed("active", false)
+      .select("rect")
+      .classed("not_possible", true)
+      .classed("selected", false);
+  };
+
+  const lassoed = () => {
+    lasso
+      .possibleItems()
+      .select("rect")
+      .classed("not_possible", false)
+      .classed("possible", true);
+    lasso
+      .notPossibleItems()
+      .select("rect")
+      .classed("not_possible", true)
+      .classed("possible", false);
+  };
+
+  const lassoended = () => {
+    lasso
+      .items()
+      .select("rect")
+      .classed("not_possible", false)
+      .classed("possible", false);
+    lasso
+      .selectedItems()
+      .classed("active", true)
+      .select("rect")
+      .classed("selected", true);
+  };
+
+  const lasso = d3
+    .lasso()
+    .closePathDistance(75)
+    .closePathSelect(true)
+    .hoverSelect(true)
+    .items(keys)
+    .targetArea(svg_main)
+    .on("start", lassostarted)
+    .on("draw", lassoed)
+    .on("end", lassoended);
+
+  svg_main.call(lasso);
 };
 
-
+const updateHeatmap = () => {
+  // keys
+  //   .on("click", (d, i, nodes) => {
+  //     // if (d3.event.defaultPrevented) return; // click suppressed
+  //     textarea_main.value += d3.event.shiftKey ?
+  //       data[i].char.toUpperCase():
+  //       data[i].char.toLowerCase();
+  //     label_char.innerHTML = "Char..." + countChar(textarea_main.value, textarea_layout.value);
+  //     drawHeatmap();
+  //     // easeKeys(d, i, nodes);
+  // });
+};
 
 // const zoomed = (element) =>{
 //   element.attr("transform", d3.event.transform);
