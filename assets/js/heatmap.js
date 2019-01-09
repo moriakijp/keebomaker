@@ -168,16 +168,16 @@ drawHeatmap = () => {
 
     // nudge(d3.event.dx, d3.event.dy);
     d3
-    // .select(nodes[i])
-    .selectAll('.active')
-    // .selectAll('g#keys.active')
-    .selectAll("*")
-    // .attr("x", (d.x = d3.event.x))
-    // .attr("y", (d.y = d3.event.y))
-    // .attr("x", (d, i, nodes) => (d.x + d3.event.x))
-    // .attr("y", (d, i, nodes) => (d.y + d3.event.y))
-    .attr("x", (d, i, nodes) => (d.x + d3.event.dx))
-    .attr("y", (d, i, nodes) => (d.y + d3.event.dy))
+      // .select(nodes[i])
+      .selectAll('.active')
+      // .selectAll('g#keys.active')
+      .selectAll("*")
+      // .attr("x", (d.x = d3.event.x))
+      // .attr("y", (d.y = d3.event.y))
+      // .attr("x", (d, i, nodes) => (d.x + d3.event.x))
+      // .attr("y", (d, i, nodes) => (d.y + d3.event.y))
+      .attr("x", (d, i, nodes) => { console.log('d: ', d); return d.x += d3.event.dx; })
+    .attr("y", (d, i, nodes) => (d.y += d3.event.dy))
     // .attr("transform", d => `translate(${d3.event.x - d.dx}, ${d3.event.y - d.dy})`);
     d3
       .select(nodes[i])
@@ -191,10 +191,7 @@ drawHeatmap = () => {
     d3
       .select(nodes[i])
       .selectAll("circle.right")
-      .attr(
-        "transform",
-        `translate(${rectwidth * (1 - 0.1)}, ${rectheight * 0.5})`
-      );
+      .attr( "transform", `translate(${rectwidth * (1 - 0.1)}, ${rectheight * 0.5})` );
     d3
       .select(nodes[i])
       .selectAll("circle.top")
@@ -202,10 +199,7 @@ drawHeatmap = () => {
     d3
       .select(nodes[i])
       .selectAll("circle.bottom")
-      .attr(
-        "transform",
-        `translate(${rectwidth * 0.5}, ${rectheight * (1 - 0.1)})`
-      );
+      .attr( "transform", `translate(${rectwidth * 0.5}, ${rectheight * (1 - 0.1)})` );
   };
 
   // const nudge = (dx, dy) => {
@@ -238,6 +232,20 @@ drawHeatmap = () => {
     .on("drag", dragged)
     .on("end", dragended);
 
+  const resizeDragged = (d) => {
+    d3.select('.active').selectAll('*')
+      .attr('width', d => d.width += d3.event.dx)
+      .attr('height', d => d.height += d3.event.dy)
+      .attr('x', d => d.x += d3.event.dx)
+      .attr('y', d => d.y += d3.event.dy);
+  }
+
+  const resizeDrag = d3
+    .drag()
+    .on("start", dragstarted)
+    .on('drag', resizeDragged)
+    .on("end", dragended);
+
   const easeKeys = (d, i, nodes) => {
     console.log("nodes[i]: ", nodes[i]);
     d3
@@ -265,7 +273,7 @@ drawHeatmap = () => {
     .append("svg")
     .attr("width", width)
     .attr("height", height)
-    .style("font-family", "Arial");
+    .style("font-family", "Arial")
 
   const keys = svg_main
     .selectAll("g")
@@ -289,6 +297,42 @@ drawHeatmap = () => {
   // easeKeys(d, i, nodes);
   // .on('zoom', zoom);
 
+  svg_main
+    .append("g")
+    .selectAll("g")
+    // .select("g")
+    .data(data.filter(d => d.row == 1))
+    .enter()
+    // keys
+    .append("text")
+    .attr("id", "xAxisLabel")
+    .attr("class", "axislabel")
+    .text(d => `C${d.col + 1}`)
+    .attr("x", d => rectwidth * d.col)
+    .attr("y", 0)
+    // .call(d3.axisTop(xScale))
+    .attr("fill", "#333")
+    .style("font-size", rectwidth * 0.2)
+    .style("text-anchor", "middle")
+    .attr("transform", `translate(${rectwidth * 0.5 + margin.left}, ${-rectheight * 0.25 + margin.top})`);
+
+  svg_main
+    .append("g")
+    .selectAll("g")
+    .data(data.filter(d => d.col == 1))
+    .enter()
+    // keys
+    .append("text")
+    .attr("id", "yAxisLabel")
+    .attr("class", "axislabel")
+    .text(d => `R${d.row + 1}`)
+    .attr("x", 0)
+    .attr("y", d => rectheight * d.row)
+    .attr("fill", "#333")
+    .style("font-size", rectwidth * 0.2)
+    .style("text-anchor", "end")
+    .attr("transform", `translate(${-rectwidth * 0.25 + margin.left}, ${rectheight * 0.5 + margin.top})`);
+
   // keys
   //   .append("rect")
   //   .attr("class", "frame")
@@ -304,7 +348,7 @@ drawHeatmap = () => {
   //   .attr("stroke-linecap", "round")
   //   .attr("stroke-width", "1")
 
-  const rects = keys
+  keys
     .append("rect")
     .attr("class", "key")
     .attr("x", d => d.x)
@@ -313,10 +357,7 @@ drawHeatmap = () => {
     .attr("height", rectheight)
     .attr("rx", 10)
     .attr("ry", 10)
-    .attr(
-      "fill",
-      d => (d.char && check_color.checked ? colorScale(d.count) : "#FFF")
-    )
+    .attr( "fill", d => (d.char && check_color.checked ? colorScale(d.count) : "#FFF") )
     .style("opacity", 0.9)
     .attr("stroke", "#ccc")
     .attr("stroke-dasharray", "3,3")
@@ -333,7 +374,8 @@ drawHeatmap = () => {
     .attr("r", rectwidth * 0.05)
     .attr("fill", "white")
     .attr("style", "stroke: #ccc")
-    .attr("transform", `translate(${rectwidth * 0.1}, ${rectheight * 0.5})`);
+    .attr("transform", `translate(${rectwidth * 0.1}, ${rectheight * 0.5})`)
+    .call(resizeDrag);
 
   keys
     .append("circle")
@@ -343,10 +385,9 @@ drawHeatmap = () => {
     .attr("r", rectwidth * 0.05)
     .attr("fill", "white")
     .attr("style", "stroke: #ccc")
-    .attr(
-      "transform",
-      `translate(${rectwidth * (1 - 0.1)}, ${rectheight * 0.5})`
-    );
+    .attr("transform", `translate(${rectwidth * (1 - 0.1)}, ${rectheight * 0.5})`)
+    .call(resizeDrag);
+
   keys
     .append("circle")
     .attr("class", "top")
@@ -355,7 +396,9 @@ drawHeatmap = () => {
     .attr("r", rectwidth * 0.05)
     .attr("fill", "white")
     .attr("style", "stroke: #ccc")
-    .attr("transform", `translate(${rectwidth * 0.5}, ${rectheight * 0.1})`);
+    .attr("transform", `translate(${rectwidth * 0.5}, ${rectheight * 0.1})`)
+    .call(resizeDrag);
+
   keys
     .append("circle")
     .attr("class", "bottom")
@@ -364,10 +407,9 @@ drawHeatmap = () => {
     .attr("r", rectwidth * 0.05)
     .attr("fill", "white")
     .attr("style", "stroke: #ccc")
-    .attr(
-      "transform",
-      `translate(${rectwidth * 0.5}, ${rectheight * (1 - 0.1)})`
-    );
+    .attr("transform", `translate(${rectwidth * 0.5}, ${rectheight * (1 - 0.1)})`)
+    .call(resizeDrag);
+
 
   keys
     .append("text")
@@ -380,9 +422,7 @@ drawHeatmap = () => {
     .attr("dx", rectwidth * 0.5)
     .attr("dy", rectheight * 0.5)
     .attr("fill", "black")
-    .style("font-size", d =>
-      Math.min(rectwidth * 0.3, rectwidth / d.char.length ** 0.8)
-    );
+    .style("font-size", d => Math.min(rectwidth * 0.3, rectwidth / d.char.length ** 0.8) );
   // .attr("transform", `translate(${rectwidth * 0.5}, ${rectheight * 0.5})`);
 
   keys
@@ -404,50 +444,6 @@ drawHeatmap = () => {
   //   .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
   //   .range([0, width]);
 
-  svg_main
-    .append("g")
-    .selectAll("g")
-    // .select("g")
-    .data(data.filter(d => d.row == 1))
-    .enter()
-    // keys
-    .append("text")
-    .attr("id", "xAxisLabel")
-    .attr("class", "axislabel")
-    .text(d => `C${d.col + 1}`)
-    .attr("x", d => rectwidth * d.col)
-    .attr("y", 0)
-    // .call(d3.axisTop(xScale))
-    .attr("fill", "#333")
-    .style("font-size", rectwidth * 0.2)
-    .style("text-anchor", "middle")
-    .attr(
-      "transform",
-      `translate(${rectwidth * 0.5 + margin.left}, ${-rectheight * 0.25 +
-        margin.top})`
-    );
-
-  svg_main
-    .append("g")
-    .selectAll("g")
-    .data(data.filter(d => d.col == 1))
-    .enter()
-    // keys
-    .append("text")
-    .attr("id", "yAxisLabel")
-    .attr("class", "axislabel")
-    .text(d => `R${d.row + 1}`)
-    .attr("x", 0)
-    .attr("y", d => rectheight * d.row)
-    .attr("fill", "#333")
-    .style("font-size", rectwidth * 0.2)
-    .style("text-anchor", "end")
-    .attr(
-      "transform",
-      `translate(${-rectwidth * 0.25 + margin.left}, ${rectheight * 0.5 +
-        margin.top})`
-    );
-  // });
   //# LASSO BEHAVIOR
   const lassostarted = () => {
     lasso
@@ -489,8 +485,8 @@ drawHeatmap = () => {
     .closePathDistance(75)
     .closePathSelect(true)
     .hoverSelect(true)
-    .items(keys)
-    .targetArea(svg_main)
+    .items(d3.select("#heatmap-main").select("svg").selectAll("g#keys"))
+    .targetArea(d3.select("#heatmap-main>svg"))
     .on("start", lassostarted)
     .on("draw", lassoed)
     .on("end", lassoended);
@@ -498,7 +494,7 @@ drawHeatmap = () => {
   svg_main.call(lasso);
 };
 
-const updateHeatmap = () => {
+// const updateHeatmap = () => {
   // keys
   //   .on("click", (d, i, nodes) => {
   //     // if (d3.event.defaultPrevented) return; // click suppressed
@@ -509,7 +505,7 @@ const updateHeatmap = () => {
   //     drawHeatmap();
   //     // easeKeys(d, i, nodes);
   // });
-};
+// };
 
 // const zoomed = (element) =>{
 //   element.attr("transform", d3.event.transform);

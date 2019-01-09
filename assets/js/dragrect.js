@@ -48,34 +48,19 @@ const dragbarbottom = newg
 
 const dragmove = d => {
   if (isXChecked) {
-    dragrect.attr("x", (d.x = Math.max(0, Math.min(w - width, d3.event.x))));
-    dragbarleft.attr("x", d => {
-      return d.x - dragbarw / 2;
-    });
-    dragbarright.attr("x", d => {
-      return d.x + width - dragbarw / 2;
-    });
-    dragbartop.attr("x", d => {
-      return d.x + dragbarw / 2;
-    });
-    dragbarbottom.attr("x", d => {
-      return d.x + dragbarw / 2;
-    })
-    if (isYChecked) {
-      dragrect.attr("y", (d.y = Math.max(0, Math.min(h - height, d3.event.y))));
-      dragbarleft.attr("y", d => {
-        return d.y + dragbarw / 2;
-      });
-      dragbarright.attr("y", d => {
-        return d.y + dragbarw / 2;
-      });
-      dragbartop.attr("y", d => {
-        return d.y - dragbarw / 2;
-      });
-      dragbarbottom.attr("y", d => {
-        return d.y + height - dragbarw / 2;
-      })
-    }
+    dragrect.attr("x", (d.x = Math.max(0, Math.min(w - width, d3.event.x))))
+    dragbarleft.attr("x", d => { d.x - dragbarw / 2 })
+    dragbarright.attr("x", d => { d.x + width - dragbarw / 2 })
+    dragbartop.attr("x", d => { d.x + dragbarw / 2 })
+    dragbarbottom.attr("x", d => { d.x + dragbarw / 2 })
+  }
+
+  if (isYChecked) {
+    dragrect.attr("y", (d.y = Math.max(0, Math.min(h - height, d3.event.y))))
+    dragbarleft.attr("y", d => {  d.y + dragbarw / 2 })
+    dragbarright.attr("y", d => {  d.y + dragbarw / 2 })
+    dragbartop.attr("y", d => {  d.y - dragbarw / 2 })
+    dragbarbottom.attr("y", d => {  d.y + height - dragbarw / 2 })
   }
 }
 
@@ -86,24 +71,10 @@ const ldragresize = d => {
     //Max x on the left is 0 - (dragbarw/2)
     d.x = Math.max(0, Math.min(d.x + width - dragbarw / 2, d3.event.x));
     width = width + (oldx - d.x);
-    dragbarleft.attr("x", d => {
-      return d.x - dragbarw / 2;
-    });
-    dragrect
-      .attr("x", d => {
-        return d.x;
-      })
-      .attr("width", width);
-    dragbartop
-      .attr("x", d => {
-        return d.x + dragbarw / 2;
-      })
-      .attr("width", width - dragbarw);
-    dragbarbottom
-      .attr("x", d => {
-        return d.x + dragbarw / 2;
-      })
-      .attr("width", width - dragbarw)
+    dragbarleft.attr("x", d => { return d.x - dragbarw / 2; });
+    dragrect.attr("x", d => { return d.x; }).attr("width", width);
+    dragbartop.attr("x", d => { return d.x + dragbarw / 2; }) .attr("width", width - dragbarw);
+    dragbarbottom.attr("x", d => { return d.x + dragbarw / 2; }) .attr("width", width - dragbarw)
   }
 }
 
@@ -111,16 +82,11 @@ const rdragresize = d => {
   if (isXChecked) {
     //Max x on the left is x - width
     //Max x on the right is width of screen + (dragbarw/2)
-    const dragx = Math.max(
-      d.x + dragbarw / 2,
-      Math.min(w, d.x + width + d3.event.dx)
-    );
+    const dragx = Math.max( d.x + dragbarw / 2, Math.min(w, d.x + width + d3.event.dx) );
     //recalculate width
     width = dragx - d.x;
     //move the right drag handle
-    dragbarright.attr("x", d => {
-      return dragx - dragbarw / 2;
-    });
+    dragbarright.attr("x", d => { return dragx - dragbarw / 2; });
     //resize the drag rectangle
     //as we are only resizing from the right, the x coordinate does not need to change
     dragrect.attr("width", width);
@@ -136,26 +102,10 @@ const tdragresize = d => {
     //Max x on the left is 0 - (dragbarw/2)
     d.y = Math.max(0, Math.min(d.y + height - dragbarw / 2, d3.event.y));
     height = height + (oldy - d.y);
-    dragbartop.attr("y", d => {
-      return d.y - dragbarw / 2;
-    });
-
-    dragrect
-      .attr("y", d => {
-        return d.y;
-      })
-      .attr("height", height);
-
-    dragbarleft
-      .attr("y", d => {
-        return d.y + dragbarw / 2;
-      })
-      .attr("height", height - dragbarw);
-    dragbarright
-      .attr("y", d => {
-        return d.y + dragbarw / 2;
-      })
-      .attr("height", height - dragbarw)
+    dragbartop.attr("y", d => { return d.y - dragbarw / 2; });
+    dragrect .attr("y", d => { return d.y; }) .attr("height", height);
+    dragbarleft .attr("y", d => { return d.y + dragbarw / 2; }) .attr("height", height - dragbarw);
+    dragbarright .attr("y", d => { return d.y + dragbarw / 2; }) .attr("height", height - dragbarw)
   }
 }
 
@@ -163,16 +113,11 @@ const bdragresize = d => {
   if (isYChecked) {
     //Max x on the left is x - width
     //Max x on the right is width of screen + (dragbarw/2)
-    const dragy = Math.max(
-      d.y + dragbarw / 2,
-      Math.min(h, d.y + height + d3.event.dy)
-    );
+    const dragy = Math.max( d.y + dragbarw / 2, Math.min(h, d.y + height + d3.event.dy) );
     //recalculate width
     height = dragy - d.y;
     //move the right drag handle
-    dragbarbottom.attr("y", d => {
-      return dragy - dragbarw / 2;
-    });
+    dragbarbottom.attr("y", d => { return dragy - dragbarw / 2; });
     //resize the drag rectangle
     //as we are only resizing from the right, the x coordinate does not need to change
     dragrect.attr("height", height);
