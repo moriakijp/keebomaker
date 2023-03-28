@@ -1,3 +1,4 @@
+![](img/cap-01.png)
 # KeeBoMaker
 
 A Visualization of keydown frequency, and intended to function as interactive keyboard layout maker.
